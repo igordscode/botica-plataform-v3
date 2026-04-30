@@ -1,0 +1,172 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Phase 3: Primitive Definition
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    
+    function isSignedIn() { 
+      return request.auth != null; 
+    }
+    
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    // Role check (assuming admins collection exists if needed)
+    function isAdmin() { 
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); 
+    }
+
+    // Generic ownership check
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- Entity Validations ---
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt'])
+        && data.keys().size() >= 3
+        && data.uid == request.auth.uid
+        && data.email is string && data.email.size() <= 256
+        && data.createdAt == request.time;
+    }
+
+    function isValidLead(data) {
+      return data.keys().hasAll(['userId', 'name', 'phone', 'status', 'createdAt', 'updatedAt'])
+        && data.userId == request.auth.uid
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 20
+        && data.status in ['new', 'qualified', 'quoted', 'closed', 'lost']
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function isValidChatSession(data) {
+      return data.keys().hasAll(['userId', 'currentAgent', 'createdAt', 'updatedAt'])
+        && data.userId == request.auth.uid
+        && data.currentAgent in ['SOFIA', 'LUCAS', 'ELENA', 'POSVENDA']
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function isValidMessage(data) {
+      return data.keys().hasAll(['sessionId', 'role', 'content', 'createdAt'])
+        && data.role in ['user', 'model']
+        && data.content is string && data.content.size() > 0 && data.content.size() <= 5000
+        && data.createdAt == request.time;
+    }
+
+    function isValidPrescription(data) {
+      return data.keys().hasAll(['userId', 'fileName', 'status', 'createdAt'])
+        && data.userId == request.auth.uid
+        && data.fileName is string && data.fileName.size() <= 256
+        && data.status in ['pending', 'analyzed', 'quoted']
+        && data.createdAt == request.time;
+    }
+
+    // --- Collection Rules ---
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow create: if isVerified() && isValidId(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidUser(incoming()) 
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL']);
+    }
+
+    match /leads/{leadId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid || isAdmin();
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isVerified() && isValidId(leadId) && isValidLead(incoming());
+      allow update: if (isOwner(existing().userId) || isAdmin()) 
+        && isValidLead(incoming())
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && (
+          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone', 'interest', 'updatedAt'])
+          || isAdmin()
+        );
+    }
+
+    match /chatSessions/{sessionId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid || isAdmin();
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isVerified() && isValidId(sessionId) && isValidChatSession(incoming());
+      allow update: if isOwner(existing().userId) && isValidChatSession(incoming())
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().diff(existing()).affectedKeys().hasOnly(['currentAgent', 'updatedAt']);
+
+      match /messages/{messageId} {
+        allow get: if isSignedIn() && get(/databases/$(database)/documents/chatSessions/$(sessionId)).data.userId == request.auth.uid;
+        allow list: if isSignedIn() && get(/databases/$(database)/documents/chatSessions/$(sessionId)).data.userId == request.auth.uid;
+        allow create: if isVerified() && isValidId(messageId) && isValidMessage(incoming())
+          && get(/databases/$(database)/documents/chatSessions/$(sessionId)).data.userId == request.auth.uid;
+      }
+    }
+
+    match /prescriptions/{prescriptionId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid || isAdmin();
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isVerified() && isValidId(prescriptionId) && isValidPrescription(incoming());
+      allow update: if isAdmin() && isValidPrescription(incoming())
+        && incoming().userId == existing().userId
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status']);
+    }
+
+    match /newsletter/{subscriberId} {
+      allow create: if isValidId(subscriberId) 
+        && incoming().keys().hasAll(['email', 'createdAt'])
+        && incoming().keys().size() == 2
+        && incoming().email is string && incoming().email.size() <= 256
+        && incoming().createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /productNotifications/{notificationId} {
+      allow create: if isValidId(notificationId)
+        && incoming().keys().hasAll(['email', 'productId', 'productName', 'status', 'createdAt'])
+        && incoming().status == 'pending'
+        && incoming().email is string && incoming().email.size() <= 256
+        && incoming().createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /wishlist/{wishId} {
+      allow create: if isVerified() && isValidId(wishId) 
+        && incoming().userId == request.auth.uid
+        && incoming().createdAt == request.time;
+      allow get, list, delete: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    match /reviews/{reviewId} {
+      allow read, list: if true;
+      allow create: if isVerified() && isValidId(reviewId)
+        && incoming().userId == request.auth.uid
+        && incoming().rating >= 1 && incoming().rating <= 5
+        && incoming().comment is string && incoming().comment.size() <= 1000
+        && incoming().createdAt == request.time;
+      allow update, delete: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    match /orders/{orderId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isVerified() && isValidId(orderId)
+        && incoming().userId == request.auth.uid
+        && incoming().status == 'processing'
+        && incoming().createdAt == request.time;
+      allow update: if isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+    }
+  }
+}
