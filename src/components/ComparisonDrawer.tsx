@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, ShieldCheck, FlaskConical, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ComparisonDrawerProps {
   products: any[];
@@ -10,6 +11,8 @@ interface ComparisonDrawerProps {
 }
 
 export default function ComparisonDrawer({ products, onRemove, onClose, isOpen = true }: ComparisonDrawerProps) {
+  const { formatPrice } = useLanguage();
+
   if (products.length === 0 || !isOpen) return null;
 
   return (
@@ -67,7 +70,7 @@ export default function ComparisonDrawer({ products, onRemove, onClose, isOpen =
                   <div className="h-48 bg-[#F3F6FA] rounded-3xl p-6 flex flex-col items-center text-center group">
                     <img src={p.images[0]} alt={p.name} className="w-24 h-24 object-cover rounded-2xl mb-4 grayscale group-hover:grayscale-0 transition-all shadow-lg" />
                     <h3 className="font-serif font-bold text-[#152C60] leading-tight">{p.name}</h3>
-                    <p className="text-[#2B5DB6] font-black text-xs mt-1">{p.price}</p>
+                    <p className="text-[#2B5DB6] font-black text-xs mt-1">{formatPrice(p.price)}</p>
                   </div>
 
                   <div className="space-y-4">

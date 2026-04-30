@@ -58,9 +58,9 @@ const PORTAL_CONTENT: Article[] = [
 ];
 
 const FORMULAS_CATALOG = [
-  { id: 101, name: 'Fórmula Cognitiva Alpha', desc: 'Mix de Nootrópicos e Adaptógenos para foco extremo.', tags: ['Cognição', 'Foco', 'Neuro'] },
-  { id: 102, name: 'Protocolo Modulador de Sono Rx', desc: 'Associação de Melatonina slow-release, Magnésio Inositol.', tags: ['Sono', 'Recuperação'] },
-  { id: 103, name: 'Sinergia Termogênica Mitocondrial', desc: 'Otimização de queima de gordura preservando massa magra.', tags: ['Metabolismo', 'Termogênico'] }
+  { id: 6, name: 'Fórmula Cognitiva Alpha', desc: 'Mix de Nootrópicos e Adaptógenos para foco extremo.', tags: ['Cognição', 'Foco', 'Neuro'] },
+  { id: 7, name: 'Protocolo Modulador de Sono Rx', desc: 'Associação de Melatonina slow-release, Magnésio Inositol.', tags: ['Sono', 'Recuperação'] },
+  { id: 1, name: 'Sinergia Termogênica Mitocondrial', desc: 'Otimização de queima de gordura preservando massa magra.', tags: ['Metabolismo', 'Termogênico'] }
 ];
 
 interface Specialist {
@@ -104,6 +104,13 @@ export default function Portal() {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [isProfessional, setIsProfessional] = useState(false);
   const [savedArticles, setSavedArticles] = useState<number[]>([]);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [showGuidelinesModal, setShowGuidelinesModal] = useState(false);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const handleToggleLibrary = (articleId: number) => {
     setSavedArticles(prev => 
@@ -176,6 +183,9 @@ export default function Portal() {
               <div className="flex items-center justify-between">
                 <h2 className="text-xl md:text-2xl font-serif font-bold text-[#152C60]">Publicações Recentes</h2>
                 <div className="flex items-center gap-4">
+                  <button className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#2B5DB6] hover:underline">
+                    Ver Todas <ChevronRight size={14} />
+                  </button>
                   <button className="p-2 bg-white rounded-xl border border-[#152C60]/5 text-[#152C60]/40 hover:text-[#2B5DB6] transition-colors shadow-sm">
                     <Filter size={18} />
                   </button>
@@ -207,10 +217,10 @@ export default function Portal() {
                   </div>
                   <div className="flex-1 p-6 md:p-10 flex flex-col justify-between">
                     <div>
-                      <div className="flex items-center gap-3 mb-4 text-[9px] md:text-[10px] font-black text-[#152C60]/40 uppercase tracking-widest">
+                      <Link to="/dr/1" className="flex items-center gap-3 mb-4 text-[9px] md:text-[10px] font-black text-[#152C60]/40 uppercase tracking-widest hover:text-[#2B5DB6] transition-colors">
                         <User size={12} />
                         {article.author} • {article.role}
-                      </div>
+                      </Link>
                       <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#152C60] mb-4 group-hover:text-[#2B5DB6] transition-colors leading-tight">
                         {article.title}
                       </h3>
@@ -269,7 +279,10 @@ export default function Portal() {
                   <p className="text-[10px] font-medium text-[#152C60]/40 leading-relaxed max-w-[200px] mx-auto mb-4">
                     Submeta seu TCC, tese ou estudo de caso clínico para nossa revisão técnica e publicação no portal.
                   </p>
-                  <button className="text-[#2B5DB6] text-[10px] font-black uppercase tracking-widest hover:underline">
+                  <button 
+                    onClick={() => setShowGuidelinesModal(true)}
+                    className="text-[#2B5DB6] text-[10px] font-black uppercase tracking-widest hover:underline"
+                  >
                     Ver Diretrizes
                   </button>
                </div>
@@ -343,22 +356,22 @@ export default function Portal() {
                     <h2 className="text-3xl font-serif font-bold text-[#152C60] mb-2">Catálogo de Fórmulas Magistrais</h2>
                     <p className="text-[#152C60]/60 text-sm font-medium">Bases padronizadas pela Botica Guaraní com fundamentação em estudos recentes.</p>
                   </div>
-                  <button className="flex items-center gap-2 px-6 py-3 bg-[#152C60] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#2B5DB6] transition-colors">
-                    <Plus size={16} /> Prescrição Personalizada
-                  </button>
+                  <Link to="/prescritor" className="flex items-center gap-2 px-6 py-3 bg-[#152C60] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#2B5DB6] transition-colors shadow-lg">
+                    <Plus size={16} /> Painel do Prescritor
+                  </Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {FORMULAS_CATALOG.map(formula => (
-                    <div key={formula.id} className="bg-white rounded-3xl p-8 border border-[#152C60]/10 shadow-lg hover:shadow-2xl transition-all">
+                    <div key={formula.id} className="bg-white rounded-3xl p-8 border border-[#152C60]/10 shadow-lg hover:shadow-2xl transition-all flex flex-col">
                       <div className="flex justify-between items-start mb-6">
-                        <div className="w-12 h-12 bg-[#F3F6FA] text-[#2B5DB6] rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-[#F3F6FA] text-[#2B5DB6] rounded-xl flex items-center justify-center shrink-0">
                           <FlaskConical size={24} />
                         </div>
-                        <button className="text-[#152C60]/30 hover:text-[#2B5DB6]"><Bookmark size={20} /></button>
+                        <button onClick={() => showToast('Fórmula salva em seus Favoritos.')} className="text-[#152C60]/30 hover:text-[#2B5DB6] transition-colors"><Bookmark size={20} /></button>
                       </div>
                       <h3 className="font-serif font-bold text-xl text-[#152C60] mb-3">{formula.name}</h3>
-                      <p className="text-sm text-[#152C60]/60 font-medium mb-6 leading-relaxed min-h-[40px]">{formula.desc}</p>
+                      <p className="text-sm text-[#152C60]/60 font-medium mb-6 leading-relaxed flex-1">{formula.desc}</p>
                       <div className="flex flex-wrap gap-2 mb-8">
                         {formula.tags.map(tag => (
                           <span key={tag} className="px-3 py-1 bg-[#F3F6FA] text-[10px] uppercase font-bold tracking-widest text-[#152C60]/60 rounded-lg">
@@ -366,9 +379,19 @@ export default function Portal() {
                           </span>
                         ))}
                       </div>
-                      <button className="w-full py-4 border border-[#2B5DB6] text-[#2B5DB6] rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#2B5DB6] hover:text-white transition-all">
-                        Ver Literatura Técnica
-                      </button>
+                      <div className="flex gap-2 w-full mt-auto">
+                        <Link to={`/artigo/${formula.id}`} className="flex-1 py-4 border border-[#2B5DB6] text-[#2B5DB6] rounded-xl text-center text-[10px] font-black uppercase tracking-widest hover:bg-[#2B5DB6] hover:text-white transition-all">
+                          Ver Literatura
+                        </Link>
+                        <Link 
+                          to="/prescritor"
+                          onClick={() => showToast('Fórmula adicionada ao seu Painel de Prescritor.')} 
+                          className="px-6 py-4 bg-[#F3F6FA] text-[#152C60] rounded-xl flex items-center justify-center hover:bg-[#2B5DB6] hover:text-white transition-all shadow-sm group"
+                          title="Usar em Nova Prescrição"
+                        >
+                          <Plus size={16} className="group-hover:scale-110 transition-transform" />
+                        </Link>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -456,9 +479,9 @@ export default function Portal() {
                        {selectedArticle.title}
                     </h1>
                     <div className="flex items-center justify-center gap-4">
-                       <div className="w-12 h-12 md:w-14 md:h-14 bg-[#152C60] rounded-2xl flex items-center justify-center text-white font-serif text-xl md:text-2xl shadow-xl">{selectedArticle.author.charAt(0)}</div>
+                       <Link to="/dr/1" className="w-12 h-12 md:w-14 md:h-14 bg-[#152C60] rounded-2xl flex items-center justify-center text-white font-serif text-xl md:text-2xl shadow-xl hover:bg-[#2B5DB6] transition-colors">{selectedArticle.author.charAt(0)}</Link>
                        <div className="text-left">
-                          <p className="text-xs md:text-sm font-black uppercase tracking-widest text-[#152C60]">{selectedArticle.author}</p>
+                          <Link to="/dr/1" className="text-xs md:text-sm font-black uppercase tracking-widest text-[#152C60] hover:text-[#2B5DB6] transition-colors block">{selectedArticle.author}</Link>
                           <p className="text-[9px] md:text-[10px] font-medium text-[#152C60]/40 uppercase tracking-widest">{selectedArticle.role}</p>
                        </div>
                     </div>
@@ -506,6 +529,83 @@ export default function Portal() {
               </article>
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Guidelines Modal */}
+      <AnimatePresence>
+        {showGuidelinesModal && (
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setShowGuidelinesModal(false)}
+              className="absolute inset-0 bg-[#152C60]/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl bg-white rounded-3xl p-8 md:p-12 shadow-2xl z-10"
+            >
+              <div className="flex justify-between items-start mb-8">
+                <div className="w-12 h-12 bg-[#2B5DB6]/10 text-[#2B5DB6] rounded-2xl flex items-center justify-center">
+                  <FileText size={24} />
+                </div>
+                <button 
+                  onClick={() => setShowGuidelinesModal(false)}
+                  className="w-10 h-10 rounded-full bg-[#F3F6FA] flex items-center justify-center text-[#152C60] hover:bg-[#152C60] hover:text-white transition-colors"
+                >
+                  <ChevronRight size={20} className="rotate-180" />
+                </button>
+              </div>
+
+              <h2 className="text-3xl font-serif font-black text-[#152C60] mb-4">Diretrizes de Submissão</h2>
+              <p className="text-[#152C60]/60 text-sm font-medium leading-relaxed mb-8">
+                Para manter a integridade intelectual e a qualidade científica do Botica Guaraní Science Portal, solicitamos que todas as pesquisas submetidas sigam os rigorosos critérios bibliográficos e metodológicos abaixo.
+              </p>
+
+              <div className="space-y-6">
+                 <div className="p-4 bg-[#F3F6FA] rounded-2xl border border-[#152C60]/10">
+                    <h3 className="text-sm font-black text-[#152C60] uppercase tracking-widest mb-1">1. Formatação Acadêmica</h3>
+                    <p className="text-xs text-[#152C60]/70">Os artigos devem ser formatados nas normas de Vancouver ou APA, com resumos (abstracts) em português e inglês.</p>
+                 </div>
+                 <div className="p-4 bg-[#F3F6FA] rounded-2xl border border-[#152C60]/10">
+                    <h3 className="text-sm font-black text-[#152C60] uppercase tracking-widest mb-1">2. Relevância Clínica</h3>
+                    <p className="text-xs text-[#152C60]/70">Privilegiamos estudos que demonstrem aplicabilidade prática em formulações magistrais, nutracêuticos, fitoterápicos ou suplementação esportiva.</p>
+                 </div>
+                 <div className="p-4 bg-[#F3F6FA] rounded-2xl border border-[#152C60]/10">
+                    <h3 className="text-sm font-black text-[#152C60] uppercase tracking-widest mb-1">3. Conflito de Interesses</h3>
+                    <p className="text-xs text-[#152C60]/70">Todos os autores devem declarar a ausência ou presença de conflitos de interesse, bem como fontes de financiamento.</p>
+                 </div>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-[#152C60]/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                 <p className="text-[10px] font-medium text-[#152C60]/40 uppercase tracking-widest">
+                   O comitê técnico avalia prazos de 30 dias.
+                 </p>
+                 <a href="mailto:cientifico@boticaguarani.com" className="px-6 py-3 bg-[#2B5DB6] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#152C60] transition-colors whitespace-nowrap shadow-lg">
+                   E-mail Submissão
+                 </a>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Global Toast Message */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] px-6 py-4 bg-[#152C60] text-white rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10"
+          >
+            <div className="w-2 h-2 rounded-full bg-[#2B5DB6] animate-pulse" />
+            <span className="text-xs font-black tracking-widest uppercase">{toastMessage}</span>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

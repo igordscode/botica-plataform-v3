@@ -168,7 +168,7 @@ export default function Assistant() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-80px)] flex flex-col bg-[#F3F6FA] overflow-hidden">
+    <div className="relative h-[calc(100dvh-74px)] md:h-[calc(100vh-88px)] flex flex-col bg-[#F3F6FA] overflow-hidden">
       {/* Decorative Blur Backgrounds */}
       <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-white to-transparent pointer-events-none z-0" />
       <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#2B5DB6]/10 blur-[120px] rounded-full pointer-events-none" />
@@ -200,7 +200,7 @@ export default function Assistant() {
         </div>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto mb-32 md:mb-40 space-y-8 scrollbar-hide pb-20">
+        <div className="flex-1 overflow-y-auto space-y-8 scrollbar-hide pb-[200px] md:pb-40 pt-4 px-2 -mx-2">
           {messages.map((m, idx) => (
             <motion.div
               key={idx}
@@ -263,7 +263,7 @@ export default function Assistant() {
         </div>
 
         {/* Floating Input Area */}
-        <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-auto md:w-full max-w-4xl mx-auto z-20">
+        <div className="absolute bottom-[130px] md:bottom-6 left-4 right-4 md:left-auto md:right-auto md:w-full max-w-4xl mx-auto z-20">
           <AnimatePresence>
             {attachedFile && (
               <motion.div 

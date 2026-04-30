@@ -3,11 +3,13 @@ import { useCart } from '../context/CartContext';
 import { motion } from 'motion/react';
 import { ArrowLeft, CreditCard, Receipt, MapPin, CheckCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Checkout() {
   const { cart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState(1); // 1: Info, 2: Entrega, 3: Pagamento, 4: Sucesso
+  const { formatPrice } = useLanguage();
 
   const total = cart.reduce((acc, item) => {
     const priceNum = parseInt(item.price.replace(/[^\d]/g, ''));
@@ -210,7 +212,7 @@ export default function Checkout() {
                       <div>
                         <h4 className="text-sm font-bold text-[#152C60] leading-tight mb-1">{item.name}</h4>
                         <p className="text-[10px] font-black uppercase tracking-widest text-[#152C60]/40 mb-1">Qtd: {item.quantity}</p>
-                        <p className="text-xs font-bold text-[#2B5DB6]">{item.price}</p>
+                        <p className="text-xs font-bold text-[#2B5DB6]">{formatPrice(item.price)}</p>
                       </div>
                     </div>
                   ))}
@@ -219,16 +221,16 @@ export default function Checkout() {
                 <div className="space-y-4 pt-6 border-t border-[#152C60]/5">
                   <div className="flex justify-between text-sm font-medium text-[#152C60]/60">
                     <span>Subtotal</span>
-                    <span>{total.toLocaleString('es-PY')} Gs</span>
+                    <span>{formatPrice(`${total} Gs`)}</span>
                   </div>
                   <div className="flex justify-between text-sm font-medium text-[#152C60]/60">
                     <span>Frete</span>
-                    {step >= 2 ? <span className="text-[#152C60]">25.000 Gs</span> : <span className="text-[#152C60]/40">A calcular</span>}
+                    {step >= 2 ? <span className="text-[#152C60]">{formatPrice('25000 Gs')}</span> : <span className="text-[#152C60]/40">A calcular</span>}
                   </div>
                   <div className="flex justify-between items-end pt-4 border-t border-[#152C60]/5">
                     <span className="text-[10px] font-black uppercase tracking-widest text-[#152C60]/40">Total Final</span>
                     <span className="text-2xl font-serif font-black text-[#152C60]">
-                      {(total + (step >= 2 ? 25000 : 0)).toLocaleString('es-PY')} Gs
+                      {formatPrice(`${total + (step >= 2 ? 25000 : 0)} Gs`)}
                     </span>
                   </div>
                 </div>

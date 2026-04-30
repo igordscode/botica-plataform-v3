@@ -17,12 +17,14 @@ import { db, auth } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { handleFirestoreError, OperationType } from '../lib/firestore';
 import { PRODUCTS } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Store() {
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [selectedSubCategory, setSelectedSubCategory] = useState('Todas');
   const [selectedTags, setSelectedSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const { formatPrice, language } = useLanguage();
   const [minRating, setMinRating] = useState(0);
   const { addToCart, setIsCartOpen } = useCart();
   const [flyingItems, setFlyingItems] = useState<{ id: number; x: number; y: number; type: 'cart' | 'wish' }[]>([]);
@@ -439,10 +441,10 @@ export default function Store() {
                       
                       <div className={`flex flex-col items-center gap-1 pt-6 border-t w-full mt-auto mb-4 border-[#152C60]/10`}>
                          <span className={`text-[9px] font-black uppercase tracking-widest text-[#152C60]/30`}>
-                           Valor do Investimento
+                           {language === 'pt' ? 'Valor do Investimento (R$)' : 'Valor del Inversor'}
                          </span>
                          <span className={`text-4xl font-serif font-black tracking-tighter text-[#152C60]`}>
-                           {p.price}
+                           {formatPrice(p.price)}
                          </span>
                       </div>
 
@@ -500,7 +502,7 @@ export default function Store() {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           onClick={() => setIsComparisonOpen(true)}
-          className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#2B5DB6] text-white px-10 py-5 rounded-full shadow-2xl z-[150] flex items-center gap-4 font-black uppercase text-[10px] border-4 border-white hover:scale-105 transition-all"
+          className="fixed bottom-28 md:bottom-10 left-1/2 -translate-x-1/2 bg-[#2B5DB6] text-white px-10 py-5 rounded-full shadow-2xl z-[150] flex items-center gap-4 font-black uppercase text-[10px] border-4 border-white hover:scale-105 transition-all"
         >
           <Scale size={20} />
           Comparar ({comparisonList.length})
@@ -518,6 +520,7 @@ export default function Store() {
 }
 
 function QuickInfoModal({ product, onClose, onAddToCart }: any) {
+  const { formatPrice } = useLanguage();
   if (!product) return null;
   return (
     <AnimatePresence>
@@ -535,7 +538,7 @@ function QuickInfoModal({ product, onClose, onAddToCart }: any) {
             <h3 className="text-4xl font-serif font-bold text-[#152C60] mb-6">{product.name}</h3>
             <p className="text-[#152C60]/60 font-medium leading-relaxed mb-10 italic">"{product.desc}"</p>
             <div className="flex items-center justify-between pt-10 border-t border-[#152C60]/5">
-              <span className="text-4xl font-serif font-bold text-[#152C60]">{product.price}</span>
+              <span className="text-4xl font-serif font-bold text-[#152C60]">{formatPrice(product.price)}</span>
               <button 
                 onClick={() => { onAddToCart(product); onClose(); }}
                 className="px-10 h-16 bg-[#152C60] text-white rounded-2xl font-black uppercase text-[10px] hover:bg-[#2B5DB6] shadow-xl transition-all"

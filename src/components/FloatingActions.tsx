@@ -15,7 +15,7 @@ export default function FloatingActions() {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-4">
+    <div className="fixed bottom-[100px] md:bottom-8 right-4 md:right-8 z-[100] flex flex-col items-end gap-4">
       {/* Toggle Button */}
       <motion.button
         onClick={() => setIsExpanded(!isExpanded)}

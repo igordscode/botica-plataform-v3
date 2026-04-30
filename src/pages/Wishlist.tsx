@@ -6,10 +6,12 @@ import { ShoppingCart, Heart, Trash2, ArrowRight, ShoppingBag } from 'lucide-rea
 import { Link } from 'react-router-dom';
 import { trackEvent } from '../services/analytics';
 import { PRODUCTS } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { formatPrice } = useLanguage();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -86,7 +88,7 @@ export default function Wishlist() {
                   <div className="flex-1 space-y-4">
                     <h3 className="text-2xl font-serif font-black text-[#152C60]">{item.name}</h3>
                     <div className="flex items-center justify-between">
-                      <span className="text-xl font-black text-[#152C60]">{item.price}</span>
+                      <span className="text-xl font-black text-[#152C60]">{formatPrice(item.price)}</span>
                       <div className="flex gap-2">
                         <button 
                           onClick={() => removeFromWishlist(item.docId, item.id)}

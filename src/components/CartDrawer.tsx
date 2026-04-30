@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface CartDrawerProps {
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, removeFromCart, addToCart, decrementQuantity } = useCart();
   const navigate = useNavigate();
+  const { formatPrice } = useLanguage();
 
   React.useEffect(() => {
     if (isOpen) {
@@ -118,7 +120,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           </div>
                           
                           <div className="flex items-center justify-between">
-                            <span className="font-serif font-bold text-[#2B5DB6]">{item.price}</span>
+                            <span className="font-serif font-bold text-[#2B5DB6]">{formatPrice(item.price)}</span>
                             <div className="flex items-center gap-4 bg-[#F3F6FA] rounded-xl px-1 py-1">
                               <button 
                                 onClick={() => decrementQuantity(item.id)}
@@ -149,7 +151,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
                     <span>Subtotal Sugerido</span>
-                    <span className="text-[#152C60]">{total.toLocaleString('es-PY')} Gs</span>
+                    <span className="text-[#152C60]">{formatPrice(`${total} Gs`)}</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
                     <span>Peso Aproximado (Fórmulas)</span>

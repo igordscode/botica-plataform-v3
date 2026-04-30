@@ -58,7 +58,7 @@ export default function Account() {
           <nav className="space-y-2">
             {[
               { label: 'Visão Geral', icon: <Activity size={18} />, path: '/conta', active: true },
-              { label: 'Meus Pedidos', icon: <Package size={18} />, path: '/pedidos' },
+              { label: 'Meus Tratamentos', icon: <Package size={18} />, path: '/pedidos' },
               { label: 'Fórmulas Salvas', icon: <Heart size={18} />, path: '/favoritos' },
               { label: 'Clube Guaraní', icon: <ShieldCheck size={18} />, path: '/clube' },
               { label: 'Métodos de Pagamento', icon: <CreditCard size={18} />, path: '#' },
@@ -99,21 +99,24 @@ export default function Account() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-[#2B5DB6] p-8 rounded-3xl text-white relative overflow-hidden group shadow-2xl">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
-              <Zap size={32} className="mb-6 opacity-80" />
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] opacity-70 mb-1">Status Metabólico</h3>
-              <div className="text-3xl font-serif font-bold mb-6">Em Dia</div>
-              <Link to="/loja" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:translate-x-2 transition-transform">
-                Ver Recomendações <ArrowRight size={14} />
+              <Activity size={32} className="mb-6 opacity-80" />
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] opacity-70 mb-1">Guaraní Care</h3>
+              <div className="text-3xl font-serif font-black mb-1 flex items-baseline gap-2">
+                Painel do Paciente
+              </div>
+              <p className="text-sm font-medium opacity-80 mb-6">Acompanhe seus dados de saúde, protocolos e exames em nossa central super completa.</p>
+              <Link to="/paciente" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white text-[#152C60] px-4 py-2 rounded-lg hover:bg-[#F3F6FA] transition-colors">
+                Acessar Central <ArrowRight size={14} />
               </Link>
             </div>
 
             <div className="bg-white p-8 rounded-3xl border border-[#152C60]/5 hover:border-[#2B5DB6]/20 transition-all shadow-xl">
               <Package size={32} className="text-[#2B5DB6] mb-6" />
-              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#152C60]/40 mb-1">Último Pedido</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#152C60]/40 mb-1">Último Tratamento</h3>
               <div className="text-xl font-bold text-[#152C60] mb-2">Combo Hipertrofia X</div>
               <div className="text-sm font-bold text-[#2B5DB6] mb-6">Entregue • 12 Abr 2026</div>
               <Link to="/pedidos" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#152C60] hover:text-[#2B5DB6] hover:translate-x-2 transition-transform">
-                Detalhes do Pedido <ArrowRight size={14} />
+                Detalhes do Tratamento <ArrowRight size={14} />
               </Link>
             </div>
           </div>
