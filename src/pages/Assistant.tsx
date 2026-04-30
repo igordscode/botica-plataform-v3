@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Send, User, Bot, Sparkles, RefreshCcw, Paperclip, X, FileText, CheckCircle2 } from 'lucide-react';
 import { AGENTS } from '../constants';
 import { getAgentResponse } from '../services/geminiService';
@@ -166,131 +168,174 @@ export default function Assistant() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12 h-[calc(100vh-80px)] flex flex-col">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#2B5DB6] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-[#2B5DB6]/20">
-            <Sparkles size={24} />
-          </div>
+    <div className="relative min-h-[calc(100vh-80px)] flex flex-col bg-[#F3F6FA] overflow-hidden">
+      {/* Decorative Blur Backgrounds */}
+      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-white to-transparent pointer-events-none z-0" />
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#2B5DB6]/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 -left-32 w-96 h-96 bg-[#2B5DB6]/10 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col relative z-10 px-6 py-12">
+        <div className="flex items-center justify-between mb-12">
           <div>
-            <h1 className="text-2xl font-serif font-black uppercase tracking-tighter leading-none mb-1">Concierge Guaraní</h1>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#152C60]/60">
-                Operado por: <span className="text-[#2B5DB6]">{AGENTS[currentAgent].name} ({AGENTS[currentAgent].role})</span>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-2 h-2 bg-[#2B5DB6] rounded-full animate-pulse shadow-[0_0_10px_rgba(43,93,182,0.8)]" />
+              <span className="text-xs font-black uppercase tracking-titles text-[#152C60]/60 tracking-[0.2em]">
+                {AGENTS[currentAgent].role}
               </span>
             </div>
+            <h1 className="text-4xl font-serif font-black text-[#152C60] tracking-tighter">
+              Guaraní <span className="text-[#2B5DB6] font-light italic">Intelligence</span>
+            </h1>
           </div>
+          <button 
+            onClick={() => {
+              setMessages([{ role: 'model', content: 'Olá! Sou a IA da Botica Guaraní. Como posso ajudar com sua performance ou saúde hoje?', agent: 'SOFIA' }]);
+              setCurrentAgent('SOFIA');
+            }}
+            className="w-12 h-12 rounded-full border border-[#152C60]/10 flex items-center justify-center text-[#152C60]/40 hover:text-[#2B5DB6] hover:bg-white transition-all hover:scale-105 active:scale-95 bg-white/50 backdrop-blur-sm"
+            title="Nova Conversa"
+          >
+            <RefreshCcw size={18} />
+          </button>
         </div>
-        <button 
-          onClick={() => {
-            setMessages([{ role: 'model', content: 'Hola! Soy Sofia, de Botica Guaraní 😊 ¿Cómo posso te ajudar hoje?', agent: 'SOFIA' }]);
-            setCurrentAgent('SOFIA');
-          }}
-          className="p-2 text-[#152C60]/40 hover:text-[#2B5DB6] transition-colors"
-          title="Reiniciar conversa"
-        >
-          <RefreshCcw size={20} />
-        </button>
-      </div>
 
-      <div className="flex-1 bg-white rounded-[2.5rem] border border-[#152C60]/5 shadow-2xl shadow-[#152C60]/5 overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto mb-32 md:mb-40 space-y-8 scrollbar-hide pb-20">
           {messages.map((m, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, x: m.role === 'user' ? 20 : -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05, duration: 0.4, ease: "easeOut" }}
+              className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}
             >
-              <div className={`flex gap-3 max-w-[80%] ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-sm ${
-                  m.role === 'user' ? 'bg-[#152C60] text-white' : 'bg-[#F3F6FA] text-[#2B5DB6]'
-                }`}>
-                  {m.role === 'user' ? <User size={16} /> : <Bot size={16} />}
-                </div>
-                <div className={`p-4 rounded-3xl text-sm leading-relaxed ${
+              <div className={`max-w-[85%] md:max-w-[75%] ${m.role === 'user' ? 'text-right' : 'text-left'}`}>
+                {m.role !== 'user' && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#152C60] to-[#2B5DB6] flex items-center justify-center shadow-lg">
+                      <Sparkles size={12} className="text-white" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#152C60]/50">
+                      {m.agent ? AGENTS[m.agent as keyof typeof AGENTS]?.name : 'Assistente'}
+                    </span>
+                  </div>
+                )}
+                
+                <div className={`relative group ${
                   m.role === 'user' 
-                    ? 'bg-[#152C60] text-white rounded-tr-none' 
-                    : 'bg-[#F3F6FA] text-[#152C60] rounded-tl-none border border-[#152C60]/5'
+                    ? 'inline-block bg-[#152C60] text-white px-6 py-4 rounded-3xl rounded-tr-sm shadow-xl shadow-[#152C60]/10 text-base font-medium' 
+                    : 'text-[#152C60] text-lg leading-relaxed'
                 }`}>
-                  {m.content}
+                  {m.role === 'user' ? (
+                    m.content
+                  ) : (
+                    <div className="markdown-body prose prose-lg prose-p:leading-relaxed text-[#152C60] prose-headings:font-serif prose-headings:font-bold prose-a:text-[#2B5DB6] prose-strong:text-[#152C60] mt-1">
+                      <Markdown remarkPlugins={[remarkGfm]}>{m.content}</Markdown>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="flex gap-3 animate-pulse">
-                <div className="w-8 h-8 rounded-full bg-[#F3F6FA] flex items-center justify-center text-[#2B5DB6]">
-                  <Bot size={16} />
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-start"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#152C60] to-[#2B5DB6] flex items-center justify-center shadow-lg relative overflow-hidden">
+                   <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                   <Sparkles size={12} className="text-white relative z-10" />
                 </div>
-                <div className="bg-[#F3F6FA] h-10 w-24 rounded-3xl rounded-tl-none border border-[#152C60]/5" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#152C60]/50">
+                  Processando
+                </span>
               </div>
-            </div>
+              <div className="flex gap-1.5 ml-2">
+                <div className="w-2 h-2 rounded-full bg-[#2B5DB6]/40 animate-bounce" style={{ animationDelay: '0ms' }} />
+                <div className="w-2 h-2 rounded-full bg-[#2B5DB6]/40 animate-bounce" style={{ animationDelay: '150ms' }} />
+                <div className="w-2 h-2 rounded-full bg-[#2B5DB6]/40 animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            </motion.div>
           )}
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-4 border-t border-[#152C60]/5 bg-white space-y-4">
+        {/* Floating Input Area */}
+        <div className="absolute bottom-6 left-6 right-6 md:left-auto md:right-auto md:w-full max-w-4xl mx-auto z-20">
           <AnimatePresence>
             {attachedFile && (
               <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-xl"
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute bottom-full mb-4 left-0 bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-xl shadow-[#152C60]/5 border border-[#152C60]/10 flex items-center gap-4"
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
-                    <FileText size={18} />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase text-green-800 leading-none">{attachedFile.name}</p>
-                    <p className="text-[8px] text-green-600 font-bold">PRONTO PARA ANALISAR</p>
-                  </div>
+                <div className="w-10 h-10 bg-[#2B5DB6]/10 rounded-xl flex items-center justify-center text-[#2B5DB6]">
+                  <FileText size={18} />
                 </div>
-                <button onClick={() => setAttachedFile(null)} className="p-2 text-green-800/40 hover:text-green-800 transition-colors">
+                <div>
+                  <p className="text-xs font-black uppercase text-[#152C60] tracking-wider truncate max-w-[200px]">
+                    {attachedFile.name}
+                  </p>
+                  <p className="text-[9px] text-[#2B5DB6] font-bold uppercase tracking-widest mt-0.5">Pronto para Análise</p>
+                </div>
+                <button onClick={() => setAttachedFile(null)} className="p-2 ml-2 text-[#152C60]/40 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                   <X size={16} />
                 </button>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <div className="relative group flex gap-3">
-            <input 
-              type="file" 
-              className="hidden" 
-              ref={fileInputRef} 
-              onChange={(e) => setAttachedFile(e.target.files?.[0] || null)}
-            />
-            <button 
-              onClick={() => fileInputRef.current?.click()}
-              className="w-14 h-14 bg-[#F3F6FA] text-[#152C60]/40 hover:text-[#2B5DB6] rounded-2xl flex items-center justify-center transition-all border border-transparent hover:border-[#2B5DB6]"
-            >
-              <Paperclip size={20} />
-            </button>
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Digite sua mensagem ou anexe uma fórmula..."
-                className="w-full pl-6 pr-14 py-4 bg-[#F3F6FA]/50 rounded-2xl border border-transparent focus:outline-none focus:border-[#2B5DB6] focus:bg-white transition-all text-sm"
+          <div className="bg-white/80 backdrop-blur-xl p-2 md:p-3 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(21,44,96,0.1)] border border-white/50 relative overflow-hidden group transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(21,44,96,0.15)] focus-within:shadow-[0_20px_40px_-15px_rgba(21,44,96,0.2)] focus-within:bg-white">
+            <div className="flex items-end gap-2">
+              <input 
+                type="file" 
+                className="hidden" 
+                ref={fileInputRef} 
+                onChange={(e) => setAttachedFile(e.target.files?.[0] || null)}
               />
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                className="w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-[1.25rem] bg-[#F3F6FA] text-[#152C60]/50 hover:text-[#2B5DB6] hover:bg-[#2B5DB6]/5 flex items-center justify-center transition-all"
+                title="Anexar Arquivo ou Receita"
+              >
+                <Paperclip size={20} />
+              </button>
+              
+              <textarea
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 150)}px`;
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                placeholder="Como posso otimizar sua performance hoje?"
+                className="flex-1 max-h-[150px] min-h-[56px] resize-none bg-transparent py-4 px-2 focus:outline-none text-[#152C60] placeholder:text-[#152C60]/30 text-[15px] leading-relaxed scrollbar-hide"
+                rows={1}
+              />
+              
               <button
                 onClick={handleSend}
-                disabled={isLoading}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#2B5DB6] text-white rounded-xl flex items-center justify-center hover:bg-[#5C88DA] transition-colors disabled:opacity-50 shadow-lg shadow-[#2B5DB6]/20"
+                disabled={isLoading || (!input.trim() && !attachedFile)}
+                className="w-12 h-12 md:w-14 md:h-14 shrink-0 bg-[#152C60] text-white rounded-[1.25rem] flex items-center justify-center hover:bg-[#2B5DB6] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-[#152C60]"
               >
-                <Send size={18} />
+                {isLoading ? <RefreshCcw className="animate-spin" size={20} /> : <Send size={18} className="ml-1" />}
               </button>
             </div>
           </div>
-          <p className="text-[10px] text-center text-[#152C60]/30 font-bold uppercase tracking-widest">
-            Tecnologia Gemini 3 Flash • Concierge Guaraní
-          </p>
+          <div className="mt-4 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#152C60]/30">
+              Guaraní Intelligence — Powered by Gemini 2.5
+            </p>
+          </div>
         </div>
       </div>
     </div>

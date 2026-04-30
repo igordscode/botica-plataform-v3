@@ -107,7 +107,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           <div className="flex justify-between items-start gap-2">
                             <div>
                               <h3 className="font-bold text-[#152C60] text-sm leading-none mb-1">{item.name}</h3>
-                              <p className="text-[10px] font-black text-[#152C60]/30 uppercase tracking-widest">Premium Formula</p>
+                              <p className="text-[10px] font-mono text-[#152C60]/40 uppercase tracking-wider">{item.quantity * 30}000 mg <span className="mx-1">•</span> Lote {Math.floor(Math.random() * 900) + 100}</p>
                             </div>
                             <button 
                               onClick={() => removeFromCart(item.id)}
@@ -152,13 +152,23 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     <span className="text-[#152C60]">{total.toLocaleString('es-PY')} Gs</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
+                    <span>Peso Aproximado (Fórmulas)</span>
+                    <span className="text-[#2B5DB6]">{(cart.reduce((acc, item) => acc + item.quantity * 30, 0))}g</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
                     <span>Processamento</span>
                     <span className="text-green-600">Calculado no Checkout</span>
                   </div>
                   <div className="pt-5 border-t border-[#152C60]/5">
-                    <div className="flex justify-between items-baseline">
-                      <span className="text-lg font-serif font-bold text-[#152C60]">Total Final</span>
-                      <span className="text-3xl font-serif font-bold text-[#2B5DB6]">{total.toLocaleString('es-PY')} Gs</span>
+                    <div className="flex justify-between items-baseline mb-2">
+                       <span className="text-xs font-black tracking-widest uppercase text-[#152C60]/40">Balança de Precisão</span>
+                       <span className="text-[10px] font-mono text-[#2B5DB6]">TAR. ZERO</span>
+                    </div>
+                    <div className="flex flex-col bg-[#F3F6FA] p-4 rounded-2xl border border-[#152C60]/5 shadow-inner">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-sm font-serif font-bold text-[#152C60]">Total Final</span>
+                        <span className="text-3xl font-mono tracking-tighter text-[#2B5DB6] font-light">{total.toLocaleString('es-PY')}<span className="text-sm ml-1">Gs</span></span>
+                      </div>
                     </div>
                   </div>
                 </div>

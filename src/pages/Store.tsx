@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, ShoppingCart, Filter, Tag, Info, Bell, X, 
   CheckCircle2, Heart, Eye, Star, ArrowRight, 
-  ChevronLeft, ChevronRight, FlaskConical, Scale, FileText
+  ChevronLeft, ChevronRight, FlaskConical, Scale, FileText,
+  Pill, Wind, Droplet, Flower, Activity, Dumbbell, Sparkles, Microscope
 } from 'lucide-react';
 import { CATEGORIES } from '../constants';
 import { Link } from 'react-router-dom';
@@ -226,20 +227,50 @@ export default function Store() {
             </div>
 
             {/* Categories */}
-            <div className="w-full pt-4 border-t border-[#152C60]/5">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#152C60]/40 mb-4">Filtrar por Categoria</h3>
-              <div className="flex flex-wrap gap-2">
-                {['Todas', ...CATEGORIES].map(cat => (
+            <div className="w-full pt-4 border-t border-[#152C60]/5 mb-12">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#152C60]/40 mb-6">Filtrar por Categoria</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[
+                  { name: 'Todas', desc: 'Catálogo Geral', icon: <Microscope size={28} />, image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Salud', desc: 'Foco & Longevidade', icon: <Pill size={28} />, image: 'https://images.unsplash.com/photo-1542868727-4a0058e59005?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Beleza', desc: 'Modulação Estética', icon: <Sparkles size={28} />, image: 'https://images.unsplash.com/photo-1498842812179-c81beecf902c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Adelgazamiento', desc: 'Metabolismo Ativo', icon: <Scale size={28} />, image: 'https://images.unsplash.com/photo-1610404402633-8aebbfb6b0fc?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Rendimiento Fisico', desc: 'Força & Energia', icon: <Dumbbell size={28} />, image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Dermocosmeticos', desc: 'Saúde da Pele', icon: <Droplet size={28} />, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Linea Home', desc: 'Aromas & Ambientes', icon: <Wind size={28} />, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Mujer', desc: 'Fórmulas Femininas', icon: <Flower size={28} />, image: 'https://images.unsplash.com/photo-1512413913041-e23f0bfcc036?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Hombre', desc: 'Fórmulas Masculinas', icon: <Activity size={28} />, image: 'https://images.unsplash.com/photo-1581338834647-b0fb40704e21?auto=format&fit=crop&q=80&w=400' }
+                ].map(cat => (
                   <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                      selectedCategory === cat 
-                        ? 'bg-[#152C60] text-white shadow-md' 
-                        : 'bg-[#F3F6FA] text-[#152C60]/60 hover:bg-[#152C60]/10 hover:text-[#152C60]'
+                    key={cat.name}
+                    onClick={() => setSelectedCategory(cat.name)}
+                    className={`relative p-5 rounded-3xl overflow-hidden transition-all text-left flex flex-col justify-between min-h-[140px] group border ${
+                      selectedCategory === cat.name 
+                        ? 'border-[#2B5DB6] shadow-xl shadow-[#152C60]/10 ring-4 ring-[#2B5DB6]/10' 
+                        : 'border-[#152C60]/5 hover:border-[#152C60]/20'
                     }`}
                   >
-                    {cat}
+                    {/* Background Image */}
+                    <div className="absolute inset-0 z-0">
+                      <img src={cat.image} alt={cat.name} className="w-full h-full object-cover opacity-20 mix-blend-multiply group-hover:scale-110 transition-transform duration-700" />
+                      <div className={`absolute inset-0 transition-opacity duration-500 ${
+                         selectedCategory === cat.name 
+                           ? 'bg-gradient-to-t from-[#152C60] to-[#152C60]/80 mix-blend-multiply' 
+                           : 'bg-gradient-to-t from-white via-white/90 to-white/40'
+                      }`} />
+                    </div>
+
+                    <div className={`relative z-10 w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors shadow-sm ${
+                       selectedCategory === cat.name ? 'bg-white/10 text-[#5C88DA] backdrop-blur-md' : 'bg-white/80 text-[#2B5DB6] group-hover:bg-white backdrop-blur-sm'
+                    }`}>
+                      {cat.icon}
+                    </div>
+                    <div className="relative z-10">
+                      <p className={`text-[9px] uppercase font-black tracking-widest mb-1 ${selectedCategory === cat.name ? 'text-white/60' : 'text-[#152C60]/40'}`}>
+                        {cat.desc}
+                      </p>
+                      <p className={`font-serif font-bold leading-tight ${selectedCategory === cat.name ? 'text-white' : 'text-[#152C60]'}`}>{cat.name}</p>
+                    </div>
                   </button>
                 ))}
               </div>
@@ -256,13 +287,15 @@ export default function Store() {
                 animate={{ opacity: 1, y: 0 }}
                 className="group relative flex flex-col h-[600px]"
               >
-                <div className="h-full flex flex-col rounded-t-[12rem] rounded-b-[12rem] overflow-hidden border-2 border-dashed border-[#2B5DB6]/30 bg-[#F3F6FA]/50 p-8 text-center justify-center space-y-8 hover:bg-[#F3F6FA] transition-colors shadow-xl">
-                  <div className="w-24 h-24 bg-[#2B5DB6] rounded-full mx-auto flex items-center justify-center text-white shadow-2xl">
+                <div className="h-full flex flex-col rounded-br-[8rem] rounded-tl-[4rem] rounded-tr-sm rounded-bl-sm overflow-hidden border-2 border-dashed border-[#2B5DB6]/30 bg-[#F8FAFC] p-8 text-center justify-center space-y-8 hover:bg-[#F1F5F9] transition-colors shadow-xl relative mt-4">
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-white border-l-2 border-b-2 border-dashed border-[#2B5DB6]/30 rounded-bl-[4rem]" />
+                  <div className="w-24 h-24 bg-[#2B5DB6] rounded-t-2xl rounded-bl-2xl rounded-br-[2rem] mx-auto flex items-center justify-center text-white shadow-2xl relative z-10">
+                    <div className="absolute top-0 right-0 w-8 h-8 bg-white/20 rounded-bl-xl" />
                     <FileText size={40} />
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-4 relative z-10">
                     <h3 className="text-3xl font-serif font-black text-[#152C60] uppercase leading-tight tracking-tighter">
-                      Personalize sua <br/><span className="text-[#2B5DB6]">Saúde</span>
+                      Manipule sua <br/><span className="text-[#2B5DB6]">Receita</span>
                     </h3>
                     <p className="text-xs text-[#152C60]/60 font-medium">
                       Tem uma receita? Envie agora para um orçamento magistral.
@@ -277,23 +310,56 @@ export default function Store() {
                 </div>
               </motion.div>
 
-              {filteredProducts.map((p) => (
+              {filteredProducts.map((p) => {
+                const isCosmetic = ['Dermocosmeticos', 'Beleza', 'Mujer'].includes(p.category);
+                const isHome = p.category === 'Linea Home';
+                const isTub = ['Adelgazamiento', 'Rendimiento Fisico', 'Hombre'].includes(p.category);
+                const isCapsule = !isCosmetic && !isHome && !isTub;
+
+                // Cosmetics: Flat top (tube crimp), rounded bottom (cap)
+                // Home: Round top, flat bottom (spray bottle)
+                // Tub: Cylinder-like jar
+                // Capsule: completely pill shaped
+                const cardRadius = isCosmetic ? 'rounded-t-xl rounded-b-[3rem]' :
+                                   isHome ? 'rounded-t-[4rem] rounded-b-xl' :
+                                   isTub ? 'rounded-[2.5rem]' :
+                                   'rounded-t-[12rem] rounded-b-[12rem]';
+
+                const topBg = isCosmetic ? 'bg-[#E3A8A1]' :
+                              isHome ? 'bg-[#8E9B8E]' :
+                              isTub ? 'bg-[#152C60]' :
+                              'bg-[#152C60]';
+
+                const bottomBg = isCosmetic ? 'bg-[#FEF6F5] group-hover:bg-[#FAEDED]' :
+                                 isHome ? 'bg-[#F7F9F7] group-hover:bg-[#EDF2ED]' :
+                                 isTub ? 'bg-[#F3F6FA] group-hover:bg-[#E2E8F0]' :
+                                 'bg-white group-hover:bg-[#F3F6FA]/30';
+
+                return (
                 <motion.div 
                   layout
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   key={p.id} 
-                  className="group relative flex flex-col h-[600px]"
+                  className={`group relative flex flex-col h-[600px] overflow-hidden border border-[#152C60]/5 shadow-2xl shadow-[#152C60]/5 hover:shadow-3xl transition-all duration-500 group-hover:border-[#2B5DB6]/20 bg-white ${cardRadius}`}
                 >
-                  {/* CAPSULE CARD DESIGN */}
-                  <div className="h-full flex flex-col rounded-t-[12rem] rounded-b-[12rem] overflow-hidden border border-[#152C60]/5 shadow-2xl shadow-[#152C60]/5 hover:shadow-3xl transition-all duration-500 group-hover:border-[#2B5DB6]/20">
+                  {/* Dynamic Background Layout */}
+                  <div className={`absolute inset-0 transition-colors z-0 ${bottomBg}`} />
+                  <div className={`absolute top-0 left-0 w-full transition-all duration-500 z-0 ${topBg} ${isCapsule ? 'h-[50%]' : 'h-[76%]'}`} />
+                  <div className={`absolute top-0 left-0 w-full bg-gradient-to-t from-black/10 to-transparent z-0 pointer-events-none ${isCapsule ? 'h-[50%]' : 'h-[76%]'}`} />
+
+                  {/* Content Wrapper */}
+                  <div className="relative z-10 flex flex-col h-full">
                     
-                    {/* TOP HALF: BLUE CAPSULE (IMAGE + GALLERY) */}
-                    <div className="h-1/2 bg-[#152C60] relative overflow-hidden flex items-center justify-center p-4 group/img">
-                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/20 to-transparent" />
-                      
-                      <div className="relative w-full h-full rounded-t-[10rem] rounded-b-[4rem] overflow-hidden bg-[#F3F6FA]/10">
+                    {/* TOP HALF: IMAGE + GALLERY */}
+                    <div className="relative w-full h-[50%] flex-shrink-0 flex items-center justify-center p-4 group/img">
+                      <div className={`relative w-full h-full overflow-hidden bg-[#F3F6FA] shadow-inner ${
+                        isCosmetic ? 'rounded-t-md rounded-b-[2rem]' :
+                        isHome ? 'rounded-t-[3.5rem] rounded-b-lg' :
+                        isTub ? 'rounded-2xl' :
+                        'rounded-t-[10rem] rounded-b-[4rem]' 
+                      }`}>
                         <AnimatePresence mode="wait">
                           <motion.img 
                             key={productStates[p.id]?.currentImage}
@@ -343,26 +409,45 @@ export default function Store() {
                       </div>
                     </div>
 
-                    {/* BOTTOM HALF: WHITE CAPSULE (INFO) */}
-                    <div className="h-1/2 bg-white flex flex-col items-center justify-between px-8 py-12 text-center relative group-hover:bg-[#F3F6FA]/30 transition-colors">
-                      <div className="space-y-4">
+                    {/* BOTTOM HALF: INFO */}
+                    <div className="flex-1 flex flex-col items-center justify-between px-8 py-8 text-center relative mt-4">
+                      
+                      {/* Rating Label exactly on the boundary */}
+                      <div className={`absolute left-1/2 -translate-x-1/2 -top-6 px-4 py-1.5 rounded-full border flex items-center gap-1 shadow-sm z-30 transition-colors ${
+                        isCapsule ? 'bg-[#F3F6FA] border-[#152C60]/5 text-[#152C60]' : 'bg-white/90 backdrop-blur-md border-white/20 text-[#152C60]'
+                      }`}>
+                        <Star size={10} className="text-[#5C88DA]" fill="currentColor" />
+                        <span className="text-[10px] font-black">{(p as any).rating || 4.5}</span>
+                      </div>
+
+                      <div className={`space-y-4 ${isCapsule ? 'mt-4' : 'mt-2'}`}>
                         <div className="flex flex-col items-center gap-1">
-                          <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[#2B5DB6] mb-1">{p.category}</span>
+                          <span className={`text-[9px] font-black uppercase tracking-[0.3em] mb-1 ${
+                            (!isCapsule && (isTub || isHome)) ? 'text-white/60' : 'text-[#2B5DB6]'
+                          }`}>
+                            {p.category}
+                          </span>
                           <Link to={`/produto/${p.id}`}>
-                            <h4 className="text-2xl font-serif font-black text-[#152C60] leading-tight uppercase tracking-tighter group-hover:text-[#2B5DB6] transition-colors">
+                            <h4 className={`text-2xl font-serif font-black leading-tight uppercase tracking-tighter transition-colors line-clamp-2 ${
+                              (!isCapsule && (isTub || isHome)) ? 'text-white group-hover:text-white/80' : 'text-[#152C60] group-hover:text-[#2B5DB6]'
+                            }`}>
                               {p.name}
                             </h4>
                           </Link>
                         </div>
-                        
-                        <div className="flex flex-col items-center gap-1 pt-4 border-t border-[#152C60]/5">
-                           <span className="text-[9px] font-black uppercase text-[#152C60]/30 tracking-widest">Valor do Investimento</span>
-                           <span className="text-4xl font-serif font-black text-[#152C60] tracking-tighter">{p.price}</span>
-                        </div>
+                      </div>
+                      
+                      <div className={`flex flex-col items-center gap-1 pt-6 border-t w-full mt-auto mb-4 border-[#152C60]/10`}>
+                         <span className={`text-[9px] font-black uppercase tracking-widest text-[#152C60]/30`}>
+                           Valor do Investimento
+                         </span>
+                         <span className={`text-4xl font-serif font-black tracking-tighter text-[#152C60]`}>
+                           {p.price}
+                         </span>
                       </div>
 
                       {/* Hover Actions Bar */}
-                      <div className="grid grid-cols-2 gap-3 w-full opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+                      <div className="grid grid-cols-2 gap-3 w-full opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 absolute bottom-6 left-0 px-8 z-30">
                         <button 
                           onClick={(e) => handleAddToCart(e, p)}
                           className="h-12 bg-[#152C60] text-white rounded-2xl flex items-center justify-center hover:bg-[#2B5DB6] transition-all font-black text-[9px] uppercase tracking-widest shadow-xl shadow-[#152C60]/10"
@@ -371,21 +456,17 @@ export default function Store() {
                         </button>
                         <button 
                           onClick={(e) => handleBuyNow(e, p)}
-                          className="h-12 bg-[#F3F6FA] text-[#152C60] rounded-2xl flex items-center justify-center hover:bg-[#152C60] hover:text-white transition-all font-black text-[9px] uppercase tracking-widest"
+                          className={`h-12 rounded-2xl flex items-center justify-center transition-all font-black text-[9px] uppercase tracking-widest ${
+                            (!isCapsule && (isTub || isHome)) ? 'bg-white/10 text-white hover:bg-white hover:text-[#152C60]' : 'bg-[#F3F6FA] text-[#152C60] hover:bg-[#152C60] hover:text-white border border-[#152C60]/10'
+                          }`}
                         >
-                          Ver Detalhes
+                          Detalhes
                         </button>
-                      </div>
-
-                      {/* Rating Label */}
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1.5 bg-[#F3F6FA] rounded-full border border-[#152C60]/5 flex items-center gap-1 shadow-sm">
-                        <Star size={10} className="text-[#5C88DA]" fill="currentColor" />
-                        <span className="text-[10px] font-black text-[#152C60]">{(p as any).rating || 4.5}</span>
                       </div>
                     </div>
                   </div>
                 </motion.div>
-              ))}
+              )})}
             </AnimatePresence>
           </div>
         </div>

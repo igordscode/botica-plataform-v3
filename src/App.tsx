@@ -44,7 +44,7 @@ function AppContent() {
   const { isCartOpen, setIsCartOpen } = useCart();
   
   return (
-    <div className="min-h-screen bg-[#F3F6FA] text-[#152C60] font-sans selection:bg-[#2B5DB6] selection:text-white relative">
+    <div className="min-h-screen bg-[#F3F6FA] text-[#152C60] font-sans selection:bg-[#2B5DB6] selection:text-white relative pb-20 md:pb-0">
       <Navbar />
       <main>
         <Routes>

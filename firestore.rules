@@ -25,7 +25,10 @@ service cloud.firestore {
 
     // Role check (assuming admins collection exists if needed)
     function isAdmin() { 
-      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); 
+      return isSignedIn() && (
+        request.auth.token.email == 'idshubs@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      ); 
     }
 
     // Generic ownership check
@@ -40,7 +43,7 @@ service cloud.firestore {
         && data.keys().size() >= 3
         && data.uid == request.auth.uid
         && data.email is string && data.email.size() <= 256
-        && data.createdAt == request.time;
+        && data.createdAt is timestamp;
     }
 
     function isValidLead(data) {
@@ -49,23 +52,23 @@ service cloud.firestore {
         && data.name is string && data.name.size() > 0 && data.name.size() <= 100
         && data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 20
         && data.status in ['new', 'qualified', 'quoted', 'closed', 'lost']
-        && data.createdAt == request.time
-        && data.updatedAt == request.time;
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
     }
 
     function isValidChatSession(data) {
       return data.keys().hasAll(['userId', 'currentAgent', 'createdAt', 'updatedAt'])
         && data.userId == request.auth.uid
         && data.currentAgent in ['SOFIA', 'LUCAS', 'ELENA', 'POSVENDA']
-        && data.createdAt == request.time
-        && data.updatedAt == request.time;
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
     }
 
     function isValidMessage(data) {
       return data.keys().hasAll(['sessionId', 'role', 'content', 'createdAt'])
         && data.role in ['user', 'model']
         && data.content is string && data.content.size() > 0 && data.content.size() <= 5000
-        && data.createdAt == request.time;
+        && data.createdAt is timestamp;
     }
 
     function isValidPrescription(data) {
@@ -73,7 +76,7 @@ service cloud.firestore {
         && data.userId == request.auth.uid
         && data.fileName is string && data.fileName.size() <= 256
         && data.status in ['pending', 'analyzed', 'quoted']
-        && data.createdAt == request.time;
+        && data.createdAt is timestamp;
     }
 
     // --- Collection Rules ---
