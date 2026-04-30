@@ -148,37 +148,68 @@ export default function Navbar() {
                         <p className="text-sm font-black text-[#152C60] truncate">{user.displayName || 'Usuário'}</p>
                         <p className="text-[10px] font-bold uppercase tracking-widest text-[#152C60]/50 truncate mt-1">{user.email}</p>
                       </div>
-                      <div className="p-2 space-y-1">
-                        {user.email === ADMIN_EMAIL && (
-                          <Link to="/admin" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
-                            <LayoutDashboard size={16} className="text-[#2B5DB6]" /> {t('nav.admin')}
-                          </Link>
-                        )}
-                        <Link to="/paciente" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors group">
-                          <Activity size={16} className="text-[#2B5DB6]" /> 
-                          <span className="flex-1">Painel Paciente</span>
-                        </Link>
-                        <Link to="/prescritor" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors group">
-                          <LayoutDashboard size={16} className="text-[#2B5DB6]" /> 
-                          <span className="flex-1">Painel Prescritor</span>
-                          <span className="text-[8px] uppercase font-black bg-[#2B5DB6]/10 text-[#2B5DB6] px-2 py-0.5 rounded-full">Pro</span>
-                        </Link>
-                        <Link to="/mensagens" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
-                          <MessageCircle size={16} className="text-[#2B5DB6]" /> 
-                          <span className="flex-1">Mensagens</span>
-                        </Link>
-                        <Link to="/conta" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
-                          <User size={16} className="text-[#152C60]/50" /> {t('nav.account')}
-                        </Link>
-                        <Link to="/favoritos" className="flex items-center justify-between px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
-                          <div className="flex items-center gap-3">
-                            <Heart size={16} className="text-[#152C60]/50" /> Favoritos da Loja
+                      <div className="p-2 space-y-4">
+                        {/* Painéis */}
+                        <div>
+                          <div className="px-4 py-1 flex items-center gap-2">
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#152C60]/40">Dashboards</span>
+                            <div className="h-px bg-[#152C60]/5 flex-1 mt-0.5"></div>
                           </div>
-                          {wishlistCount > 0 && <span className="bg-[#2B5DB6] text-white text-[10px] px-2 py-0.5 rounded-full">{wishlistCount}</span>}
-                        </Link>
-                        <Link to="/pedidos" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
-                          <Package size={16} className="text-[#152C60]/50" /> {t('nav.orders')}
-                        </Link>
+                          {user.email === ADMIN_EMAIL && (
+                            <Link to="/admin" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                              <LayoutDashboard size={16} className="text-[#2B5DB6]" /> {t('nav.admin')}
+                            </Link>
+                          )}
+                          <Link to="/paciente" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors group">
+                            <Activity size={16} className="text-[#2B5DB6]" /> 
+                            <span className="flex-1">Painel Paciente</span>
+                          </Link>
+                          <Link to="/prescritor" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors group">
+                            <LayoutDashboard size={16} className="text-[#2B5DB6]" /> 
+                            <span className="flex-1">Painel Prescritor</span>
+                            <span className="text-[8px] uppercase font-black bg-[#2B5DB6]/10 text-[#2B5DB6] px-2 py-0.5 rounded-full">Pro</span>
+                          </Link>
+                        </div>
+
+                        {/* Interação */}
+                        <div>
+                          <div className="px-4 py-1 flex items-center gap-2">
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#152C60]/40">Interação</span>
+                            <div className="h-px bg-[#152C60]/5 flex-1 mt-0.5"></div>
+                          </div>
+                          <Link to="/mensagens" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <MessageCircle size={16} className="text-[#2B5DB6]" /> 
+                            <span className="flex-1">Mensagens</span>
+                          </Link>
+                          <Link to="/comunidade" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <Globe size={16} className="text-[#2B5DB6]" /> 
+                            <span className="flex-1">Comunidade</span>
+                          </Link>
+                          <Link to="/roadmap" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <Sparkles size={16} className="text-[#2B5DB6]" /> 
+                            <span className="flex-1">Mural de Evolução</span>
+                          </Link>
+                        </div>
+
+                        {/* Loja e Conta */}
+                        <div>
+                          <div className="px-4 py-1 flex items-center gap-2">
+                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#152C60]/40">Sua Conta</span>
+                            <div className="h-px bg-[#152C60]/5 flex-1 mt-0.5"></div>
+                          </div>
+                          <Link to="/conta" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <User size={16} className="text-[#152C60]/50" /> {t('nav.account')}
+                          </Link>
+                          <Link to="/favoritos" className="flex items-center justify-between px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <div className="flex items-center gap-3">
+                              <Heart size={16} className="text-[#152C60]/50" /> Favoritos da Loja
+                            </div>
+                            {wishlistCount > 0 && <span className="bg-[#2B5DB6] text-white text-[10px] px-2 py-0.5 rounded-full">{wishlistCount}</span>}
+                          </Link>
+                          <Link to="/pedidos" className="flex items-center gap-3 px-4 py-3 hover:bg-[#F3F6FA] rounded-2xl text-xs font-bold text-[#152C60] transition-colors">
+                            <Package size={16} className="text-[#152C60]/50" /> {t('nav.orders')}
+                          </Link>
+                        </div>
                       </div>
                       <div className="p-2 border-t border-[#152C60]/5">
                         <button 
@@ -365,6 +396,26 @@ export default function Navbar() {
                        <MessageCircle size={18} />
                      </div>
                      Mensagens
+                  </Link>
+                  <Link
+                     to="/comunidade"
+                     onClick={() => setIsOpen(false)}
+                     className="flex items-center gap-4 px-4 py-4 rounded-2xl text-lg font-bold text-[#152C60] hover:bg-[#F3F6FA] transition-colors"
+                  >
+                     <div className="p-2 rounded-xl bg-[#F3F6FA] text-[#152C60]/40 flex items-center justify-center">
+                       <Globe size={18} />
+                     </div>
+                     Comunidade
+                  </Link>
+                  <Link
+                     to="/roadmap"
+                     onClick={() => setIsOpen(false)}
+                     className="flex items-center gap-4 px-4 py-4 rounded-2xl text-lg font-bold text-[#152C60] hover:bg-[#F3F6FA] transition-colors"
+                  >
+                     <div className="p-2 rounded-xl bg-[#F3F6FA] text-[#152C60]/40 flex items-center justify-center">
+                       <Sparkles size={18} />
+                     </div>
+                     Mural de Evolução
                   </Link>
                   <Link
                      to="/conta"

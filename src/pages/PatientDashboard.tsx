@@ -213,6 +213,17 @@ export default function PatientDashboard() {
                        Enviar Mensagem <MessageCircle size={14} />
                      </Link>
                   </div>
+
+                  {/* Comunidade */}
+                  <div className="bg-gradient-to-br from-[#2B5DB6] to-[#152C60] text-white rounded-3xl p-8 shadow-xl relative overflow-hidden group">
+                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+                     <h3 className="font-serif font-black text-xl mb-2 relative z-10">Comunidade Guaraní</h3>
+                     <p className="text-sm font-medium text-white/80 mb-6 relative z-10">Troque experiências, descubra protocolos e acompanhe os resultados de outros pacientes e médicos.</p>
+                     
+                     <Link to="/comunidade" className="w-full flex items-center justify-between p-4 bg-white text-[#152C60] rounded-2xl hover:bg-[#F3F6FA] transition-colors text-[10px] font-black uppercase tracking-widest relative z-10">
+                       Acessar o Hub <ArrowRight size={14} />
+                     </Link>
+                  </div>
                 </div>
               </div>
             )}

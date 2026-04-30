@@ -416,20 +416,20 @@ export default function Portal() {
                   whileHover={{ y: -10 }}
                   className="bg-white rounded-3xl md:rounded-[3.5rem] p-8 md:p-10 border border-[#152C60]/5 shadow-xl shadow-[#152C60]/5 group"
                 >
-                  <div className="w-full aspect-square rounded-[2rem] overflow-hidden mb-8 relative">
+                  <Link to={`/dr/${spec.id}`} className="block w-full aspect-square rounded-[2rem] overflow-hidden mb-8 relative">
                     <img src={spec.image} alt={spec.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#152C60]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
+                  </Link>
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-widest text-[#2B5DB6] mb-2 block">{spec.specialty}</span>
-                    <h3 className="text-2xl font-serif font-bold text-[#152C60] mb-2">{spec.name}</h3>
+                    <h3 className="text-2xl font-serif font-bold text-[#152C60] mb-2 hover:text-[#2B5DB6] transition-colors"><Link to={`/dr/${spec.id}`}>{spec.name}</Link></h3>
                     <p className="text-xs font-black uppercase tracking-widest text-[#152C60]/40 mb-6">{spec.role}</p>
                     <p className="text-sm text-[#152C60]/60 leading-relaxed font-medium mb-8">
                       {spec.bio}
                     </p>
-                    <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#2B5DB6] hover:translate-x-2 transition-transform">
+                    <Link to={`/dr/${spec.id}`} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#2B5DB6] hover:translate-x-2 transition-transform w-fit">
                       Ver Publicações <ChevronRight size={14} />
-                    </button>
+                    </Link>
                   </div>
                 </motion.div>
               ))}

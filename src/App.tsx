@@ -22,8 +22,11 @@ import AdminDashboard from './pages/AdminDashboard';
 import Checkout from './pages/Checkout';
 import DoctorProfile from './pages/DoctorProfile';
 import PrescriberDashboard from './pages/PrescriberDashboard';
+import RxBuilder from './pages/RxBuilder';
 import PatientDashboard from './pages/PatientDashboard';
 import Messages from './pages/Messages';
+import Community from './pages/Community';
+import Roadmap from './pages/Roadmap';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -85,8 +88,11 @@ function AppContent() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/dr/:id" element={<DoctorProfile />} />
           <Route path="/prescritor" element={<PrescriberDashboard />} />
+          <Route path="/prescritor/rx-builder" element={<RxBuilder />} />
           <Route path="/paciente" element={<PatientDashboard />} />
           <Route path="/mensagens" element={<Messages />} />
+          <Route path="/comunidade" element={<Community />} />
+          <Route path="/roadmap" element={<Roadmap />} />
         </Routes>
       </main>
       {!isAssistant && <Footer />}
