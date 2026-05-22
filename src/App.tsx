@@ -27,6 +27,7 @@ import PatientDashboard from './pages/PatientDashboard';
 import Messages from './pages/Messages';
 import Community from './pages/Community';
 import Roadmap from './pages/Roadmap';
+import Novedades from './pages/Novedades';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
@@ -93,6 +94,7 @@ function AppContent() {
           <Route path="/mensagens" element={<Messages />} />
           <Route path="/comunidade" element={<Community />} />
           <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/novedades" element={<Novedades />} />
         </Routes>
       </main>
       {!isAssistant && <Footer />}

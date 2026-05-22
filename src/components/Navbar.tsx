@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Microscope, Home, Menu, X, LogIn, LogOut, User, LayoutDashboard, Heart, Package, ShoppingCart, BookOpen, FileText, ShieldCheck, Sparkles, MoreHorizontal, Globe, Activity, MessageCircle } from 'lucide-react';
+import { ShoppingBag, Microscope, Home, Menu, X, LogIn, LogOut, User, LayoutDashboard, Heart, Package, ShoppingCart, BookOpen, FileText, ShieldCheck, Sparkles, MoreHorizontal, Globe, Activity, MessageCircle, Newspaper } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { auth } from '../lib/firebase';
@@ -51,6 +51,7 @@ export default function Navbar() {
     { name: t('nav.concierge'), path: '/assistente', icon: <Sparkles size={18} /> },
     { name: t('nav.prescription'), path: '/receita', icon: <FileText size={18} /> },
     { name: t('nav.portal'), path: '/portal', icon: <BookOpen size={18} /> },
+    { name: t('nav.novedades'), path: '/novedades', icon: <Newspaper size={18} /> },
     { name: t('nav.wishlist'), path: '/favoritos', icon: <Heart size={18} />, hidden: !user },
     { name: t('nav.orders'), path: '/pedidos', icon: <Package size={18} />, hidden: !user },
   ];

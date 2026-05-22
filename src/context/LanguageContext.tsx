@@ -11,6 +11,7 @@ interface LanguageContextType {
 
 const translations = {
   es: {
+    // Nav
     'nav.home': 'Inicio',
     'nav.about': 'Sobre Nosotros',
     'nav.club': 'Club Guaraní',
@@ -18,6 +19,7 @@ const translations = {
     'nav.concierge': 'GuaranIA',
     'nav.prescription': 'Receta',
     'nav.portal': 'Portal',
+    'nav.novedades': 'Novedades',
     'nav.wishlist': 'Favoritos',
     'nav.orders': 'Pedidos',
     'nav.menu': 'Menú',
@@ -25,9 +27,42 @@ const translations = {
     'nav.logout': 'Salir',
     'nav.admin': 'Administración',
     'nav.account': 'Mi Cuenta',
-    'nav.login_register': 'Entrar / Registrarse'
+    'nav.login_register': 'Entrar / Registrarse',
+    // Loja
+    'store.title': 'Tienda',
+    'store.search': 'Buscar fórmulas...',
+    'store.all': 'Todos',
+    'store.inStock': 'En stock',
+    'store.outOfStock': 'Sin stock',
+    'store.addToCart': 'Agregar',
+    'store.seeMore': 'Ver más',
+    'store.price': 'Precio',
+    'store.category': 'Categoría',
+    // Produto
+    'product.benefits': 'Beneficios',
+    'product.ingredients': 'Ingredientes',
+    'product.howToUse': 'Modo de uso',
+    'product.crossSell': 'Complementa con',
+    'product.upsell': 'Versión premium',
+    'product.addToCart': 'Agregar al carrito',
+    'product.addToWishlist': 'Guardar',
+    'product.inStock': 'Disponible',
+    'product.prescription': 'Requiere consulta',
+    // Checkout
+    'cart.title': 'Tu carrito',
+    'cart.empty': 'Tu carrito está vacío',
+    'cart.total': 'Total',
+    'cart.checkout': 'Finalizar pedido',
+    'cart.continue': 'Seguir comprando',
+    // Geral
+    'common.close': 'Cerrar',
+    'common.back': 'Volver',
+    'common.loading': 'Cargando...',
+    'common.error': 'Ocurrió un error',
+    'common.success': '¡Listo!',
   },
   pt: {
+    // Nav
     'nav.home': 'Início',
     'nav.about': 'Sobre Nós',
     'nav.club': 'Clube Guaraní',
@@ -35,6 +70,7 @@ const translations = {
     'nav.concierge': 'GuaranIA',
     'nav.prescription': 'Receita',
     'nav.portal': 'Portal',
+    'nav.novedades': 'Novidades',
     'nav.wishlist': 'Favoritos',
     'nav.orders': 'Pedidos',
     'nav.menu': 'Menu',
@@ -42,7 +78,39 @@ const translations = {
     'nav.logout': 'Sair',
     'nav.admin': 'Administração',
     'nav.account': 'Minha Conta',
-    'nav.login_register': 'Entrar / Cadastrar'
+    'nav.login_register': 'Entrar / Cadastrar',
+    // Loja
+    'store.title': 'Loja',
+    'store.search': 'Buscar fórmulas...',
+    'store.all': 'Todos',
+    'store.inStock': 'Em estoque',
+    'store.outOfStock': 'Sem estoque',
+    'store.addToCart': 'Adicionar',
+    'store.seeMore': 'Ver mais',
+    'store.price': 'Preço',
+    'store.category': 'Categoria',
+    // Produto
+    'product.benefits': 'Benefícios',
+    'product.ingredients': 'Ingredientes',
+    'product.howToUse': 'Modo de uso',
+    'product.crossSell': 'Combina com',
+    'product.upsell': 'Versão premium',
+    'product.addToCart': 'Adicionar ao carrinho',
+    'product.addToWishlist': 'Salvar',
+    'product.inStock': 'Disponível',
+    'product.prescription': 'Requer consulta',
+    // Checkout
+    'cart.title': 'Seu carrinho',
+    'cart.empty': 'Seu carrinho está vazio',
+    'cart.total': 'Total',
+    'cart.checkout': 'Finalizar pedido',
+    'cart.continue': 'Continuar comprando',
+    // Geral
+    'common.close': 'Fechar',
+    'common.back': 'Voltar',
+    'common.loading': 'Carregando...',
+    'common.error': 'Ocorreu um erro',
+    'common.success': 'Pronto!',
   }
 };
 
