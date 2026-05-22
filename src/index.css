@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Montserrat:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Montserrat:wght@300;400;500;600;700;800;900&family=Spectral:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -6,6 +6,50 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  /* Brand — Azul Guaraní */
+  --bg-azul: #152C60;
+  --bg-azul-deep: #0E1E45;
+  --bg-azul-ink: #081330;
+  --bg-azul-bright: #2D55D6;
+  --bg-azul-soft: #4863A8;
+  --bg-azul-mortero: #A0B0D0;
+  --bg-azul-mist: #DCE2F0;
+  --bg-azul-paper: #EEF1F8;
+
+  /* Warm neutrals — apothecary parchment */
+  --bg-crema: #F7F2E6;
+  --bg-crema-deep: #ECE3CB;
+  --bg-marfil: #FCFAF4;
+  --bg-blanco: #FFFFFF;
+
+  /* Inks */
+  --bg-tinta: #141414;
+  --bg-tinta-soft: #2A2A2A;
+  --bg-gris-700: #4A4A50;
+  --bg-gris-500: #84848B;
+  --bg-gris-300: #C9C9CE;
+  --bg-gris-200: #E2E2E6;
+  --bg-gris-100: #F0F0F2;
+
+  /* Semantic */
+  --bg-verde: #2E7D4F;
+  --bg-verde-soft: #E6F1EA;
+  --bg-ambar: #B7791F;
+  --bg-ambar-soft: #FAF1DA;
+  --bg-rojo: #B43030;
+  --bg-rojo-soft: #F8E4E4;
+
+  /* Elevation — blue-tinted, not grey */
+  --shadow-1: 0 1px 0 rgba(21,44,96,0.04), 0 1px 2px rgba(8,19,48,0.06);
+  --shadow-2: 0 1px 2px rgba(21,44,96,0.05), 0 4px 12px rgba(8,19,48,0.08);
+  --shadow-3: 0 2px 4px rgba(21,44,96,0.06), 0 12px 28px rgba(8,19,48,0.10);
+
+  /* Borders */
+  --border-color: #E2E2E6;
+  --border-color-blue: rgba(21,44,96,0.18);
 }
 
 @layer utilities {

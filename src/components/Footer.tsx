@@ -38,8 +38,7 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-2 space-y-12">
             <div className="space-y-4">
               <div className="flex flex-col items-start gap-1">
-                <h2 className="text-4xl font-serif font-black tracking-tighter">Botica Guaraní</h2>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#F3F6FA]/60">Laboratorio de Recetas Magistrales</p>
+                <img src="/logo-2lineas-branco.svg" alt="Botica Guaraní" className="h-10 md:h-12 w-auto" />
               </div>
               <p className="text-xl text-[#F3F6FA]/40 font-medium italic max-w-md leading-relaxed">
                 "Elevando o padrão da medicina magistral através da precisão técnica e do cuidado humano individualizado."

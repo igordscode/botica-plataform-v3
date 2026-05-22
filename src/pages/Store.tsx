@@ -235,11 +235,11 @@ export default function Store() {
                 {[
                   { name: 'Todas', desc: 'Catálogo Geral', icon: <Microscope size={28} />, image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Salud', desc: 'Foco & Longevidade', icon: <Pill size={28} />, image: 'https://images.unsplash.com/photo-1542868727-4a0058e59005?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Beleza', desc: 'Modulação Estética', icon: <Sparkles size={28} />, image: 'https://images.unsplash.com/photo-1498842812179-c81beecf902c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Belleza', desc: 'Modulação Estética', icon: <Sparkles size={28} />, image: 'https://images.unsplash.com/photo-1498842812179-c81beecf902c?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Adelgazamiento', desc: 'Metabolismo Ativo', icon: <Scale size={28} />, image: 'https://images.unsplash.com/photo-1610404402633-8aebbfb6b0fc?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Rendimiento Fisico', desc: 'Força & Energia', icon: <Dumbbell size={28} />, image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Dermocosmeticos', desc: 'Saúde da Pele', icon: <Droplet size={28} />, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Linea Home', desc: 'Aromas & Ambientes', icon: <Wind size={28} />, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Línea Home', desc: 'Aromas & Ambientes', icon: <Wind size={28} />, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Mujer', desc: 'Fórmulas Femininas', icon: <Flower size={28} />, image: 'https://images.unsplash.com/photo-1512413913041-e23f0bfcc036?auto=format&fit=crop&q=80&w=400' },
                   { name: 'Hombre', desc: 'Fórmulas Masculinas', icon: <Activity size={28} />, image: 'https://images.unsplash.com/photo-1581338834647-b0fb40704e21?auto=format&fit=crop&q=80&w=400' }
                 ].map(cat => (
@@ -313,8 +313,8 @@ export default function Store() {
               </motion.div>
 
               {filteredProducts.map((p) => {
-                const isCosmetic = ['Dermocosmeticos', 'Beleza', 'Mujer'].includes(p.category);
-                const isHome = p.category === 'Linea Home';
+                const isCosmetic = ['Dermocosmeticos', 'Belleza', 'Mujer'].includes(p.category);
+                const isHome = p.category === 'Línea Home';
                 const isTub = ['Adelgazamiento', 'Rendimiento Fisico', 'Hombre'].includes(p.category);
                 const isCapsule = !isCosmetic && !isHome && !isTub;
 

@@ -65,16 +65,11 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop & Mobile Top Bar */}
-      <nav className="sticky top-0 z-50 bg-[#F3F6FA]/80 backdrop-blur-md border-b border-[#152C60]/10 px-4 md:px-6 py-3 md:py-4">
+      <nav className="sticky top-0 z-50 bg-[#FCFAF4]/90 backdrop-blur-md border-b border-[#152C60]/10 px-4 md:px-6 py-3 md:py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-12">
-            <Link to="/" className="flex flex-col items-start gap-0.5 group">
-              <h1 className="text-xl md:text-3xl font-serif font-black tracking-tight text-[#152C60] leading-none">
-                Botica Guaraní
-              </h1>
-              <p className="text-[6px] md:text-[8px] uppercase tracking-[0.2em] font-bold text-[#152C60]/80">
-                Laboratorio de Recetas Magistrales
-              </p>
+            <Link to="/" className="flex items-center group">
+              <img src="/logo-azul.svg" alt="Botica Guaraní" className="h-10 md:h-12 w-auto" />
             </Link>
 
             {/* Desktop Nav */}

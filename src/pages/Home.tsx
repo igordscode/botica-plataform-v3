@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  ArrowRight, Leaf, ShieldCheck, Zap, Heart, Award, 
+import {
+  ArrowRight, Leaf, ShieldCheck, Zap, Heart, Award,
   MessageSquare, FileText, Stethoscope, Microscope,
-  Brain, Moon, Flame, Wind
+  Brain, Moon, Flame, Wind,
+  Baby, Flower2, HeartPulse, Dog, ScanEye, UserRound
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -32,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-hidden bg-[#F3F6FA]">
+    <div className="overflow-hidden bg-[#F7F2E6]">
       {/* Hero Section - High Performance & Personalization */}
       <section className="relative min-h-[90vh] flex items-center pt-20 px-6 overflow-hidden">
         {/* Abstract Background Elements */}
@@ -144,8 +145,75 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Specialty Grid */}
+      <section id="especialidades" className="py-20 px-6 bg-[#FCFAF4] border-b border-[#152C60]/[0.06]">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-xl mb-10">
+            <div className="w-14 h-0.5 bg-[#152C60] mb-3" />
+            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-[#152C60] font-display">Especialidades</span>
+            <h2 className="font-serif font-black text-[#152C60] uppercase tracking-tight mt-3 mb-3 text-4xl leading-none">
+              Atendemos casi todas las ramas de la salud
+            </h2>
+            <p className="text-sm text-[#4A4A50] leading-relaxed">
+              Si su especialidad no aparece en este listado, pregúntenos — preparamos fórmulas para prácticamente cualquier indicación médica.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { Icon: Stethoscope, title: "Dermatología",  desc: "Cremas, ungüentos y lociones magistrales para la piel." },
+              { Icon: Baby,        title: "Pediatría",     desc: "Suspensiones, gotas y jarabes a dosis exacta para niños." },
+              { Icon: Flower2,     title: "Ginecología",   desc: "Óvulos, geles y preparaciones íntimas magistrales." },
+              { Icon: HeartPulse,  title: "Cardiología",   desc: "Cápsulas y suspensiones a la dosis indicada por su médico." },
+              { Icon: Dog,         title: "Veterinaria",   desc: "Fórmulas para mascotas: jarabes, pastas, gotas óticas." },
+              { Icon: Leaf,        title: "Fitoterapia",   desc: "Extractos y tinturas a partir de plantas medicinales." },
+              { Icon: ScanEye,     title: "Oftalmología",  desc: "Colirios y soluciones estériles bajo receta especializada." },
+              { Icon: UserRound,   title: "Geriatría",     desc: "Cápsulas a dosis fraccionada para tratamientos prolongados." },
+            ].map(({ Icon, title, desc }) => (
+              <div
+                key={title}
+                className="bg-[#FCFAF4] border border-[#152C60]/[0.18] rounded-lg p-5 cursor-pointer transition-all duration-[180ms] hover:-translate-y-0.5"
+                style={{ boxShadow: 'var(--shadow-1)' }}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = 'var(--shadow-2)')}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = 'var(--shadow-1)')}
+              >
+                <Icon size={28} strokeWidth={1.75} className="text-[#152C60] mb-3" />
+                <h3 className="font-semibold text-[#141414] text-base mb-1.5 leading-snug">{title}</h3>
+                <p className="text-xs text-[#4A4A50] leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process Strip */}
+      <section id="como-trabajamos" className="py-20 px-6 bg-[#F7F2E6]">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-xl mb-9">
+            <div className="w-14 h-0.5 bg-[#152C60] mb-3" />
+            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-[#152C60] font-display">Cómo trabajamos</span>
+            <h2 className="font-serif font-black text-[#152C60] uppercase tracking-tight mt-3 text-4xl leading-none">
+              De la receta a su mano, en cuatro pasos
+            </h2>
+          </div>
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-7 list-none p-0">
+            {[
+              { n: "01", h: "Su receta",   p: "Tráiganos su receta médica o envíela por WhatsApp." },
+              { n: "02", h: "Presupuesto", p: "Le pasamos el precio y el tiempo estimado de preparación." },
+              { n: "03", h: "Preparación", p: "Formulamos su pedido en nuestro laboratorio certificado." },
+              { n: "04", h: "Retiro",      p: "Le avisamos cuando esté listo para retirar o despachar." },
+            ].map(({ n, h, p }) => (
+              <li key={n} className="border-t-2 border-[#152C60] pt-4">
+                <div className="font-serif font-black text-2xl text-[#2D55D6] mb-2.5">{n}</div>
+                <h4 className="font-semibold text-[#141414] text-lg mb-1.5">{h}</h4>
+                <p className="text-sm text-[#4A4A50] leading-snug">{p}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {/* Featured Categories & Products */}
-      <section className="py-20 px-6 bg-[#F3F6FA]">
+      <section className="py-20 px-6 bg-[#F7F2E6]">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="flex flex-col md:flex-row justify-between items-end gap-8">
             <div className="space-y-4">
