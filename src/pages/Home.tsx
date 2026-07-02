@@ -3,7 +3,7 @@ import {
   ArrowRight, Leaf, ShieldCheck, Zap, Heart, Award,
   MessageSquare, FileText, Stethoscope, Microscope,
   Brain, Moon, Flame, Wind,
-  Baby, Flower2, HeartPulse, Dog, ScanEye, UserRound
+  Baby, Flower2, HeartPulse, UserRound
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -159,15 +159,12 @@ export default function Home() {
               Si su especialidad no aparece en este listado, pregúntenos — preparamos fórmulas para prácticamente cualquier indicación médica.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
               { Icon: Stethoscope, title: "Dermatología",  desc: "Cremas, ungüentos y lociones magistrales para la piel." },
               { Icon: Baby,        title: "Pediatría",     desc: "Suspensiones, gotas y jarabes a dosis exacta para niños." },
               { Icon: Flower2,     title: "Ginecología",   desc: "Óvulos, geles y preparaciones íntimas magistrales." },
               { Icon: HeartPulse,  title: "Cardiología",   desc: "Cápsulas y suspensiones a la dosis indicada por su médico." },
-              { Icon: Dog,         title: "Veterinaria",   desc: "Fórmulas para mascotas: jarabes, pastas, gotas óticas." },
-              { Icon: Leaf,        title: "Fitoterapia",   desc: "Extractos y tinturas a partir de plantas medicinales." },
-              { Icon: ScanEye,     title: "Oftalmología",  desc: "Colirios y soluciones estériles bajo receta especializada." },
               { Icon: UserRound,   title: "Geriatría",     desc: "Cápsulas a dosis fraccionada para tratamientos prolongados." },
             ].map(({ Icon, title, desc }) => (
               <div

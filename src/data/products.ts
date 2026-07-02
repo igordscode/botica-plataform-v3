@@ -45,7 +45,7 @@ Tomar 1-2 cápsulas al día, preferiblemente antes del desayuno o del entrenamie
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/quemador-de-grasa.png'],
   },
   {
     id: 2,
@@ -92,7 +92,7 @@ Tomar 1 cápsula antes de la comida principal, con un vaso grande de agua.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1591343395902-1adcb454c2e6?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/reduccion-de-absorcion-de-carbohidratos.png'],
   },
   {
     id: 3,
@@ -139,7 +139,7 @@ Tomar 1 cápsula por la noche, con abundante agua. Uso ocasional, no continuo.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/laxante.png'],
   },
   {
     id: 4,
@@ -186,7 +186,7 @@ Tomar 1-2 cápsulas al día con abundante agua. Aumentar la ingesta de líquidos
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1591343395902-1adcb454c2e6?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/diuretico.png'],
   },
   {
     id: 5,
@@ -233,7 +233,7 @@ Tomar 1-2 cápsulas al día, preferiblemente con el desayuno o según indicació
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/aumento-de-testosterona.png'],
   },
   {
     id: 6,
@@ -281,7 +281,7 @@ Tomar 1 cápsula al día, preferiblemente por la mañana con el desayuno.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/funciones-cognitivas.png'],
   },
   {
     id: 7,
@@ -328,7 +328,7 @@ Tomar 1-2 cápsulas antes de dormir, con un vaso de agua.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/recuperador-muscular-sueno-saludable.png'],
   },
   {
     id: 8,
@@ -375,7 +375,7 @@ Tomar 1-2 cápsulas 30-60 minutos antes del entrenamiento, con abundante agua.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/energizante-pre-entreno.png'],
   },
   {
     id: 9,
@@ -421,7 +421,7 @@ Aplicar 2-3 gotas sobre la piel limpia y seca, mañana y/o noche. Masajear suave
 
 Presentación
 Sérum tópico | 30 ml`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/hidratacion-profunda-antiage.png'],
   },
   {
     id: 10,
@@ -468,7 +468,7 @@ Aplicar por la noche sobre piel limpia y seca. Comenzar con uso en días alterno
 
 Presentación
 Crema tópica | 30 g`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/renovacion-celular-nocturna.png'],
   },
   {
     id: 11,
@@ -514,7 +514,7 @@ Aplicar 3-4 gotas por la mañana sobre piel limpia, antes del hidratante y del f
 
 Presentación
 Sérum tópico | 30 ml`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/despigmentante-luminosidad.png'],
   },
   {
     id: 12,
@@ -560,7 +560,7 @@ Aplicar 2-3 gotas sobre piel limpia, mañana y/o noche, antes del hidratante.
 
 Presentación
 Sérum tópico | 30 ml`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/control-de-poros-y-oleosidad.png'],
   },
   {
     id: 13,
@@ -608,7 +608,7 @@ Tomar 1 cápsula al día, preferiblemente 30 minutos antes de la exposición sol
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/protector-solar-oral.png'],
   },
   {
     id: 14,
@@ -654,7 +654,7 @@ Tomar 1 cápsula al día con una comida.
 
 Presentación
 Cápsulas blandas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antiage-oral-colageno.png'],
   },
   {
     id: 15,
@@ -703,7 +703,7 @@ Aplicar 1 ml sobre el cuero cabelludo seco, en la zona afectada, 1-2 veces al d�
 
 Presentación
 Solución tópica capilar | 100 ml`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/alopecia.png'],
   },
   {
     id: 16,
@@ -751,7 +751,7 @@ Tomar 1 cápsula al día con una comida principal.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antioxidante-antienvejecimiento.png'],
   },
   {
     id: 17,
@@ -799,7 +799,7 @@ Tomar 1 cápsula por semana, o según prescripción del profesional de la salud.
 
 Presentación
 Cápsulas | 4 unidades (dosis mensual) / 12 unidades (dosis trimestral)`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/inmunoestimulante.png'],
   },
   {
     id: 18,
@@ -848,7 +848,7 @@ Tomar 1 cápsula 3 veces al día antes de las comidas, o según indicación del 
 
 Presentación
 Cápsulas | 90 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/hepatoprotector.png'],
   },
   {
     id: 19,
@@ -896,7 +896,7 @@ Diluir las gotas indicadas en un vaso de agua, según prescripción del profesio
 
 Presentación
 Solución oral | 30 ml`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-tiroidea.png'],
   },
   {
     id: 20,
@@ -945,7 +945,7 @@ Tomar 1-2 cápsulas 30-60 minutos antes de dormir, o según indicación de un pr
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/relajante-sueno-saludable.png'],
   },
   {
     id: 21,
@@ -993,7 +993,7 @@ Tomar 1-2 cápsulas al día con una comida, o según indicación del profesional
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/equilibrio-hormonal-femenino.png'],
   },
   {
     id: 22,
@@ -1040,7 +1040,7 @@ Tomar 1-2 cápsulas al día con una comida.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-del-cabello-y-unas.png'],
   },
   {
     id: 23,
@@ -1087,7 +1087,7 @@ Tomar 1 cápsula al día, preferiblemente con el estómago vacío o con vitamina
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/anemia-vigor-femenino.png'],
   },
   {
     id: 24,
@@ -1135,7 +1135,7 @@ Tomar 1-2 cápsulas al día con una comida, preferiblemente en la primera mitad 
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/aumento-de-libido-femenino.png'],
   },
   {
     id: 25,
@@ -1184,7 +1184,7 @@ Tomar 1-2 cápsulas al día con el desayuno, o según indicación del profesiona
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/aumento-de-testosterona-avanzada.png'],
   },
   {
     id: 26,
@@ -1231,7 +1231,7 @@ Aplicar 0.5-1 ml sobre la zona de la barba seca, 1-2 veces al día. No enjuagar.
 
 Presentación
 Solución tópica | 60 ml`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/crecimiento-de-barba.png'],
   },
   {
     id: 27,
@@ -1278,7 +1278,7 @@ Tomar 1 cápsula al día con la comida principal.
 
 Presentación
 Cápsulas blandas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-cardiovascular.png'],
   },
   {
     id: 28,
@@ -1327,7 +1327,7 @@ Tomar 1-2 cápsulas 30-60 minutos antes de dormir, con el estómago vacío para 
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/recuperador-muscular-pos-entreno.png'],
   },
   {
     id: 29,
@@ -1373,7 +1373,7 @@ Vaporizar 4-6 pulsaciones en el ambiente, en almohadas o en difusor de aromas. P
 
 Presentación
 Névoa aromática | 100 ml`,
-    images: ['https://images.unsplash.com/photo-1608528577891-eb055944f2e7?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/relajante-aromatico.png'],
   },
   {
     id: 30,
@@ -1419,7 +1419,7 @@ Vaporizar 4-6 pulsaciones en el ambiente o en difusor de aromas. Ideal en la ma�
 
 Presentación
 Névoa aromática | 100 ml`,
-    images: ['https://images.unsplash.com/photo-1549488497-6cb5eb8d6b8b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/energizante-aromatico.png'],
   },
   {
     id: 31,
@@ -1466,7 +1466,7 @@ Vaporizar 4-6 pulsaciones en el ambiente o sobre la almohada. Para inhalación d
 
 Presentación
 Névoa aromática | 100 ml`,
-    images: ['https://images.unsplash.com/photo-1608528577891-eb055944f2e7?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/respiratorio-aromatico.png'],
   },
   {
     id: 32,
@@ -1511,7 +1511,7 @@ Vaporizar 3-5 pulsaciones en el ambiente deseado. Repetir según necesidad.
 
 Presentación
 Névoa aromática | 100 ml`,
-    images: ['https://images.unsplash.com/photo-1549488497-6cb5eb8d6b8b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/refrescante-aromatico.png'],
   },
   {
     id: 33,
@@ -1556,7 +1556,7 @@ Tomar 1 cápsula 3 veces al día antes de las comidas.
 
 Presentación
 Cápsulas | 90 unidades`,
-    images: ['https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/adelgazante.png'],
   },
   {
     id: 34,
@@ -1602,7 +1602,7 @@ Tomar 2 cápsulas al día, con abundante agua.
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1591343395902-1adcb454c2e6?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/anticelulitico-centella-asiatica.png'],
   },
   {
     id: 35,
@@ -1651,7 +1651,7 @@ Tomar 1-2 cápsulas con un gran vaso de agua, 30 minutos antes de la comida prin
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antidiabetico-natural.png'],
   },
   {
     id: 36,
@@ -1700,7 +1700,7 @@ Tomar 1-2 cápsulas al día con las comidas, preferiblemente con alimentos que c
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antiinflamatorio-natural.png'],
   },
   {
     id: 37,
@@ -1748,7 +1748,7 @@ Tomar 2 cápsulas al día con las comidas. El efecto completo se observa a parti
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antirreumatico.png'],
   },
   {
     id: 38,
@@ -1797,7 +1797,7 @@ Tomar 2-3 cápsulas post-entrenamiento con abundante agua. En días de descanso,
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/aumento-de-la-masa-muscular.png'],
   },
   {
     id: 39,
@@ -1846,7 +1846,7 @@ Tomar 1-2 cápsulas al día con una comida. El efecto completo se observa a part
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/hiperplasia-prostatica-benigna.png'],
   },
   {
     id: 40,
@@ -1894,7 +1894,7 @@ Tomar 2 cápsulas al día: 1 antes del desayuno y 1 antes del almuerzo, con abun
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/reduccion-grasa-abdominal.png'],
   },
   {
     id: 41,
@@ -1943,7 +1943,7 @@ Tomar 1-2 cápsulas al día con el desayuno. Efectos cognitivos progresivos: val
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-cerebral.png'],
   },
   {
     id: 42,
@@ -1993,7 +1993,7 @@ Tomar 2 cápsulas al día: 1 en el almuerzo y 1 en la cena, con abundante agua.
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/varices.png'],
   },
   {
     id: 43,
@@ -2041,7 +2041,7 @@ Tomar 1 cápsula en ayunas, 30 minutos antes del desayuno. Conservar en lugar fr
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/probiotico-multi-cepas.png'],
   },
   {
     id: 44,
@@ -2088,7 +2088,7 @@ Prevención: 1 cápsula al día. Episodio agudo: 2 cápsulas al día por 7-10 d�
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/infecciones-urinarias.png'],
   },
   {
     id: 45,
@@ -2135,7 +2135,7 @@ Tomar 2 cápsulas al día con una comida. Los resultados son progresivos: valora
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1576448191517-460b3d3a7ba3?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/colageno-cabello-y-articulaciones.png'],
   },
   {
     id: 46,
@@ -2185,7 +2185,7 @@ Tomar 1 cápsula por la mañana o al mediodía. Evitar uso nocturno.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1593079831268-3381b0f4977b?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/energizante-natural.png'],
   },
   {
     id: 47,
@@ -2233,7 +2233,7 @@ Tomar 1-2 cápsulas al día con el desayuno.
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/aumento-de-libido-masculino.png'],
   },
   {
     id: 48,
@@ -2282,7 +2282,7 @@ Tomar 1 cápsula al día, preferiblemente por la tarde-noche. Si se usa para sue
 
 Presentación
 Cápsulas | 30 unidades`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/humor-serotonina-y-bienestar.png'],
   },
   {
     id: 49,
@@ -2331,7 +2331,7 @@ Tomar 1-2 cápsulas al día con una comida que contenga grasa (D3 y K2 son lipos
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-osea.png'],
   },
   {
     id: 50,
@@ -2380,7 +2380,7 @@ Tomar 1-2 cápsulas en ayunas. Para uso deportivo, tomar también post-entrenami
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/salud-intestinal-l-glutamina.png'],
   },
   {
     id: 51,
@@ -2426,7 +2426,7 @@ Prevención: 1 cápsula al día. Brote activo: 2-3 cápsulas al día hasta resol
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/herpes-labial-l-lisina.png'],
   },
   {
     id: 52,
@@ -2478,7 +2478,7 @@ Tomar 3-6 cápsulas al día con agua, repartidas en las comidas.
 
 Presentación
 Cápsulas | 90 unidades`,
-    images: ['https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/superalimento-spirulina.png'],
   },
   {
     id: 53,
@@ -2529,7 +2529,7 @@ Tomar 1-2 cápsulas al día fuera de las comidas.
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1616671285410-994df5684784?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/antioxidante-nac.png'],
   },
   {
     id: 54,
@@ -2577,7 +2577,7 @@ Tomar 2 cápsulas (2g) 60 minutos antes del entrenamiento o en ayunas para uso c
 
 Presentación
 Cápsulas | 60 unidades`,
-    images: ['https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/circulacion-l-citrulina.png'],
   },
   {
     id: 55,
@@ -2625,6 +2625,6 @@ Aplicar 2-3 gotas por la noche sobre piel limpia, en las zonas con manchas. Usar
 
 Presentación
 Sérum tópico | 30 ml`,
-    images: ['https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=60&w=800'],
+    images: ['/products/despigmentante-topico-premium.png'],
   },
 ];
