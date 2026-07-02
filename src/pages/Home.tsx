@@ -86,12 +86,11 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative z-10 aspect-[4/5] rounded-[4rem] overflow-hidden bg-white shadow-3xl transform rotate-2 hover:rotate-0 transition-transform duration-700">
-              <img 
-                src="https://images.unsplash.com/photo-1579165466541-74e2b70a112a?auto=format&fit=crop&q=80&w=800" 
-                alt="Laboratório Botica" 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-                referrerPolicy="no-referrer"
+            <div className="relative z-10 aspect-[4/5] rounded-[4rem] overflow-hidden bg-gradient-to-br from-[#152C60] to-[#0E1E45] shadow-3xl transform rotate-2 hover:rotate-0 transition-transform duration-700 flex items-center justify-center">
+              <img
+                src="/mortero-branco.svg"
+                alt="Botica Guaraní"
+                className="w-1/2 h-1/2 object-contain opacity-90"
               />
               <div className="absolute inset-0 bg-[#152C60]/10 mix-blend-overlay" />
             </div>
@@ -227,16 +226,16 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Salud & Vida", img: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=800" },
-              { title: "Rendimiento", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" },
-              { title: "Dermocosmética", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800" },
+              { title: "Salud & Vida", img: "/products/salud-cardiovascular.png" },
+              { title: "Rendimiento", img: "/products/aumento-de-la-masa-muscular.png" },
+              { title: "Dermocosmética", img: "/products/hidratacion-profunda-antiage.png" },
             ].map((cat, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -10 }}
                 className="group relative aspect-[4/5] rounded-[4rem] overflow-hidden bg-[#152C60] shadow-2xl"
               >
-                <img src={cat.img} className="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" alt="" referrerPolicy="no-referrer" />
+                <img src={cat.img} className="w-full h-full object-contain p-10 group-hover:scale-105 transition-all duration-700" alt="" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#152C60] via-transparent to-transparent" />
                 <div className="absolute bottom-10 left-10 space-y-2">
                    <h3 className="text-3xl font-serif font-black text-white uppercase tracking-tighter">{cat.title}</h3>
@@ -325,12 +324,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-24 items-center">
             <div className="relative order-2 lg:order-1">
-              <div className="aspect-[4/5] rounded-[4rem] overflow-hidden bg-[#F3F6FA] relative shadow-3xl transform -rotate-3 hover:rotate-0 transition-all duration-700">
-                <img 
-                  src="https://images.unsplash.com/photo-1559839734-2b71ef159950?auto=format&fit=crop&q=80&w=800" 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
-                  alt="Equipe Médica" 
-                  referrerPolicy="no-referrer"
+              <div className="aspect-[4/5] rounded-[4rem] overflow-hidden bg-gradient-to-br from-[#152C60] to-[#0E1E45] relative shadow-3xl transform -rotate-3 hover:rotate-0 transition-all duration-700 flex items-center justify-center">
+                <img
+                  src="/mortero-branco.svg"
+                  className="w-1/2 h-1/2 object-contain opacity-90"
+                  alt="Botica Guaraní"
                 />
                 <div className="absolute inset-0 bg-[#152C60]/10 mix-blend-overlay" />
               </div>
@@ -425,11 +423,11 @@ export default function Home() {
             </div>
 
             <div className="relative">
-              <div className="aspect-square rounded-[5rem] overflow-hidden bg-[#F3F6FA] relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800" 
-                  className="w-full h-full object-cover mix-blend-multiply opacity-80" 
-                  alt="Science" 
+              <div className="aspect-square rounded-[5rem] overflow-hidden bg-[#F3F6FA] relative flex items-center justify-center">
+                <img
+                  src="/mortero-azul.svg"
+                  className="w-1/3 h-1/3 object-contain opacity-80"
+                  alt="Botica Guaraní"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
                    <div className="w-64 h-64 border-2 border-[#2B5DB6]/20 rounded-full animate-pulse" />

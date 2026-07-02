@@ -32,23 +32,17 @@ export default function About() {
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
             <div>
               <span className="inline-block px-4 py-2 bg-white/10 text-white rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-white/20">
-                Mais de 20 anos de Tradição
+                Desde 2001
               </span>
               <h2 className="text-4xl md:text-5xl font-serif font-black uppercase tracking-tighter mb-8">
                 Nossa <span className="text-[#2B5DB6]">História</span>
               </h2>
               <div className="space-y-6 text-white/80 font-medium leading-relaxed">
                 <p>
-                  A Botica Guaraní não é apenas um laboratório magistral; é um legado de mais de 20 anos construído por mãos humanas e muita resiliência. Nascemos da visão fundadora de Don José, aliada ao rigor técnico de Jane e à estruturação cirúrgica de Leila.
+                  A Botica Guaraní nasceu em 2001 no mesmo endereço até hoje: o antigo Km 4, hoje Patio Fuelpar, em Ciudad del Este. São mais de 25 anos formulando fórmulas magistrais para a região.
                 </p>
                 <p>
-                  O que começou como um núcleo técnico familiar rapidamente encontrou uma vocação inabalável. Quando Leila assumiu integralmente a liderança e, posteriormente, adquiriu a marca, a Botica fundiu sua essência ao compromisso com a altíssima performance. Décadas de dedicação forjaram não apenas a solidez do negócio, mas o DNA da nossa marca: excelência científica sem concessões.
-                </p>
-                <p>
-                  Nossas raízes geográficas refletem perfeitamente nossa solidez institucional. Estabelecidos desde o dia zero no emblemático Km 4 — um ponto estratégico de frente ao clássico Granvia e à Polícia Caminera —, fomos testemunhas e protagonistas do crescimento da cidade.
-                </p>
-                <p>
-                  Nosso espaço físico, situado em um amplo e conveniente complexo com rotas de rápido acesso e estacionamento próprio, evoluiu junto com nossa tecnologia médica. Permanecemos firmes no mesmo ponto exato há mais de duas décadas, provando que a verdadeira vanguarda se constrói conhecendo e mantendo suas raízes.
+                  A farmácia é conduzida pela Química Farmacêutica Leila, responsável pela aprovação técnica de cada fórmula que sai do nosso laboratório.
                 </p>
               </div>
             </div>
@@ -68,7 +62,7 @@ export default function About() {
                   <ul className="space-y-4">
                     {[
                       { title: 'Inovação de Fronteira', desc: 'Buscamos os mais avançados e testados protocolos nutracêuticos disponíveis na literatura mundial.' },
-                      { title: 'Tradição Incólume', desc: 'Mais de 20 anos de seriedade no mesmo endereço, entregando sempre a máxima transparência e confiabilidade.' },
+                      { title: 'Tradição Incólume', desc: 'Mais de 25 anos de seriedade no mesmo endereço, entregando sempre a máxima transparência e confiabilidade.' },
                       { title: 'Excelência Laboratorial', desc: 'Operamos sob os mais rigorosos padrões da vigilância, com certificação absoluta em rastreabilidade biológica.' }
                     ].map((val, idx) => (
                       <li key={idx} className="flex flex-col gap-1">
@@ -82,39 +76,18 @@ export default function About() {
             </div>
           </div>
 
-          {/* Timeline of Achievements */}
+          {/* Facts Strip */}
           <div className="mt-20 border-t border-white/10 pt-20">
-             <div className="text-center mb-16">
-               <h3 className="text-3xl font-serif font-black uppercase tracking-tighter mb-4 text-white">O Códice Guaraní</h3>
-               <p className="text-white/60 font-medium">Os marcos fundamentais da nossa consolidação magistral.</p>
-             </div>
-
-             <div className="space-y-12">
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                {[
-                 { year: 'A Gênese', title: 'Fundação Estratégica', desc: 'As portas de um sonho se abrem no emblemático Km 4. A visão de Don José, unida ao brilhantismo técnico da Química Farmacêutica Jane e à exímia gestão contábil de Leila, trazem a ciência da personalização molecular para a região.', img: 'https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=500&q=80' },
-                 { year: 'Momento de Virada', title: 'A Era Leila', desc: 'Com resiliência admirável, Leila assume a vanguarda e anos depois oficializa a aquisição da Botica. Inicia-se um ciclo implacável de excelência e consolidação financeira.', img: 'https://images.unsplash.com/photo-1554774853-719586f82d77?auto=format&fit=crop&w=500&q=80' },
-                 { year: 'Expansão Clínica', title: 'Adequação Tecnológica', desc: 'Elevação extrema do nível laboratorial. Certificações rigorosas pela Vigilância Sanitária e construção de ambientes de pureza de padrão internacional.', img: 'https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?auto=format&fit=crop&w=500&q=80' },
-                 { year: 'O Presente', title: 'O Padrão Ouro', desc: 'Mais de 20 anos depositando ciência em cada invólucro. Uma boutique de performance consolidada, valorizando o calor humano e aprovada por médicos exigentes.', img: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=500&q=80' },
-                 { year: 'O Futuro', title: 'Hiper-Personalização', desc: 'A integração da Inteligência Artificial guiada pelo Concierge Guaraní. Previsibilidade metabólica e cruzamento de dados para redefinir os limites do corpo humano.', img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=500&q=80' }
-               ].map((item, i) => (
-                 <div key={i} className="flex flex-col md:flex-row items-center gap-8 md:gap-12 group">
-                   <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                     <div className="relative w-64 h-48 rounded-2xl overflow-hidden border-2 border-white/10 group-hover:border-[#2B5DB6] transition-colors">
-                       <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                       <div className="absolute inset-0 bg-[#152C60]/40 group-hover:bg-transparent transition-colors" />
-                     </div>
-                   </div>
-                   
-                   <div className="hidden md:flex w-12 flex-col items-center relative">
-                     <div className="w-4 h-4 rounded-full bg-[#2B5DB6] relative z-10 shadow-[0_0_15px_rgba(43,93,182,0.6)]" />
-                     {i !== 4 && <div className="w-0.5 h-32 bg-white/10 absolute top-4 left-1/2 -translate-x-1/2" />}
-                   </div>
-
-                   <div className="w-full md:w-1/2 text-center md:text-left">
-                     <span className="text-[#2B5DB6] font-black tracking-widest text-xs uppercase mb-2 block">{item.year}</span>
-                     <h4 className="text-2xl font-serif font-black text-white mb-3">{item.title}</h4>
-                     <p className="text-white/60 text-sm leading-relaxed max-w-sm mx-auto md:mx-0">{item.desc}</p>
-                   </div>
+                 { value: '2001', label: 'Fundação' },
+                 { value: '25+', label: 'Anos de Experiência' },
+                 { value: 'CDE', label: 'Ciudad del Este, Paraguay' },
+                 { value: '55', label: 'Fórmulas no Catálogo' },
+               ].map((stat, i) => (
+                 <div key={i}>
+                   <div className="text-4xl md:text-5xl font-serif font-black text-[#2B5DB6] tracking-tighter">{stat.value}</div>
+                   <p className="text-white/60 text-[11px] font-black uppercase tracking-widest mt-2">{stat.label}</p>
                  </div>
                ))}
              </div>
