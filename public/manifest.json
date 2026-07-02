@@ -1,0 +1,21 @@
+{
+  "name": "Botica Guaraní",
+  "short_name": "Botica Guaraní",
+  "description": "Farmacia magistral premium — Fórmulas personalizadas, suplementos e dermocosméticos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#152C60",
+  "theme_color": "#152C60",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
