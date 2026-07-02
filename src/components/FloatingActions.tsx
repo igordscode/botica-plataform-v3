@@ -1,17 +1,16 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ShoppingCart, Heart, MessageCircle, ChevronRight, Sparkles } from 'lucide-react';
+import { ShoppingCart, MessageCircle, ChevronRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { waLink } from '../constants';
 
 export default function FloatingActions() {
   const [isExpanded, setIsExpanded] = React.useState(true);
-  const { cart, wishlistCount, setIsCartOpen } = useCart();
+  const { cart, setIsCartOpen } = useCart();
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const navigate = useNavigate();
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/595981000000', '_blank', 'referrer');
+    window.open(waLink('Hola! Quisiera hacer una consulta.'), '_blank', 'referrer');
   };
 
   return (
@@ -32,43 +31,12 @@ export default function FloatingActions() {
 
       <AnimatePresence>
         {isExpanded && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             className="flex flex-col gap-4 items-end"
           >
-            {/* Wishlist FAB */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => navigate('/favoritos')}
-              className="w-14 h-14 bg-white text-[#2B5DB6] rounded-full shadow-2xl flex items-center justify-center relative group border border-[#152C60]/5 transition-transform"
-            >
-              <Heart size={24} fill={wishlistCount > 0 ? "currentColor" : "none"} />
-              {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-6 h-6 bg-[#152C60] text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white">
-                  {wishlistCount}
-                </span>
-              )}
-              <span className="absolute right-full mr-4 px-3 py-1.5 bg-[#152C60] text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                Favoritos
-              </span>
-            </motion.button>
-
-            {/* Concierge Guarani FAB */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => navigate('/assistente')}
-              className="w-14 h-14 bg-gradient-to-br from-[#2B5DB6] to-[#152C60] text-white rounded-full shadow-2xl flex items-center justify-center relative group border border-white/20 transition-transform"
-            >
-              <Sparkles size={24} />
-              <span className="absolute right-full mr-4 px-3 py-1.5 bg-[#152C60] text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                Concierge Guaraní
-              </span>
-            </motion.button>
-
             {/* WhatsApp FAB */}
             <motion.button
               whileHover={{ scale: 1.1 }}

@@ -2,8 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { waLink } from '../constants';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,7 +12,6 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, removeFromCart, addToCart, decrementQuantity } = useCart();
-  const navigate = useNavigate();
   const { formatPrice } = useLanguage();
 
   React.useEffect(() => {
@@ -159,7 +158,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
                     <span>Processamento</span>
-                    <span className="text-green-600">Calculado no Checkout</span>
+                    <span className="text-green-600">Combinado por WhatsApp</span>
                   </div>
                   <div className="pt-5 border-t border-[#152C60]/5">
                     <div className="flex justify-between items-baseline mb-2">
@@ -175,14 +174,19 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
                 </div>
                 
-                <button 
+                <button
                   onClick={() => {
+                    const summary = cart.map(item => `${item.quantity}x ${item.name}`).join('\n');
+                    window.open(
+                      waLink(`Hola! Quiero pedir:\n${summary}\n\nTotal sugerido: ${total.toLocaleString('es-PY')} Gs`),
+                      '_blank',
+                      'referrer'
+                    );
                     onClose();
-                    navigate('/checkout');
                   }}
                   className="w-full h-18 bg-[#152C60] text-white rounded-3xl flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-[#2B5DB6] transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-2xl shadow-[#152C60]/20 group"
                 >
-                  Finalizar Manipulação
+                  Pedir por WhatsApp
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>

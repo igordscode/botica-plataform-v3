@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { waLink } from '../constants';
 
 export default function Home() {
   const [activeGoal, setActiveGoal] = useState<string | null>(null);
@@ -108,7 +109,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-[10px] font-medium text-[#152C60]/60 max-w-[150px]">
-                Mais de 15.000 fórmulas entregues com precisão farmacêutica.
+                Mais de 25 anos de experiência em manipulação farmacêutica.
               </p>
             </motion.div>
           </motion.div>
@@ -229,11 +230,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Salud & Vida", img: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=800", count: "48 fórmulas" },
-              { title: "Rendimiento", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800", count: "32 fórmulas" },
-              { title: "Dermocosmética", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800", count: "55 fórmulas" },
+              { title: "Salud & Vida", img: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=800" },
+              { title: "Rendimiento", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" },
+              { title: "Dermocosmética", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800" },
             ].map((cat, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 whileHover={{ y: -10 }}
                 className="group relative aspect-[4/5] rounded-[4rem] overflow-hidden bg-[#152C60] shadow-2xl"
@@ -242,7 +243,6 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#152C60] via-transparent to-transparent" />
                 <div className="absolute bottom-10 left-10 space-y-2">
                    <h3 className="text-3xl font-serif font-black text-white uppercase tracking-tighter">{cat.title}</h3>
-                   <span className="text-[10px] font-black uppercase tracking-widest text-[#2B5DB6]">{cat.count}</span>
                 </div>
                 <Link to="/loja" className="absolute inset-0 z-10" />
               </motion.div>
@@ -300,41 +300,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-12 px-6 bg-[#F3F6FA]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { name: "CORTISOL CONTROL", price: "R$ 189,00", tag: "Saúde Mental", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=800" },
-              { name: "BIO-ACTIVE FOCUS", price: "R$ 245,00", tag: "Performance", img: "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?auto=format&fit=crop&q=80&w=800" },
-              { name: "PURE COLLAGEN +", price: "R$ 156,00", tag: "Dermocosmética", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800" },
-              { name: "METABOLIC RESET", price: "R$ 212,00", tag: "Saúde & Vida", img: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=800" },
-            ].map((prod, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group p-6 bg-white rounded-[3.5rem] border border-[#152C60]/5 shadow-xl hover:shadow-2xl transition-all"
-              >
-                <div className="aspect-square rounded-[2.5rem] overflow-hidden mb-6 bg-[#F3F6FA]">
-                   <img src={prod.img} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="" referrerPolicy="no-referrer" />
-                </div>
-                <div className="space-y-2 text-center">
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[#2B5DB6]">{prod.tag}</span>
-                  <h4 className="text-xl font-serif font-black text-[#152C60] truncate">{prod.name}</h4>
-                  <p className="text-lg font-serif font-bold text-[#152C60]/40">{prod.price}</p>
-                </div>
-                <Link to="/loja" className="mt-6 flex h-12 bg-[#152C60] text-white rounded-2xl items-center justify-center text-[10px] font-black uppercase tracking-widest hover:bg-[#2B5DB6] transition-colors">
-                  Personalizar
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Portal do Conhecimento Section */}
+      {/* Novidades Section */}
       <section className="py-32 px-6 bg-[#152C60] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10">
@@ -343,49 +309,15 @@ export default function Home() {
               <div className="space-y-4">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Educação & Ciência</span>
                 <h2 className="text-5xl md:text-8xl font-serif font-black text-white leading-[0.85] tracking-tighter uppercase">
-                  PORTAL DO <br/><span className="text-[#2B5DB6]">SABER.</span>
+                  NOVIDADES DO <br/><span className="text-[#2B5DB6]">LABORATÓRIO.</span>
                 </h2>
               </div>
               <p className="text-xl text-white/40 font-medium italic border-l-2 border-[#2B5DB6] pl-8 max-w-lg">
-                "Entenda a sinergia entre ativos botânicos e a bioquímica humana através de artigos exclusivos da nossa equipe técnica."
+                "Acompanhe novidades, lançamentos e conteúdo técnico da nossa equipe."
               </p>
-              <Link to="/portal" className="inline-flex items-center gap-4 px-12 py-6 bg-white text-[#152C60] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#2B5DB6] hover:text-white transition-all shadow-2xl shadow-black/20">
-                Acessar o Portal <MessageSquare size={18} />
+              <Link to="/novedades" className="inline-flex items-center gap-4 px-12 py-6 bg-white text-[#152C60] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#2B5DB6] hover:text-white transition-all shadow-2xl shadow-black/20">
+                Ver Novidades <MessageSquare size={18} />
               </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { 
-                  tag: "Performance", 
-                  title: "O poder dos adaptógenos no foco mental.", 
-                  img: "https://images.unsplash.com/photo-1543333308-23f2121855a0?auto=format&fit=crop&q=80&w=800" 
-                },
-                { 
-                  tag: "Bioquímica", 
-                  title: "Sinergia: Por que algumas fórmulas funcionam melhor juntas?", 
-                  img: "https://images.unsplash.com/photo-1579152276502-53b8a3e14a87?auto=format&fit=crop&q=80&w=800" 
-                }
-              ].map((article, i) => (
-                <motion.div 
-                  key={i}
-                  whileHover={{ scale: 1.02 }}
-                  className="group bg-white/5 backdrop-blur-3xl rounded-[3rem] p-8 border border-white/10 flex flex-col justify-between aspect-[3/4] hover:bg-white/10 transition-colors"
-                >
-                  <div className="space-y-6">
-                    <div className="w-full aspect-video rounded-2xl overflow-hidden">
-                      <img src={article.img} className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt="" referrerPolicy="no-referrer" />
-                    </div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#2B5DB6]">{article.tag}</span>
-                    <h3 className="text-xl font-serif font-bold text-white group-hover:text-[#2B5DB6] transition-colors leading-tight">
-                      {article.title}
-                    </h3>
-                  </div>
-                  <Link to="/portal" className="text-[10px] font-black uppercase tracking-widest text-white/30 group-hover:text-white flex items-center gap-2 pt-6">
-                    Ler Artigo <ArrowRight size={14} />
-                  </Link>
-                </motion.div>
-              ))}
             </div>
           </div>
         </div>
@@ -508,8 +440,8 @@ export default function Home() {
                 </div>
               </div>
               <div className="absolute -top-12 -right-12 p-10 bg-[#2B5DB6] text-white rounded-[3rem] shadow-3xl text-center space-y-2 transform rotate-12 hidden md:block">
-                <span className="text-4xl font-serif font-black italic tracking-tighter">15k+</span>
-                <p className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Pacientes Atendidos</p>
+                <span className="text-4xl font-serif font-black italic tracking-tighter">25+</span>
+                <p className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">Anos de Experiência</p>
               </div>
             </div>
           </div>
@@ -529,14 +461,16 @@ export default function Home() {
                   TRANSFORME SUA <br/>REALIDADE <span className="italic">HOJE.</span>
                 </h2>
                 <div className="flex flex-wrap justify-center gap-6">
-                  <Link 
-                    to="/assistente" 
+                  <a
+                    href={waLink('Hola! Quisiera hacer una consulta.')}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="px-12 py-6 bg-white text-[#2B5DB6] rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform shadow-2xl"
                   >
-                    Falar com Assistente
-                  </Link>
-                  <Link 
-                    to="/loja" 
+                    Falar por WhatsApp
+                  </a>
+                  <Link
+                    to="/loja"
                     className="px-12 py-6 bg-[#152C60] text-white rounded-full font-black uppercase tracking-widest text-xs hover:scale-105 transition-transform border border-white/20"
                   >
                     Visitar Loja
