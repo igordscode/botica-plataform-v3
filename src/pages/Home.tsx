@@ -3,14 +3,73 @@ import {
   ArrowRight, Leaf, ShieldCheck, Zap, Heart, Award,
   MessageSquare, FileText, Stethoscope, Microscope,
   Brain, Moon, Flame, Wind,
-  Baby, Flower2, HeartPulse, UserRound
+  Baby, Flower2, HeartPulse, UserRound, ChevronLeft, ChevronRight, Sparkles, Truck, Building2, FlaskConical
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { waLink } from '../constants';
 
 export default function Home() {
   const [activeGoal, setActiveGoal] = useState<string | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSlides = [
+    {
+      id: 'kit',
+      tag: 'Kit Completo & Linha Magistral',
+      badgeIcon: Award,
+      title: 'A CIÊNCIA DO SEU BEM-ESTAR',
+      highlight: 'Fórmulas Exclusivas',
+      quote: '"Coleção completa de cápsulas, sachês e cosméticos magistrais personalizados para sua biologia única."',
+      image: '/images/portada-hero.png',
+      floatBadge: 'Kit Botica Guaraní',
+      floatDesc: 'Linha completa com certificação farmacêutica internacional.',
+      floatIcon: 'G'
+    },
+    {
+      id: 'lab',
+      tag: 'Biotecnologia & Alta Precisão',
+      badgeIcon: FlaskConical,
+      title: 'PRECISÃO E BIOTECNOLOGIA',
+      highlight: 'Laboratório Próprio',
+      quote: '"Controle rigoroso de dosagem e pureza de matérias-primas importadas em ambiente esterilizado."',
+      image: '/mortero-branco.svg',
+      floatBadge: 'CQ Farmacêutico',
+      floatDesc: 'Controle de qualidade e laudos analíticos por lote.',
+      floatIcon: '🔬'
+    },
+    {
+      id: 'fachada',
+      tag: 'Tradição & Atendimento VIP',
+      badgeIcon: Building2,
+      title: 'MAIS DE 25 ANOS DE HISTÓRIA',
+      highlight: 'Sede & Atendimento',
+      quote: '"Referência máxima em manipulação de fórmulas no Paraguai, unindo tradição indígena e ciência moderna."',
+      image: '/mortero-branco.svg',
+      floatBadge: 'Botica Guaraní',
+      floatDesc: 'Mais de 15.000 fórmulas entregues com precisão.',
+      floatIcon: '🏛️'
+    },
+    {
+      id: 'entrega',
+      tag: 'Logística Especializada',
+      badgeIcon: Truck,
+      title: 'ENTREGA EM TODO PAÍS',
+      highlight: 'Envio Garantido',
+      quote: '"Embalagem térmica de segurança e rastreamento expresso para todo o Paraguai e envio para o Brasil."',
+      image: '/mortero-branco.svg',
+      floatBadge: 'Logística Botica',
+      floatDesc: 'Proteção contra temperatura e luz para a sua fórmula.',
+      floatIcon: '📦'
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
 
   const goals = [
     { id: 'focus', title: 'Foco & Performance', icon: Brain, color: 'bg-blue-500', desc: 'Aumente sua capacidade cognitiva e concentração.' },
@@ -33,85 +92,138 @@ export default function Home() {
     show: { opacity: 1, y: 0 }
   };
 
+  const slide = heroSlides[currentSlide];
+  const BadgeIcon = slide.badgeIcon;
+
   return (
     <div className="overflow-hidden bg-[#F7F2E6]">
       {/* Hero Section - High Performance & Personalization */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 px-6 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center pt-20 pb-12 px-6 overflow-hidden bg-gradient-to-b from-[#0B192C] via-[#08101E] to-[#F7F2E6]/10 text-white">
         {/* Abstract Background Elements */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#2B5DB6]/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#152C60]/5 rounded-full blur-[150px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#2B5DB6]/20 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#133385]/30 rounded-full blur-[150px]" />
         
         <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 py-1 bg-[#2B5DB6] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-8"
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={slide.id}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <Award size={12} /> A Excelência em Manipulação
-            </motion.div>
-            
-            <h1 className="text-6xl md:text-8xl font-serif font-black text-[#152C60] leading-[0.85] mb-8 tracking-tighter">
-              A CIÊNCIA <br/>DO SEU <br/><span className="text-[#2B5DB6]">BEM-ESTAR.</span>
-            </h1>
-            
-            <p className="text-xl text-[#152C60]/60 mb-12 max-w-lg font-medium leading-relaxed italic border-l-4 border-[#2B5DB6] pl-6">
-              "Fórmulas personalizadas que respeitam sua biologia única e impulsionam sua performance diária."
-            </p>
-            
-            <div className="flex flex-wrap gap-4">
-              <Link 
-                to="/loja" 
-                className="px-10 py-5 bg-[#152C60] text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 shadow-2xl shadow-[#152C60]/20 flex items-center gap-3"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#2B5DB6] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-8 shadow-lg shadow-[#2B5DB6]/30"
               >
-                Ver Catálogo <ArrowRight size={20} />
-              </Link>
-              <Link 
-                to="/receita" 
-                className="px-10 py-5 bg-white text-[#152C60] rounded-2xl font-black text-sm uppercase tracking-widest border border-[#152C60]/10 hover:border-[#2B5DB6] transition-all flex items-center gap-3"
-              >
-                Enviar Receita <Zap size={20} className="text-[#2B5DB6]" />
-              </Link>
-            </div>
-          </motion.div>
+                <BadgeIcon size={14} /> {slide.tag}
+              </motion.div>
+              
+              <h1 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] mb-8 tracking-tighter">
+                {slide.title.split(' ').slice(0, -1).join(' ')} <br/>
+                <span className="text-[#ABBAD7] font-sans font-extrabold uppercase tracking-wide text-4xl md:text-5xl block mt-2 text-[#2B5DB6]">{slide.highlight}</span>
+              </h1>
+              
+              <p className="text-lg text-slate-300 mb-10 max-w-lg font-spectral italic border-l-4 border-[#2B5DB6] pl-6 leading-relaxed">
+                {slide.quote}
+              </p>
+              
+              <div className="flex flex-wrap gap-4 items-center mb-8">
+                <Link 
+                  to="/loja" 
+                  className="px-10 py-5 bg-[#133385] text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 shadow-2xl shadow-[#133385]/50 flex items-center gap-3 border border-white/10"
+                >
+                  Ver Catálogo <ArrowRight size={20} />
+                </Link>
+                <Link 
+                  to="/receita" 
+                  className="px-10 py-5 bg-white/10 backdrop-blur-md text-white rounded-2xl font-black text-sm uppercase tracking-widest border border-white/20 hover:bg-white hover:text-[#0B192C] transition-all flex items-center gap-3"
+                >
+                  Enviar Receita <Zap size={20} className="text-[#2B5DB6]" />
+                </Link>
+              </div>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative z-10 aspect-[4/5] rounded-[4rem] overflow-hidden bg-gradient-to-br from-[#152C60] to-[#0E1E45] shadow-3xl transform rotate-2 hover:rotate-0 transition-transform duration-700 flex items-center justify-center">
-              <img
-                src="/mortero-branco.svg"
-                alt="Botica Guaraní"
-                className="w-1/2 h-1/2 object-contain opacity-90"
-              />
-              <div className="absolute inset-0 bg-[#152C60]/10 mix-blend-overlay" />
-            </div>
-            {/* Float Element */}
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -bottom-10 -left-10 bg-white p-8 rounded-[2.5rem] shadow-2xl border border-[#152C60]/5 z-20 hidden md:block"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-[#2B5DB6]/10 text-[#2B5DB6] rounded-2xl flex items-center justify-center font-serif text-2xl font-black">G</div>
-                <div>
-                  <h4 className="font-black uppercase text-[10px] tracking-widest">Botica Guaraní</h4>
-                  <p className="text-[10px] font-bold text-[#152C60]/40 italic">Fórmulas Certificadas</p>
+              {/* Carousel Navigation Bar */}
+              <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+                <div className="flex gap-2">
+                  {heroSlides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`h-2.5 rounded-full transition-all ${
+                        currentSlide === idx 
+                          ? 'w-8 bg-[#2B5DB6]' 
+                          : 'w-2.5 bg-white/30 hover:bg-white/50'
+                      }`}
+                      aria-label={`Slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 ml-auto">
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+                    className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10"
+                    aria-label="Slide anterior"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
+                    className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10"
+                    aria-label="Próximo slide"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
                 </div>
               </div>
-              <p className="text-[10px] font-medium text-[#152C60]/60 max-w-[150px]">
-                Mais de 25 anos de experiência em manipulação farmacêutica.
-              </p>
             </motion.div>
-          </motion.div>
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={slide.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              <div className="relative z-10 aspect-[4/5] rounded-[3.5rem] overflow-hidden bg-gradient-to-br from-[#0B192C] via-[#133385] to-[#08101E] shadow-2xl shadow-black/80 border border-white/10 flex items-center justify-center group">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className={slide.image.endsWith('.svg') ? "w-1/2 h-1/2 object-contain opacity-90 transition-transform duration-700 group-hover:scale-110" : "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-transparent to-transparent opacity-80" />
+                <div className="absolute bottom-6 left-8 right-8 text-white/80 text-xs font-mono tracking-widest uppercase flex justify-between items-center">
+                  <span>SLIDE 0{currentSlide + 1} / 04</span>
+                  <span className="flex items-center gap-1"><Sparkles size={12} className="text-[#2B5DB6]" /> BOTICA GUARANÍ</span>
+                </div>
+              </div>
+
+              {/* Float Element */}
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute -bottom-6 -left-6 bg-[#0B192C]/90 backdrop-blur-xl p-6 rounded-[2rem] shadow-2xl border border-white/15 z-20 hidden md:block text-white"
+              >
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-10 h-10 bg-[#2B5DB6] text-white rounded-xl flex items-center justify-center font-serif text-xl font-black shadow-md">
+                    {slide.floatIcon}
+                  </div>
+                  <div>
+                    <h4 className="font-black uppercase text-[11px] tracking-widest text-white">{slide.floatBadge}</h4>
+                    <p className="text-[10px] font-bold text-[#ABBAD7] italic">Fórmulas Certificadas</p>
+                  </div>
+                </div>
+                <p className="text-[11px] font-medium text-slate-300 max-w-[170px] leading-snug">
+                  {slide.floatDesc}
+                </p>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
