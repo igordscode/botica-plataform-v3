@@ -96,7 +96,7 @@ export default function Home() {
   const BadgeIcon = slide.badgeIcon;
 
   return (
-    <div className="overflow-hidden bg-[#F7F2E6]">
+    <div className="overflow-hidden bg-[#0B192C] text-white">
       {/* Hero Section - High Performance & Personalization */}
       <section className="relative min-h-[90vh] flex items-center pt-20 pb-12 px-6 overflow-hidden bg-gradient-to-b from-[#0B192C] via-[#08101E] to-[#F7F2E6]/10 text-white">
         {/* Abstract Background Elements */}
@@ -258,15 +258,15 @@ export default function Home() {
       </section>
 
       {/* Specialty Grid */}
-      <section id="especialidades" className="py-20 px-6 bg-[#FCFAF4] border-b border-[#152C60]/[0.06]">
+      <section id="especialidades" className="py-20 px-6 bg-[#08101E] text-white border-b border-[#152C60]/[0.06]">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-xl mb-10">
             <div className="w-14 h-0.5 bg-[#152C60] mb-3" />
-            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-[#152C60] font-display">Especialidades</span>
-            <h2 className="font-serif font-black text-[#152C60] uppercase tracking-tight mt-3 mb-3 text-4xl leading-none">
+            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-white font-display">Especialidades</span>
+            <h2 className="font-serif font-black text-white uppercase tracking-tight mt-3 mb-3 text-4xl leading-none">
               Atendemos casi todas las ramas de la salud
             </h2>
-            <p className="text-sm text-[#4A4A50] leading-relaxed">
+            <p className="text-sm text-slate-300 leading-relaxed">
               Si su especialidad no aparece en este listado, pregúntenos — preparamos fórmulas para prácticamente cualquier indicación médica.
             </p>
           </div>
@@ -280,14 +280,14 @@ export default function Home() {
             ].map(({ Icon, title, desc }) => (
               <div
                 key={title}
-                className="bg-[#FCFAF4] border border-[#152C60]/[0.18] rounded-lg p-5 cursor-pointer transition-all duration-[180ms] hover:-translate-y-0.5"
+                className="bg-[#08101E] text-white border border-[#152C60]/[0.18] rounded-lg p-5 cursor-pointer transition-all duration-[180ms] hover:-translate-y-0.5"
                 style={{ boxShadow: 'var(--shadow-1)' }}
                 onMouseEnter={e => (e.currentTarget.style.boxShadow = 'var(--shadow-2)')}
                 onMouseLeave={e => (e.currentTarget.style.boxShadow = 'var(--shadow-1)')}
               >
-                <Icon size={28} strokeWidth={1.75} className="text-[#152C60] mb-3" />
-                <h3 className="font-semibold text-[#141414] text-base mb-1.5 leading-snug">{title}</h3>
-                <p className="text-xs text-[#4A4A50] leading-relaxed">{desc}</p>
+                <Icon size={28} strokeWidth={1.75} className="text-white mb-3" />
+                <h3 className="font-semibold text-white text-base mb-1.5 leading-snug">{title}</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -295,12 +295,12 @@ export default function Home() {
       </section>
 
       {/* Process Strip */}
-      <section id="como-trabajamos" className="py-20 px-6 bg-[#F7F2E6]">
+      <section id="como-trabajamos" className="py-20 px-6 bg-[#0B192C] text-white">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-xl mb-9">
             <div className="w-14 h-0.5 bg-[#152C60] mb-3" />
-            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-[#152C60] font-display">Cómo trabajamos</span>
-            <h2 className="font-serif font-black text-[#152C60] uppercase tracking-tight mt-3 text-4xl leading-none">
+            <span className="text-[11px] font-black uppercase tracking-[0.16em] text-white font-display">Cómo trabajamos</span>
+            <h2 className="font-serif font-black text-white uppercase tracking-tight mt-3 text-4xl leading-none">
               De la receta a su mano, en cuatro pasos
             </h2>
           </div>
@@ -313,8 +313,8 @@ export default function Home() {
             ].map(({ n, h, p }) => (
               <li key={n} className="border-t-2 border-[#152C60] pt-4">
                 <div className="font-serif font-black text-2xl text-[#2D55D6] mb-2.5">{n}</div>
-                <h4 className="font-semibold text-[#141414] text-lg mb-1.5">{h}</h4>
-                <p className="text-sm text-[#4A4A50] leading-snug">{p}</p>
+                <h4 className="font-semibold text-white text-lg mb-1.5">{h}</h4>
+                <p className="text-sm text-slate-300 leading-snug">{p}</p>
               </li>
             ))}
           </ol>
@@ -322,16 +322,16 @@ export default function Home() {
       </section>
 
       {/* Featured Categories & Products */}
-      <section className="py-20 px-6 bg-[#F7F2E6]">
+      <section className="py-20 px-6 bg-[#0B192C] text-white">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="flex flex-col md:flex-row justify-between items-end gap-8">
             <div className="space-y-4">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Vitrine Magistral</span>
-              <h2 className="text-5xl md:text-7xl font-serif font-black text-[#152C60] uppercase tracking-tighter">
+              <h2 className="text-5xl md:text-7xl font-serif font-black text-white uppercase tracking-tighter">
                 Fórmulas de <br/><span className="text-[#2B5DB6]">Elite.</span>
               </h2>
             </div>
-            <Link to="/loja" className="px-10 py-5 bg-white text-[#152C60] border border-[#152C60]/10 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#2B5DB6] hover:text-white transition-all shadow-xl shadow-[#152C60]/5">
+            <Link to="/loja" className="px-10 py-5 bg-white text-white border border-[#152C60]/10 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#2B5DB6] hover:text-white transition-all shadow-xl shadow-[#152C60]/5">
               Ver Todas as Fórmulas
             </Link>
           </div>
@@ -364,7 +364,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto space-y-20">
           <div className="text-center space-y-4">
              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">O que você busca hoje?</span>
-             <h2 className="text-5xl md:text-7xl font-serif font-black text-[#152C60] uppercase tracking-tighter">O SEU <span className="text-[#2B5DB6]">BIO-OBJETIVO.</span></h2>
+             <h2 className="text-5xl md:text-7xl font-serif font-black text-white uppercase tracking-tighter">O SEU <span className="text-[#2B5DB6]">BIO-OBJETIVO.</span></h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -374,16 +374,16 @@ export default function Home() {
                 onMouseEnter={() => setActiveGoal(goal.id)}
                 onClick={() => setActiveGoal(goal.id)}
                 className={`group relative p-12 rounded-[4rem] text-left transition-all duration-500 overflow-hidden ${
-                  activeGoal === goal.id ? 'bg-[#152C60] scale-105 shadow-3xl' : 'bg-white border border-[#152C60]/5 shadow-xl'
+                  activeGoal === goal.id ? 'bg-[#152C60] scale-105 shadow-3xl' : 'bg-[#08101E] border border-white/10 text-white border-[#152C60]/5 shadow-xl'
                 }`}
               >
                 <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center mb-8 transition-colors ${
-                  activeGoal === goal.id ? 'bg-[#2B5DB6] text-white' : 'bg-[#F3F6FA] text-[#152C60]'
+                  activeGoal === goal.id ? 'bg-[#2B5DB6] text-white' : 'bg-[#F3F6FA] text-white'
                 }`}>
                   <goal.icon size={32} />
                 </div>
                 <h3 className={`text-2xl font-serif font-black uppercase tracking-tighter transition-colors ${
-                  activeGoal === goal.id ? 'text-white' : 'text-[#152C60]'
+                  activeGoal === goal.id ? 'text-white' : 'text-white'
                 }`}>
                   {goal.title}
                 </h3>
@@ -423,7 +423,7 @@ export default function Home() {
               <p className="text-xl text-white/40 font-medium italic border-l-2 border-[#2B5DB6] pl-8 max-w-lg">
                 "Acompanhe novidades, lançamentos e conteúdo técnico da nossa equipe."
               </p>
-              <Link to="/novedades" className="inline-flex items-center gap-4 px-12 py-6 bg-white text-[#152C60] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#2B5DB6] hover:text-white transition-all shadow-2xl shadow-black/20">
+              <Link to="/novedades" className="inline-flex items-center gap-4 px-12 py-6 bg-white text-white rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#2B5DB6] hover:text-white transition-all shadow-2xl shadow-black/20">
                 Ver Novidades <MessageSquare size={18} />
               </Link>
             </div>
@@ -432,7 +432,7 @@ export default function Home() {
       </section>
 
       {/* Space for Prescribers (Doctors) Section */}
-      <section className="py-32 px-6 bg-white relative">
+      <section className="py-32 px-6 bg-[#08101E] text-white relative">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-24 items-center">
             <div className="relative order-2 lg:order-1">
@@ -464,12 +464,12 @@ export default function Home() {
             <div className="space-y-12 order-1 lg:order-2">
               <div className="space-y-4">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Área Técnica</span>
-                <h2 className="text-5xl md:text-8xl font-serif font-black text-[#152C60] leading-[0.85] tracking-tighter uppercase">
+                <h2 className="text-5xl md:text-8xl font-serif font-black text-white leading-[0.85] tracking-tighter uppercase">
                   ESPAÇO DO <br/><span className="text-[#2B5DB6]">PRESCRITOR.</span>
                 </h2>
               </div>
               
-              <p className="text-lg text-[#152C60]/60 font-medium leading-relaxed italic border-l-4 border-[#2B5DB6] pl-8">
+              <p className="text-lg text-white/60 font-medium leading-relaxed italic border-l-4 border-[#2B5DB6] pl-8">
                 Oferecemos suporte técnico especializado para médicos e profissionais de saúde, garantindo que cada fórmula seja uma ferramenta de cura precisa.
               </p>
 
@@ -484,8 +484,8 @@ export default function Home() {
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-black uppercase text-xs mb-1 text-[#152C60]">{item.title}</h4>
-                      <p className="text-[10px] text-[#152C60]/40 font-bold italic leading-relaxed">{item.desc}</p>
+                      <h4 className="font-black uppercase text-xs mb-1 text-white">{item.title}</h4>
+                      <p className="text-[10px] text-white/40 font-bold italic leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -506,7 +506,7 @@ export default function Home() {
             <div className="space-y-12">
               <div className="space-y-4">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Nossa Filosofia</h3>
-                <h2 className="text-5xl md:text-7xl font-serif font-black text-[#152C60] leading-[0.9] tracking-tighter uppercase">
+                <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
                   MAIS QUE <br/>PILULAS, <br/><span className="text-[#2B5DB6]">PROPÓSITO.</span>
                 </h2>
               </div>
@@ -526,8 +526,8 @@ export default function Home() {
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-black uppercase text-sm mb-2 text-[#152C60]">{item.title}</h4>
-                      <p className="text-xs text-[#152C60]/50 font-medium leading-relaxed italic">{item.desc}</p>
+                      <h4 className="font-black uppercase text-sm mb-2 text-white">{item.title}</h4>
+                      <p className="text-xs text-white/50 font-medium leading-relaxed italic">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
