@@ -1,0 +1,7 @@
+interface:
+  display_name: "Botica Guaraní — Direção de Arte"
+  short_description: "Direção de arte contextualizada para toda a marca"
+  icon_small: "./assets/mortero-azul.svg"
+  icon_large: "./assets/logo-horizontal-azul.svg"
+  brand_color: "#133385"
+  default_prompt: "Use $botica-art-direction para criar ou aprimorar uma peça da Botica Guaraní com crítica visual e especificações de produção."
