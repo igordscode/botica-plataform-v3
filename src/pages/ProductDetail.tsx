@@ -7,9 +7,6 @@ import {
   FlaskConical, ArrowRight, Eye, PlayCircle
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { db, auth } from '../lib/firebase';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
-import { OperationType, handleFirestoreError } from '../lib/firestore';
 import { trackEvent } from '../services/analytics';
 import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
@@ -49,24 +46,8 @@ export default function ProductDetail() {
 
     window.addEventListener('scroll', handleScroll);
     
-    const fetchWishlist = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', product.id));
-      const snap = await getDocs(q);
-      setIsWishlisted(!snap.empty);
-    };
-
-    const fetchReviews = async () => {
-      const q = query(collection(db, 'reviews'), where('productId', '==', product.id));
-      const unsubscribe = onSnapshot(q, (snap) => {
-        setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-      });
-      return unsubscribe;
-    };
-
-    fetchWishlist();
-    fetchReviews();
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]') as number[];
+    setIsWishlisted(savedWishlist.includes(product.id));
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -85,29 +66,13 @@ export default function ProductDetail() {
     setIsZoomed(!isZoomed);
   };
 
-  const toggleWishlist = async () => {
-    const user = auth.currentUser;
-    if (!user) return alert('Por favor, faça login.');
-
-    try {
-      if (isWishlisted) {
-        const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', product.id));
-        const snap = await getDocs(q);
-        for (const d of snap.docs) {
-          await deleteDoc(doc(db, 'wishlist', d.id));
-        }
-        setIsWishlisted(false);
-      } else {
-        await addDoc(collection(db, 'wishlist'), {
-          userId: user.uid,
-          productId: product.id,
-          createdAt: serverTimestamp()
-        });
-        setIsWishlisted(true);
-      }
-    } catch (e) {
-      handleFirestoreError(e, OperationType.WRITE, 'wishlist');
-    }
+  const toggleWishlist = () => {
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]') as number[];
+    const nextWishlist = isWishlisted
+      ? savedWishlist.filter(id => id !== product.id)
+      : [...savedWishlist, product.id];
+    localStorage.setItem('wishlist', JSON.stringify(nextWishlist));
+    setIsWishlisted(!isWishlisted);
   };
 
   const handleAddToCart = () => {

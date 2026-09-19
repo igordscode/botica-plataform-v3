@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { db, auth } from '../lib/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 interface CartItem {
   id: number;
@@ -43,21 +41,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) {
-      setWishlistCount(0);
-      return;
-    }
-
-    const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid));
-    const unsubscribe = onSnapshot(q, (snap) => {
-      setWishlistCount(snap.size);
-    });
-
-    return () => unsubscribe();
-  }, [auth.currentUser]);
 
   const addToCart = (product: any) => {
     setCart(prev => {

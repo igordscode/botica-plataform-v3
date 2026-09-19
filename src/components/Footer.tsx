@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Mail, Phone, MapPin, Heart, Send, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
-import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { handleFirestoreError, OperationType } from '../lib/firestore';
+import { subscribeToNewsletter } from '../lib/newsletter';
 import { CONTACT } from '../constants';
 
 export default function Footer() {
@@ -15,15 +13,12 @@ export default function Footer() {
     if (!email) return;
     setStatus('loading');
     try {
-      await addDoc(collection(db, 'newsletter'), {
-        email,
-        createdAt: serverTimestamp(),
-      });
+      await subscribeToNewsletter(email);
       setStatus('success');
       setEmail('');
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'newsletter');
+      console.error('Newsletter subscription failed', error);
       setStatus('idle');
     }
   };

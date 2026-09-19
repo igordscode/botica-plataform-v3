@@ -13,9 +13,6 @@ import PrescriptionUpload from '../components/PrescriptionUpload';
 import ComparisonDrawer from '../components/ComparisonDrawer';
 import ImageLightbox from '../components/ImageLightbox';
 import { trackEvent } from '../services/analytics';
-import { db, auth } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { handleFirestoreError, OperationType } from '../lib/firestore';
 import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -51,20 +48,16 @@ export default function Store() {
   }, [selectedCategory]);
 
   useEffect(() => {
-    const fetchWishlist = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid));
-      const snap = await getDocs(q);
-      setWishlist(snap.docs.map(doc => doc.data().productId));
-    };
-    fetchWishlist();
-  }, [auth.currentUser]);
+    const savedWishlist = localStorage.getItem('wishlist');
+    if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
+  }, []);
 
-  const toggleWishlist = async (e: React.MouseEvent, productId: number) => {
+  useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const toggleWishlist = (e: React.MouseEvent, productId: number) => {
     e.preventDefault();
-    const user = auth.currentUser;
-    if (!user) return alert('Por favor, faça login para salvar produtos na sua lista de desejos.');
 
     const rect = e.currentTarget.getBoundingClientRect();
     const newItem = {
@@ -74,27 +67,14 @@ export default function Store() {
       type: 'wish' as const
     };
 
-    try {
-      if (wishlist.includes(productId)) {
-        const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', productId));
-        const snap = await getDocs(q);
-        snap.forEach(async (d) => await deleteDoc(doc(db, 'wishlist', d.id)));
-        setWishlist(prev => prev.filter(id => id !== productId));
-        trackEvent('Store', 'Remove from Wishlist', productId.toString());
-      } else {
-        setFlyingItems(prev => [...prev, newItem]);
-        setTimeout(() => setFlyingItems(prev => prev.filter(i => i.id !== newItem.id)), 800);
-        
-        await addDoc(collection(db, 'wishlist'), {
-          userId: user.uid,
-          productId,
-          createdAt: serverTimestamp()
-        });
-        setWishlist(prev => [...prev, productId]);
-        trackEvent('Store', 'Add to Wishlist', productId.toString());
-      }
-    } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, 'wishlist');
+    if (wishlist.includes(productId)) {
+      setWishlist(prev => prev.filter(id => id !== productId));
+      trackEvent('Store', 'Remove from Wishlist', productId.toString());
+    } else {
+      setFlyingItems(prev => [...prev, newItem]);
+      setTimeout(() => setFlyingItems(prev => prev.filter(i => i.id !== newItem.id)), 800);
+      setWishlist(prev => [...prev, productId]);
+      trackEvent('Store', 'Add to Wishlist', productId.toString());
     }
   };
 
