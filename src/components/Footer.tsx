@@ -84,8 +84,7 @@ export default function Footer() {
                 { label: 'Início', path: '/' },
                 { label: 'Sobre Nós', path: '/sobre' },
                 { label: 'Loja Boutique', path: '/loja' },
-                { label: 'Envio de Receita', path: '/receita' },
-                { label: 'Novidades', path: '/novedades' }
+                { label: 'Envio de Receita', path: '/receita' }
               ].map(link => (
                 <li key={link.label}>
                   <Link to={link.path} className="text-sm font-bold text-white/40 hover:text-white hover:translate-x-2 transition-all inline-block">

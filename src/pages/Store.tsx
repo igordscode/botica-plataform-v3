@@ -7,7 +7,7 @@ import {
   Pill, Wind, Droplet, Flower, Activity, Dumbbell, Sparkles, Microscope
 } from 'lucide-react';
 import { CATEGORIES } from '../constants';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import PrescriptionUpload from '../components/PrescriptionUpload';
 import ComparisonDrawer from '../components/ComparisonDrawer';
@@ -17,11 +17,13 @@ import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Store() {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [selectedSubCategory, setSelectedSubCategory] = useState('Todas');
   const [selectedTags, setSelectedSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { formatPrice, language } = useLanguage();
+  const objective = searchParams.get('objetivo')?.toLowerCase() || '';
   const [minRating, setMinRating] = useState(0);
   const { addToCart, setIsCartOpen } = useCart();
   const [flyingItems, setFlyingItems] = useState<{ id: number; x: number; y: number; type: 'cart' | 'wish' }[]>([]);
@@ -134,7 +136,21 @@ export default function Store() {
     const matchesPrice = priceNum <= maxPrice;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          p.desc.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSubCategory && matchesTags && matchesSearch && matchesRating && matchesPrice;
+    const searchable = [p.name, p.category, (p as any).subCategory, ...(p.tags || [])].join(' ').toLowerCase();
+    const objectiveTerms: Record<string, string[]> = {
+      foco: ['foco', 'memoria', 'cognitiv', 'nootrop'],
+      sueno: ['sueño', 'sueno', 'descanso', 'recuperador', 'magnesio'],
+      rendimento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
+      rendimiento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
+      pele: ['dermocosm', 'piel', 'poros', 'manchas', 'hidratación', 'hidratacion'],
+      piel: ['dermocosm', 'piel', 'poros', 'manchas', 'hidratación', 'hidratacion'],
+      metabolismo: ['adelgazamiento', 'metabolismo', 'control', 'grasa'],
+      saude: ['salud'],
+      salud: ['salud'],
+    };
+    const terms = objectiveTerms[objective] || [];
+    const matchesObjective = terms.length === 0 || terms.some(term => searchable.includes(term));
+    return matchesCategory && matchesSubCategory && matchesTags && matchesSearch && matchesRating && matchesPrice && matchesObjective;
   }).sort((a, b) => {
     const priceA = parseInt(a.price.replace(/[^\d]/g, ''));
     const priceB = parseInt(b.price.replace(/[^\d]/g, ''));

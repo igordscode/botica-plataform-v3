@@ -1,15 +1,18 @@
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowRight, Leaf, ShieldCheck, Zap, Heart, Award,
-  MessageSquare, FileText, Stethoscope, Microscope,
+  FileText, Stethoscope, Microscope,
   Brain, Moon, Flame, Wind,
   Baby, Flower2, HeartPulse, UserRound, ChevronLeft, ChevronRight, Sparkles, Truck, Building2, FlaskConical
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { waLink } from '../constants';
+import { useLanguage } from '../context/LanguageContext';
+import { PRODUCTS } from '../data/products';
 
 export default function Home() {
+  const { language, formatPrice } = useLanguage();
   const [activeGoal, setActiveGoal] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -71,12 +74,19 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [heroSlides.length]);
 
-  const goals = [
-    { id: 'focus', title: 'Foco & Performance', icon: Brain, color: 'bg-blue-500', desc: 'Aumente sua capacidade cognitiva e concentração.' },
-    { id: 'sleep', title: 'Descanso Profundo', icon: Moon, color: 'bg-indigo-600', desc: 'Melhore a qualidade do seu sono e recuperação.' },
-    { id: 'energy', title: 'Energia Vital', icon: Flame, color: 'bg-orange-500', desc: 'Disponibilidade energética constante durante o dia.' },
-    { id: 'stress', title: 'Equilíbrio Zen', icon: Wind, color: 'bg-emerald-500', desc: 'Gestão de cortisol e resiliência ao estresse.' },
+  const goals = language === 'pt' ? [
+    { id: 'focus', title: 'Foco e concentração', icon: Brain, desc: 'Explore fórmulas relacionadas a foco, memória e rotina intelectual.', href: '/loja?objetivo=foco' },
+    { id: 'sleep', title: 'Sono e recuperação', icon: Moon, desc: 'Veja opções relacionadas a descanso e recuperação muscular.', href: '/loja?objetivo=sono' },
+    { id: 'energy', title: 'Energia e rendimento', icon: Flame, desc: 'Encontre fórmulas para rotinas de energia e treinamento.', href: '/loja?objetivo=rendimento' },
+    { id: 'stress', title: 'Pele e autocuidado', icon: Wind, desc: 'Conheça a linha de dermocosméticos e cuidados tópicos.', href: '/loja?objetivo=pele' },
+  ] : [
+    { id: 'focus', title: 'Foco y concentración', icon: Brain, desc: 'Explora fórmulas relacionadas con foco, memoria y rutina intelectual.', href: '/loja?objetivo=foco' },
+    { id: 'sleep', title: 'Sueño y recuperación', icon: Moon, desc: 'Conoce opciones relacionadas con descanso y recuperación muscular.', href: '/loja?objetivo=sueno' },
+    { id: 'energy', title: 'Energía y rendimiento', icon: Flame, desc: 'Encuentra fórmulas para rutinas de energía y entrenamiento.', href: '/loja?objetivo=rendimiento' },
+    { id: 'stress', title: 'Piel y autocuidado', icon: Wind, desc: 'Conoce la línea de dermocosmética y cuidado tópico.', href: '/loja?objetivo=piel' },
   ];
+
+  const featuredProducts = PRODUCTS.filter((product) => [1, 6, 10].includes(product.id));
 
   const slide = heroSlides[currentSlide];
   const BadgeIcon = slide.badgeIcon;
@@ -305,58 +315,73 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Categories & Products */}
+      {/* Featured lines and products */}
       <section className="py-24 px-6 bg-[#060D18] border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="flex flex-col md:flex-row justify-between items-end gap-8">
             <div className="space-y-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">Vitrine Magistral</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'Seleção Botica Guaraní' : 'Selección Botica Guaraní'}</span>
               <h2 className="text-5xl md:text-7xl font-serif font-black text-white uppercase tracking-tighter">
-                Fórmulas de <br/><span className="text-[#38BDF8]">Elite.</span>
+                {language === 'pt' ? <>Fórmulas em <br/><span className="text-[#38BDF8]">destaque.</span></> : <>Fórmulas <br/><span className="text-[#38BDF8]">destacadas.</span></>}
               </h2>
             </div>
             <Link to="/loja" className="px-10 py-5 bg-[#133385] text-white border border-white/20 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#2B5DB6] transition-all shadow-xl shadow-black/40">
-              Ver Todas as Fórmulas
+              {language === 'pt' ? 'Ver todas as fórmulas' : 'Ver todas las fórmulas'}
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Salud & Vida", img: "/products/salud-cardiovascular.png" },
-              { title: "Rendimiento", img: "/products/aumento-de-la-masa-muscular.png" },
-              { title: "Dermocosmética", img: "/products/hidratacion-profunda-antiage.png" },
-            ].map((cat, i) => (
+            {featuredProducts.map((product) => (
               <motion.div
-                key={i}
+                key={product.id}
                 whileHover={{ y: -10 }}
                 className="group relative aspect-[4/5] rounded-[3.5rem] overflow-hidden bg-gradient-to-br from-[#0B192C] via-[#133385] to-[#060D18] border border-white/15 shadow-2xl"
               >
-                <img src={cat.img} className="w-full h-full object-contain p-10 group-hover:scale-105 transition-all duration-700" alt="" />
+                <img src={product.images[0]} className="w-full h-full object-contain p-10 group-hover:scale-105 transition-all duration-700" alt={product.name} />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060D18] via-transparent to-transparent" />
                 <div className="absolute bottom-10 left-10 space-y-2">
-                   <h3 className="text-3xl font-serif font-black text-white uppercase tracking-tighter">{cat.title}</h3>
+                   <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#38BDF8]">{product.category}</p>
+                   <h3 className="text-2xl font-serif font-black text-white uppercase tracking-tighter">{product.name}</h3>
+                   <p className="text-sm text-slate-200">{formatPrice(product.price)}</p>
                 </div>
-                <Link to="/loja" className="absolute inset-0 z-10" />
+                <Link to={`/produto/${product.id}`} aria-label={`${language === 'pt' ? 'Ver fórmula' : 'Ver fórmula'}: ${product.name}`} className="absolute inset-0 z-10" />
               </motion.div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+            {(language === 'pt' ? [
+              { title: 'Saúde e vida', href: '/loja?objetivo=saude' },
+              { title: 'Rendimento', href: '/loja?objetivo=rendimento' },
+              { title: 'Dermocosmética', href: '/loja?objetivo=pele' },
+            ] : [
+              { title: 'Salud y vida', href: '/loja?objetivo=salud' },
+              { title: 'Rendimiento', href: '/loja?objetivo=rendimiento' },
+              { title: 'Dermocosmética', href: '/loja?objetivo=piel' },
+            ]).map((line) => (
+              <Link key={line.title} to={line.href} className="flex items-center justify-between rounded-2xl border border-white/10 bg-[#0B192C]/70 px-6 py-5 text-white hover:border-[#38BDF8]/50 transition-colors">
+                <span className="font-black uppercase tracking-widest text-sm">{line.title}</span>
+                <ArrowRight size={18} className="text-[#38BDF8]" />
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bio-Meta Goal Selector */}
+      {/* Guided discovery */}
       <section className="py-24 px-6 bg-[#08101E] border-t border-white/10">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center space-y-4">
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">O que você busca hoje?</span>
-             <h2 className="text-5xl md:text-7xl font-serif font-black text-white uppercase tracking-tighter">O SEU <span className="text-[#38BDF8]">BIO-OBJETIVO.</span></h2>
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'O que você busca hoje?' : '¿Qué buscas hoy?'}</span>
+             <h2 className="text-5xl md:text-7xl font-serif font-black text-white uppercase tracking-tighter">{language === 'pt' ? <>Encontre seu <span className="text-[#38BDF8]">objetivo.</span></> : <>Encuentra tu <span className="text-[#38BDF8]">objetivo.</span></>}</h2>
+             <p className="mx-auto max-w-2xl text-sm text-slate-300">{language === 'pt' ? 'Escolha uma direção para explorar a loja. Isso não substitui orientação médica ou farmacêutica.' : 'Elige una dirección para explorar la tienda. Esto no sustituye la orientación médica o farmacéutica.'}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {goals.map((goal) => (
-              <motion.button
+              <motion.div
                 key={goal.id}
                 onMouseEnter={() => setActiveGoal(goal.id)}
-                onClick={() => setActiveGoal(goal.id)}
                 className={`group relative p-10 rounded-[3rem] text-left transition-all duration-500 overflow-hidden ${
                   activeGoal === goal.id 
                     ? 'bg-gradient-to-br from-[#133385] to-[#0B192C] border border-[#38BDF8]/50 shadow-2xl scale-105' 
@@ -382,35 +407,11 @@ export default function Home() {
                     </motion.p>
                   )}
                 </AnimatePresence>
-                {activeGoal === goal.id && (
-                  <Link to="/loja" className="mt-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#38BDF8]">
-                    Explorar Fórmulas <ArrowRight size={14} />
-                  </Link>
-                )}
-              </motion.button>
+                <Link to={goal.href} className="mt-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#38BDF8]">
+                  Explorar fórmulas <ArrowRight size={14} />
+                </Link>
+              </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Novidades Section */}
-      <section className="py-24 px-6 bg-[#060D18] border-t border-white/10 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">Educação & Ciência</span>
-                <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
-                  NOVIDADES DO <br/><span className="text-[#38BDF8]">LABORATÓRIO.</span>
-                </h2>
-              </div>
-              <p className="text-xl text-slate-300 font-medium italic border-l-2 border-[#2B5DB6] pl-8 max-w-lg">
-                "Acompanhe novidades, lançamentos e conteúdo técnico da nossa equipe."
-              </p>
-              <Link to="/novedades" className="inline-flex items-center gap-4 px-10 py-5 bg-[#133385] text-white rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#2B5DB6] transition-all shadow-2xl border border-white/20">
-                Ver Novidades <MessageSquare size={18} />
-              </Link>
-            </div>
           </div>
         </div>
       </section>

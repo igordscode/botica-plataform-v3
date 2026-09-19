@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Microscope, Home, Menu, X, FileText, Sparkles, MoreHorizontal, Globe, Newspaper, ShoppingCart } from 'lucide-react';
+import { ShoppingBag, Microscope, Home, Menu, X, FileText, Sparkles, MoreHorizontal, Globe, ShoppingCart } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useCart } from '../context/CartContext';
@@ -17,7 +17,6 @@ export default function Navbar() {
     { name: t('nav.about'), path: '/sobre', icon: <Microscope size={18} /> },
     { name: t('nav.store'), path: '/loja', icon: <ShoppingBag size={18} /> },
     { name: t('nav.prescription'), path: '/receita', icon: <FileText size={18} /> },
-    { name: t('nav.novedades'), path: '/novedades', icon: <Newspaper size={18} /> },
   ];
 
   const mobileBottomLinks = [
