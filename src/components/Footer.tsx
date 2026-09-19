@@ -124,7 +124,7 @@ export default function Footer() {
              <span className="text-[9px] font-black uppercase tracking-widest text-white/40">{language === 'pt' ? 'Precisão e cuidado em cada detalhe' : 'Precisión y cuidado en cada detalle'}</span>
           </div>
           <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-            © 2026 Botica Guaraní. Todos os direitos reservados.
+            © 2026 Botica Guaraní. {language === 'pt' ? 'Todos os direitos reservados.' : 'Todos los derechos reservados.'}
           </p>
         </div>
       </div>

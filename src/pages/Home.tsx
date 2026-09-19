@@ -465,7 +465,7 @@ export default function Home() {
               <div className="space-y-4">
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'Área técnica' : 'Área técnica'}</span>
                 <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
-                  ESPAÇO DO <br/><span className="text-[#38BDF8]">PRESCRITOR.</span>
+                  {language === 'pt' ? <>ESPAÇO DO <br/><span className="text-[#38BDF8]">PRESCRITOR.</span></> : <>ESPACIO DEL <br/><span className="text-[#38BDF8]">PRESCRIPTOR.</span></>}
                 </h2>
               </div>
               
@@ -511,7 +511,7 @@ export default function Home() {
               <div className="space-y-4">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'Nossa filosofia' : 'Nuestra filosofía'}</h3>
                 <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
-                  MAIS QUE <br/>PÍLULAS, <br/><span className="text-[#38BDF8]">PROPÓSITO.</span>
+                  {language === 'pt' ? <>MAIS QUE <br/>PÍLULAS, <br/><span className="text-[#38BDF8]">PROPÓSITO.</span></> : <>MÁS QUE <br/>PÍLDORAS, <br/><span className="text-[#38BDF8]">PROPÓSITO.</span></>}
                 </h2>
               </div>
               
@@ -570,7 +570,7 @@ export default function Home() {
              <div className="relative z-10 space-y-10">
                 <Heart className="mx-auto text-[#38BDF8] animate-bounce" size={56} />
                 <h2 className="text-5xl md:text-7xl font-serif font-black leading-none uppercase tracking-tighter text-white">
-                  TRANSFORME SUA <br/>SAÚDE <span className="italic text-[#38BDF8]">HOJE.</span>
+                  {language === 'pt' ? <>TRANSFORME SUA <br/>SAÚDE <span className="italic text-[#38BDF8]">HOJE.</span></> : <>TRANSFORME SU <br/>SALUD <span className="italic text-[#38BDF8]">HOY.</span></>}
                 </h2>
                 <div className="flex flex-wrap justify-center gap-6">
                   <a
