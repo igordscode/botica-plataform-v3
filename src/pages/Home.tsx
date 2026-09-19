@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { waLink } from '../constants';
 import { useLanguage } from '../context/LanguageContext';
 import { PRODUCTS } from '../data/products';
+import { FEATURED_PRODUCT_IDS } from '../data/catalogTiers';
 
 export default function Home() {
   const { language, formatPrice } = useLanguage();
@@ -91,7 +92,7 @@ export default function Home() {
     { id: 'stress', title: 'Piel y autocuidado', icon: Wind, desc: 'Conoce la línea de dermocosmética y cuidado tópico.', href: '/loja?objetivo=piel' },
   ];
 
-  const featuredProducts = PRODUCTS.filter((product) => [1, 6, 10].includes(product.id));
+  const featuredProducts = PRODUCTS.filter((product) => FEATURED_PRODUCT_IDS.includes(product.id as (typeof FEATURED_PRODUCT_IDS)[number]));
 
   const slide = heroSlides[currentSlide];
   const BadgeIcon = slide.badgeIcon;
