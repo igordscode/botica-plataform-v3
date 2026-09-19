@@ -12,7 +12,7 @@ export default function Prescription() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#2B5DB6]/10 text-[#2B5DB6] rounded-full text-[10px] font-black uppercase tracking-widest"
+            className="inline-flex items-center gap-3 pl-3 pr-1 py-2 border-l-2 border-[#2B5DB6] text-[#2B5DB6] text-[10px] font-black uppercase tracking-[0.18em]"
           >
             <FileText size={14} /> {language === 'pt' ? 'Canal de orçamentos' : 'Canal de cotizaciones'}
           </motion.div>

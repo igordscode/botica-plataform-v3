@@ -118,7 +118,7 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.1 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#2B5DB6] text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-8 shadow-lg shadow-[#2B5DB6]/40 border border-white/10"
+                className="inline-flex items-center gap-3 pl-3 pr-1.5 py-1.5 text-[#AAB9D6] text-[10px] font-black uppercase tracking-[0.24em] border-l-2 border-[#38BDF8] mb-8"
               >
                 <BadgeIcon size={14} /> {slide.tag}
               </motion.div>
@@ -352,11 +352,12 @@ export default function Home() {
               <motion.div
                 key={product.id}
                 whileHover={{ y: -10 }}
-                className="group relative aspect-[4/5] rounded-[3.5rem] overflow-hidden bg-gradient-to-br from-[#0B192C] via-[#133385] to-[#060D18] border border-white/15 shadow-2xl"
+                className="group relative aspect-[4/5] rounded-[2.25rem] overflow-hidden bg-[#F7F2E6] border border-white/15 shadow-2xl flex flex-col"
               >
-                <img src={product.images[0]} className="w-full h-full object-contain p-10 group-hover:scale-105 transition-all duration-700" alt={product.name} />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060D18] via-transparent to-transparent" />
-                <div className="absolute bottom-10 left-10 space-y-2">
+                <div className="h-[64%] w-full flex items-center justify-center overflow-hidden bg-[#F7F2E6]">
+                  <img src={product.images[0]} className="w-full h-full object-contain p-8 mix-blend-multiply group-hover:scale-105 transition-all duration-700" alt={product.name} />
+                </div>
+                <div className="flex-1 bg-[#0B192C] px-8 py-7 space-y-2">
                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#38BDF8]">{product.category}</p>
                    <h3 className="text-2xl font-serif font-black text-white uppercase tracking-tighter">{product.name}</h3>
                    <p className="text-sm text-slate-200">{formatPrice(product.price)}</p>
@@ -399,13 +400,13 @@ export default function Home() {
               <motion.div
                 key={goal.id}
                 onMouseEnter={() => setActiveGoal(goal.id)}
-                className={`group relative p-10 rounded-[3rem] text-left transition-all duration-500 overflow-hidden ${
+                className={`group relative p-8 rounded-[2rem] text-left transition-all duration-500 overflow-hidden ${
                   activeGoal === goal.id 
                     ? 'bg-gradient-to-br from-[#133385] to-[#0B192C] border border-[#38BDF8]/50 shadow-2xl scale-105' 
                     : 'bg-[#0B192C]/80 border border-white/10 hover:border-white/20'
                 }`}
               >
-                <div className={`w-16 h-16 rounded-[2rem] flex items-center justify-center mb-8 transition-colors ${
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-colors ${
                   activeGoal === goal.id ? 'bg-[#2B5DB6] text-white' : 'bg-white/10 text-[#38BDF8]'
                 }`}>
                   <goal.icon size={32} />

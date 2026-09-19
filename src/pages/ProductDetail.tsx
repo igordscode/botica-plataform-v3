@@ -275,19 +275,21 @@ export default function ProductDetail() {
                       ))}
                     </div>
                   </div>
-                  <div className="p-10 bg-[#152C60] text-[#F3F6FA] rounded-[3rem] shadow-2xl relative overflow-hidden group">
+                  <div className="p-10 min-h-full bg-[#152C60] text-[#F3F6FA] rounded-[2.25rem] shadow-2xl relative overflow-hidden group flex flex-col justify-between">
                      <div className="flex items-center gap-4 mb-8">
                         <div className="w-14 h-14 bg-[#2B5DB6] rounded-2xl flex items-center justify-center shadow-xl">
                           <ShieldCheck size={28} />
                         </div>
-                        <h3 className="text-xl font-serif font-bold">Certificação de Pureza</h3>
+                        <h3 className="text-xl font-serif font-bold">{language === 'pt' ? 'Controle de qualidade' : 'Control de calidad'}</h3>
                      </div>
                      <p className="text-sm text-white/60 leading-relaxed mb-8">
-                        Esta fórmula foi validada através de espectroscopia para garantir a ausência de impurezas e a concentração exata de cada componente.
+                        {language === 'pt'
+                          ? 'A preparação segue revisão técnica e rastreabilidade do lote. Informações específicas devem ser confirmadas pela equipe farmacêutica.'
+                          : 'La preparación sigue revisión técnica y trazabilidad del lote. La información específica debe confirmarse con el equipo farmacéutico.'}
                      </p>
                      <div className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 uppercase font-black text-[10px] tracking-widest text-[#2B5DB6]">
                         <FlaskConical size={16} />
-                        {product.science_seal}
+                        {language === 'pt' ? 'Revisão técnica por lote' : 'Revisión técnica por lote'}
                      </div>
                   </div>
                 </motion.div>
