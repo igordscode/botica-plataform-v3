@@ -69,7 +69,7 @@ export default function Navbar() {
               <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 text-[#152C60] hover:text-[#2B5DB6] transition-colors group"
-                title="Carrinho"
+                title={language === 'pt' ? 'Carrinho' : 'Carrito'}
               >
                 <ShoppingCart size={22} className="md:w-5 md:h-5" />
                 {cartCount > 0 && (

@@ -191,7 +191,7 @@ export default function ProductDetail() {
                   disabled={!product.inStock}
                   className="flex-1 min-w-[200px] h-16 bg-[#152C60] text-white rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 active:scale-95 disabled:grayscale shadow-xl shadow-[#152C60]/20"
                 >
-                  Comprar Agora
+                  {language === 'pt' ? 'Comprar Agora' : 'Comprar ahora'}
                 </button>
                 <button 
                   onClick={handleAddToCart}
@@ -410,7 +410,7 @@ export default function ProductDetail() {
             <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#152C60] tracking-tight">Combinações Sinérgicas</h3>
           </div>
           <Link to="/loja" className="hidden md:flex items-center gap-3 text-xs font-black uppercase tracking-widest text-[#152C60] hover:text-[#2B5DB6] transition-colors group">
-             Explorar Todo Catálogo
+             {language === 'pt' ? 'Explorar todo o catálogo' : 'Explorar todo el catálogo'}
              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -421,7 +421,7 @@ export default function ProductDetail() {
                <div className="block mb-6 aspect-square rounded-[2rem] overflow-hidden bg-[#F3F6FA]">
                  <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
                  <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform bg-gradient-to-t from-[#152C60]/80 to-transparent flex justify-center">
-                    <span className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2"><ShoppingCart size={12} /> Adicionar ao Carrinho</span>
+                    <span className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2"><ShoppingCart size={12} /> {language === 'pt' ? 'Adicionar ao carrinho' : 'Agregar al carrito'}</span>
                  </div>
                </div>
                <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4 group-hover:text-[#2B5DB6] transition-colors">{p.name}</h4>
@@ -465,7 +465,7 @@ export default function ProductDetail() {
                   disabled={!product.inStock}
                   className="flex-shrink-0 w-48 h-12 bg-[#152C60] text-white rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[10px] tracking-widest hover:bg-[#2B5DB6] transition-all shadow-xl"
                 >
-                  <ShoppingCart size={14} /> Comprar Agora
+                  <ShoppingCart size={14} /> {language === 'pt' ? 'Comprar Agora' : 'Comprar ahora'}
                 </button>
               </div>
             </div>

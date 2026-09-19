@@ -451,7 +451,7 @@ export default function Store() {
                           onClick={(e) => handleAddToCart(e, p)}
                           className="h-12 bg-[#152C60] text-white rounded-2xl flex items-center justify-center hover:bg-[#2B5DB6] transition-all font-black text-[9px] uppercase tracking-widest shadow-xl shadow-[#152C60]/10"
                         >
-                          Adicionar
+                          {language === 'pt' ? 'Adicionar' : 'Agregar'}
                         </button>
                         <button 
                           onClick={(e) => handleBuyNow(e, p)}
@@ -459,7 +459,7 @@ export default function Store() {
                             (!isCapsule && (isTub || isHome)) ? 'bg-white/10 text-white hover:bg-white hover:text-[#152C60]' : 'bg-[#F3F6FA] text-[#152C60] hover:bg-[#152C60] hover:text-white border border-[#152C60]/10'
                           }`}
                         >
-                          Detalhes
+                          {language === 'pt' ? 'Detalhes' : 'Detalles'}
                         </button>
                       </div>
                     </div>
@@ -540,7 +540,7 @@ function QuickInfoModal({ product, onClose, onAddToCart }: any) {
                 onClick={() => { onAddToCart(product); onClose(); }}
                 className="px-10 h-16 bg-[#152C60] text-white rounded-2xl font-black uppercase text-[10px] hover:bg-[#2B5DB6] shadow-xl transition-all"
               >
-                Adicionar ao Carrinho
+                {language === 'pt' ? 'Adicionar ao Carrinho' : 'Agregar al carrito'}
               </button>
             </div>
           </div>
