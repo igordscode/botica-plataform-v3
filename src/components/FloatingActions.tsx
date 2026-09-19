@@ -3,10 +3,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingCart, MessageCircle, ChevronRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { waLink } from '../constants';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function FloatingActions() {
   const [isExpanded, setIsExpanded] = React.useState(true);
   const { cart, setIsCartOpen } = useCart();
+  const { language } = useLanguage();
   const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleWhatsApp = () => {
@@ -46,7 +48,7 @@ export default function FloatingActions() {
             >
               <MessageCircle size={24} fill="currentColor" />
               <span className="absolute right-full mr-4 px-3 py-1.5 bg-[#152C60] text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                Suporte Direto
+                {language === 'pt' ? 'Suporte direto' : 'Soporte directo'}
               </span>
             </motion.button>
 
@@ -68,7 +70,7 @@ export default function FloatingActions() {
                 </motion.span>
               )}
               <span className="absolute right-full mr-4 px-4 py-2 bg-[#152C60] text-white text-[11px] font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                Ver Carrinho
+                {language === 'pt' ? 'Ver carrinho' : 'Ver carrito'}
               </span>
             </motion.button>
           </motion.div>

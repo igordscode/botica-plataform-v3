@@ -522,9 +522,9 @@ export default function Home() {
                   { title: "Precisão Moderna", desc: "Laboratórios de última geração garantem a dosagem exata para seu corpo.", icon: <ShieldCheck /> },
                   { title: "Bio-Identidade", desc: "Cada tratamento é mapeado conforme seu perfil biológico individual.", icon: <Zap /> },
                 ] : [
-                  { title: 'Pureza guaraní', desc: 'Valorizamos o conhecimento tradicional com responsabilidade e respeito.' , icon: <Leaf /> },
-                  { title: 'Precisão moderna', desc: 'Processos cuidadosos apoiam a qualidade de cada preparação.', icon: <ShieldCheck /> },
-                  { title: 'Cuidado individual', desc: 'Cada pessoa merece orientação adequada à sua rotina e necessidade.', icon: <Zap /> },
+                  { title: 'Pureza guaraní', desc: 'Valoramos el conocimiento tradicional con responsabilidad y respeto.' , icon: <Leaf /> },
+                  { title: 'Precisión moderna', desc: 'Procesos cuidadosos acompañan la calidad de cada preparación.', icon: <ShieldCheck /> },
+                  { title: 'Cuidado individual', desc: 'Cada persona merece una orientación adecuada a su rutina y necesidad.', icon: <Zap /> },
                 ]).map((item, i) => (
                   <motion.div 
                     key={i}
