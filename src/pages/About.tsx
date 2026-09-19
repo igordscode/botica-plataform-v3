@@ -3,8 +3,10 @@ import { Microscope, Leaf, Award, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function About() {
+  const { language } = useLanguage();
   return (
     <div className="bg-[#F3F6FA] text-[#152C60] font-sans">
       {/* Hero Section */}
@@ -14,13 +16,13 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-3xl">
             <span className="inline-block px-4 py-2 bg-[#2B5DB6]/10 text-[#2B5DB6] rounded-full text-[10px] font-black uppercase tracking-widest mb-6">
-              Nossa Essência
+              {language === 'pt' ? 'Nossa essência' : 'Nuestra esencia'}
             </span>
             <h1 className="text-5xl md:text-7xl font-serif font-black uppercase tracking-tighter leading-none mb-8">
-              A Arte e a Ciência da <span className="text-[#2B5DB6]">Farmacologia.</span>
+              {language === 'pt' ? <>A arte e a ciência da <span className="text-[#2B5DB6]">farmacologia.</span></> : <>El arte y la ciencia de la <span className="text-[#2B5DB6]">farmacología.</span></>}
             </h1>
             <p className="text-xl text-[#152C60]/60 font-medium leading-relaxed italic border-l-4 border-[#2B5DB6] pl-6 mb-12">
-              "Nós não vendemos medicamentos. Nós desenvolvemos protocolos biológicos personalizados para máxima performance humana."
+              {language === 'pt' ? 'Não vendemos promessas: preparamos fórmulas e orientamos cada pessoa com responsabilidade.' : 'No vendemos promesas: preparamos fórmulas y orientamos a cada persona con responsabilidad.'}
             </p>
           </div>
         </div>
@@ -35,7 +37,7 @@ export default function About() {
                 Desde 2001
               </span>
               <h2 className="text-4xl md:text-5xl font-serif font-black uppercase tracking-tighter mb-8">
-                Nossa <span className="text-[#2B5DB6]">História</span>
+                {language === 'pt' ? <>Nossa <span className="text-[#2B5DB6]">história</span></> : <>Nuestra <span className="text-[#2B5DB6]">historia</span></>}
               </h2>
               <div className="space-y-6 text-white/80 font-medium leading-relaxed">
                 <p>
@@ -48,17 +50,17 @@ export default function About() {
             </div>
             
             <div className="bg-white/5 p-10 md:p-14 rounded-[3rem] border border-white/10 backdrop-blur-sm">
-              <h3 className="text-2xl font-serif font-black uppercase tracking-tighter mb-8 text-white">Missão e Valores</h3>
+              <h3 className="text-2xl font-serif font-black uppercase tracking-tighter mb-8 text-white">{language === 'pt' ? 'Missão e valores' : 'Misión y valores'}</h3>
               <div className="space-y-8">
                 <div>
-                  <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-3">Missão</h4>
+                  <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-3">{language === 'pt' ? 'Missão' : 'Misión'}</h4>
                   <p className="font-medium text-white/80 leading-relaxed text-sm">
                     Elevar o potencial humano através de formulações magistrais de altíssima precisão, combinando o legado inabalável da nossa tradição com a vanguarda e a inovação tecnológica global.
                   </p>
                 </div>
                 
                 <div className="pt-8 border-t border-white/10">
-                  <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-4">Valores Cardeais</h4>
+                  <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-4">{language === 'pt' ? 'Valores essenciais' : 'Valores esenciales'}</h4>
                   <ul className="space-y-4">
                     {[
                       { title: 'Inovação de Fronteira', desc: 'Buscamos os mais avançados e testados protocolos nutracêuticos disponíveis na literatura mundial.' },
@@ -80,10 +82,10 @@ export default function About() {
           <div className="mt-20 border-t border-white/10 pt-20">
              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                {[
-                 { value: '2001', label: 'Fundação' },
-                 { value: '25+', label: 'Anos de Experiência' },
+                 { value: '2001', label: language === 'pt' ? 'Fundação' : 'Fundación' },
+                 { value: '25+', label: language === 'pt' ? 'Anos de experiência' : 'Años de experiencia' },
                  { value: 'CDE', label: 'Ciudad del Este, Paraguay' },
-                 { value: '55', label: 'Fórmulas no Catálogo' },
+                 { value: '55', label: language === 'pt' ? 'Fórmulas no catálogo' : 'Fórmulas en catálogo' },
                ].map((stat, i) => (
                  <div key={i}>
                    <div className="text-4xl md:text-5xl font-serif font-black text-[#2B5DB6] tracking-tighter">{stat.value}</div>
@@ -134,14 +136,14 @@ export default function About() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-serif font-black uppercase tracking-tighter mb-8">
-            Experimente o padrão <span className="text-[#2B5DB6]">Guaraní</span>
+            {language === 'pt' ? <>Conheça o padrão <span className="text-[#2B5DB6]">Guaraní</span></> : <>Conozca el estándar <span className="text-[#2B5DB6]">Guaraní</span></>}
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link to="/loja" className="px-10 py-5 bg-[#152C60] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 shadow-xl shadow-[#152C60]/20 flex items-center gap-3">
-              Explorar Catálogo <ArrowRight size={18} />
+              {language === 'pt' ? 'Explorar catálogo' : 'Explorar catálogo'} <ArrowRight size={18} />
             </Link>
             <Link to="/receita" className="px-10 py-5 bg-white text-[#152C60] rounded-2xl font-black text-xs uppercase tracking-widest border border-[#152C60]/10 hover:border-[#2B5DB6] transition-all flex items-center gap-3">
-              Manipular Receita
+              {language === 'pt' ? 'Enviar receita' : 'Enviar receta'}
             </Link>
           </div>
         </div>
