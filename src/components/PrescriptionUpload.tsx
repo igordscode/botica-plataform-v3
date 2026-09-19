@@ -80,6 +80,7 @@ export default function PrescriptionUpload() {
             <input
               type="file"
               accept="image/*,.pdf"
+              aria-label={language === 'pt' ? 'Escolher arquivo' : 'Seleccionar archivo'}
               onChange={handleFileChange}
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
