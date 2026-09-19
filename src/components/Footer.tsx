@@ -3,8 +3,10 @@ import { Facebook, Instagram, Mail, Phone, MapPin, Heart, Send, CheckCircle2 } f
 import { useState } from 'react';
 import { subscribeToNewsletter } from '../lib/newsletter';
 import { CONTACT } from '../constants';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
@@ -37,15 +39,17 @@ export default function Footer() {
                 <img src="/logo-2lineas-branco.svg" alt="Botica Guaraní" className="h-10 md:h-12 w-auto" />
               </div>
               <p className="text-xl text-[#F3F6FA]/40 font-medium italic max-w-md leading-relaxed">
-                "Elevando o padrão da medicina magistral através da precisão técnica e do cuidado humano individualizado."
+                {language === 'pt'
+                  ? 'Elevando o padrão da medicina magistral através da precisão técnica e do cuidado humano individualizado.'
+                  : 'Elevamos el estándar de la medicina magistral con precisión técnica y cuidado humano individualizado.'}
               </p>
             </div>
 
             {/* Newsletter Integrated into Left Side */}
             <div className="max-w-md space-y-6">
               <div className="space-y-2">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Inovação no seu e-mail</h4>
-                <p className="text-xs text-white/40 font-medium">Receba protocolos de saúde e atualizações do laboratório.</p>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Novidades no seu e-mail' : 'Novedades en su correo'}</h4>
+                <p className="text-xs text-white/40 font-medium">{language === 'pt' ? 'Receba novidades da Botica e informações do laboratório.' : 'Reciba novedades de Botica e información del laboratorio.'}</p>
               </div>
               <form onSubmit={handleNewsletter} className="relative group">
                 <input
@@ -78,13 +82,13 @@ export default function Footer() {
           </div>
 
           <div className="space-y-8">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Explorar</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Explorar' : 'Explorar'}</h4>
             <ul className="space-y-4">
               {[
-                { label: 'Início', path: '/' },
-                { label: 'Sobre Nós', path: '/sobre' },
-                { label: 'Loja Boutique', path: '/loja' },
-                { label: 'Envio de Receita', path: '/receita' }
+                { label: language === 'pt' ? 'Início' : 'Inicio', path: '/' },
+                { label: language === 'pt' ? 'Sobre nós' : 'Sobre nosotros', path: '/sobre' },
+                { label: language === 'pt' ? 'Loja' : 'Tienda', path: '/loja' },
+                { label: language === 'pt' ? 'Enviar receita' : 'Enviar receta', path: '/receita' }
               ].map(link => (
                 <li key={link.label}>
                   <Link to={link.path} className="text-sm font-bold text-white/40 hover:text-white hover:translate-x-2 transition-all inline-block">
@@ -96,7 +100,7 @@ export default function Footer() {
           </div>
 
           <div className="space-y-8">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Laboratório</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Laboratório' : 'Laboratorio'}</h4>
             <ul className="space-y-6">
               <li className="flex gap-4 items-start text-white/40 group">
                 <MapPin size={20} className="shrink-0 group-hover:text-[#2B5DB6] transition-colors" />
@@ -117,7 +121,7 @@ export default function Footer() {
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/5">
              <Heart size={14} className="text-[#2B5DB6]" fill="currentColor" />
-             <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Precisão e Cuidado em cada detalhe</span>
+             <span className="text-[9px] font-black uppercase tracking-widest text-white/40">{language === 'pt' ? 'Precisão e cuidado em cada detalhe' : 'Precisión y cuidado en cada detalle'}</span>
           </div>
           <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
             © 2026 Botica Guaraní. Todos os direitos reservados.

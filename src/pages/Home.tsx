@@ -16,7 +16,7 @@ export default function Home() {
   const [activeGoal, setActiveGoal] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const heroSlides = [
+  const heroSlides = language === 'pt' ? [
     {
       id: 'kit',
       tag: 'Kit Completo & Linha Magistral',
@@ -65,6 +65,11 @@ export default function Home() {
       floatDesc: 'Proteção contra temperatura e luz para a sua fórmula.',
       floatIcon: '📦'
     }
+  ] : [
+    { id: 'kit', tag: 'Kit completo y línea magistral', badgeIcon: Award, title: 'LA CIENCIA DE SU BIENESTAR', highlight: 'Fórmulas exclusivas', quote: '"Colección de cápsulas, sobres y cosméticos magistrales pensados para su rutina."', image: '/images/portada-hero.png', floatBadge: 'Kit Botica Guaraní', floatDesc: 'Línea magistral con control farmacéutico.', floatIcon: 'G' },
+    { id: 'lab', tag: 'Biotecnología y alta precisión', badgeIcon: FlaskConical, title: 'PRECISIÓN Y BIOTECNOLOGÍA', highlight: 'Laboratorio propio', quote: '"Control riguroso de dosificación y calidad en cada preparación."', image: '/mortero-branco.svg', floatBadge: 'Control farmacéutico', floatDesc: 'Revisión de calidad y trazabilidad por lote.', floatIcon: '🔬' },
+    { id: 'fachada', tag: 'Tradición y atención cercana', badgeIcon: Building2, title: 'MÁS DE 25 AÑOS DE HISTORIA', highlight: 'Atención personalizada', quote: '"Tradición magistral y ciencia moderna al servicio de cada persona."', image: '/mortero-branco.svg', floatBadge: 'Botica Guaraní', floatDesc: 'Experiencia y acompañamiento en cada pedido.', floatIcon: '🏛️' },
+    { id: 'entrega', tag: 'Logística especializada', badgeIcon: Truck, title: 'ENTREGA EN TODO EL PAÍS', highlight: 'Envío seguro', quote: '"Protección y seguimiento para que su fórmula llegue correctamente."', image: '/mortero-branco.svg', floatBadge: 'Logística Botica', floatDesc: 'Preparación y envío con cuidado.', floatIcon: '📦' },
   ];
 
   useEffect(() => {
@@ -131,13 +136,13 @@ export default function Home() {
                   to="/loja" 
                   className="px-10 py-5 bg-[#133385] text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 shadow-2xl shadow-[#133385]/60 flex items-center gap-3 border border-white/20"
                 >
-                  Ver Catálogo <ArrowRight size={20} />
+                  {language === 'pt' ? 'Ver catálogo' : 'Ver catálogo'} <ArrowRight size={20} />
                 </Link>
                 <Link 
                   to="/receita" 
                   className="px-10 py-5 bg-white/10 backdrop-blur-md text-white rounded-2xl font-black text-sm uppercase tracking-widest border border-white/20 hover:bg-white hover:text-[#060D18] transition-all flex items-center gap-3"
                 >
-                  Enviar Receita <Zap size={20} className="text-[#38BDF8]" />
+                  {language === 'pt' ? 'Enviar receita' : 'Enviar receta'} <Zap size={20} className="text-[#38BDF8]" />
                 </Link>
               </div>
 
@@ -194,7 +199,7 @@ export default function Home() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#060D18] via-transparent to-transparent opacity-85 pointer-events-none" />
                 <div className="absolute bottom-6 left-8 right-8 text-white/80 text-xs font-mono tracking-widest uppercase flex justify-between items-center pointer-events-none">
-                  <span>SLIDE 0{currentSlide + 1} / 04</span>
+                  <span>{language === 'pt' ? 'SLIDE' : 'DIAPOSITIVA'} 0{currentSlide + 1} / 04</span>
                   <span className="flex items-center gap-1"><Sparkles size={12} className="text-[#38BDF8]" /> BOTICA GUARANÍ</span>
                 </div>
               </div>
@@ -232,20 +237,20 @@ export default function Home() {
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
               <div className="space-y-6 max-w-2xl text-center md:text-left">
                 <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10">
-                  <FileText size={14} className="text-[#38BDF8]" /> Serviço Expresso
+                  <FileText size={14} className="text-[#38BDF8]" /> {language === 'pt' ? 'Serviço expresso' : 'Servicio exprés'}
                 </span>
                 <h2 className="text-4xl md:text-6xl font-serif font-black leading-tight uppercase text-white">
-                  Já possui uma <span className="text-[#38BDF8]">receita médica?</span>
+                  {language === 'pt' ? <>Já possui uma <span className="text-[#38BDF8]">receita médica?</span></> : <>¿Ya tiene una <span className="text-[#38BDF8]">receta médica?</span></>}
                 </h2>
                 <p className="text-lg text-slate-300 font-medium">
-                  Envie agora e receba seu orçamento personalizado em minutos via WhatsApp.
+                  {language === 'pt' ? 'Envie agora e receba seu orçamento personalizado pelo WhatsApp.' : 'Envíela y reciba su cotización personalizada por WhatsApp.'}
                 </p>
               </div>
               <div className="flex flex-col items-center gap-4">
                 <div className="w-24 h-24 bg-[#2B5DB6] text-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border border-white/20">
                   <ArrowRight size={40} className="group-hover:translate-x-2 transition-transform" />
                 </div>
-                <span className="text-xs font-black uppercase tracking-widest text-slate-200">Enviar Agora</span>
+                <span className="text-xs font-black uppercase tracking-widest text-slate-200">{language === 'pt' ? 'Enviar agora' : 'Enviar ahora'}</span>
               </div>
             </div>
           </Link>
@@ -259,20 +264,26 @@ export default function Home() {
             <div className="w-14 h-1 bg-[#2B5DB6] rounded-full mb-4" />
             <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#38BDF8] font-display">Especialidades</span>
             <h2 className="font-serif font-black text-white uppercase tracking-tight mt-3 mb-4 text-4xl leading-none">
-              Atendemos todas as áreas da saúde
+              {language === 'pt' ? 'Atendemos todas as áreas da saúde' : 'Atendemos distintas áreas de la salud'}
             </h2>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Preparamos fórmulas magistrais personalizadas para qualquer indicação prescrita pelo seu médico.
+              {language === 'pt' ? 'Preparamos fórmulas magistrais personalizadas conforme a indicação do seu profissional de saúde.' : 'Preparamos fórmulas magistrales personalizadas según la indicación de su profesional de salud.'}
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-            {[
-              { Icon: Stethoscope, title: "Dermatologia",  desc: "Cremes, ungüentos e lociones magistrales para la piel." },
-              { Icon: Baby,        title: "Pediatría",     desc: "Suspensiones, gotas y jarabes a dosis exacta para niños." },
-              { Icon: Flower2,     title: "Ginecología",   desc: "Óvulos, geles y preparaciones íntimas magistrales." },
-              { Icon: HeartPulse,  title: "Cardiología",   desc: "Cápsulas y suspensiones a la dosis indicada por su médico." },
-              { Icon: UserRound,   title: "Geriatría",     desc: "Cápsulas a dosis fraccionada para tratamientos prolongados." },
-            ].map(({ Icon, title, desc }) => (
+            {(language === 'pt' ? [
+              { Icon: Stethoscope, title: 'Dermatologia', desc: 'Cremes, géis e preparações magistrais para a pele.' },
+              { Icon: Baby, title: 'Pediatria', desc: 'Suspensões, gotas e xaropes na dose indicada.' },
+              { Icon: Flower2, title: 'Ginecologia', desc: 'Óvulos, géis e preparações íntimas magistrais.' },
+              { Icon: HeartPulse, title: 'Cardiologia', desc: 'Fórmulas na dose indicada pelo profissional de saúde.' },
+              { Icon: UserRound, title: 'Geriatria', desc: 'Preparações para tratamentos acompanhados.' },
+            ] : [
+              { Icon: Stethoscope, title: 'Dermatología', desc: 'Cremas, geles y preparaciones magistrales para la piel.' },
+              { Icon: Baby, title: 'Pediatría', desc: 'Suspensiones, gotas y jarabes según la indicación.' },
+              { Icon: Flower2, title: 'Ginecología', desc: 'Óvulos, geles y preparaciones íntimas magistrales.' },
+              { Icon: HeartPulse, title: 'Cardiología', desc: 'Fórmulas según la indicación del profesional de salud.' },
+              { Icon: UserRound, title: 'Geriatría', desc: 'Preparaciones para tratamientos acompañados.' },
+            ]).map(({ Icon, title, desc }) => (
               <div
                 key={title}
                 className="bg-[#0B192C]/80 backdrop-blur-md border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#2B5DB6]/50 hover:bg-[#0B192C]"
@@ -293,18 +304,23 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="max-w-xl mb-12">
             <div className="w-14 h-1 bg-[#2B5DB6] rounded-full mb-4" />
-            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#38BDF8] font-display">Como Trabalhamos</span>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#38BDF8] font-display">{language === 'pt' ? 'Como trabalhamos' : 'Cómo trabajamos'}</span>
             <h2 className="font-serif font-black text-white uppercase tracking-tight mt-3 text-4xl leading-none">
-              Da receita à entrega em quatro passos
+              {language === 'pt' ? 'Da receita à entrega em quatro passos' : 'De la receta a la entrega en cuatro pasos'}
             </h2>
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-8 list-none p-0">
-            {[
+            {(language === 'pt' ? [
               { n: "01", h: "Sua Receita",   p: "Envie sua receita médica diretamente pelo nosso WhatsApp." },
               { n: "02", h: "Orçamento",    p: "Enviamos a cotação detalhada e prazo de preparação em minutos." },
               { n: "03", h: "Manipulação",  p: "Formulamos seu pedido em nosso laboratório certificado." },
               { n: "04", h: "Entrega",      p: "Avisamos quando estiver pronto para retirada ou envio expresso." },
-            ].map(({ n, h, p }) => (
+            ] : [
+              { n: '01', h: 'Su receta', p: 'Envíe su receta médica directamente por WhatsApp.' },
+              { n: '02', h: 'Cotización', p: 'Enviamos el detalle y el plazo de preparación.' },
+              { n: '03', h: 'Preparación', p: 'Preparamos su pedido en nuestro laboratorio.' },
+              { n: '04', h: 'Entrega', p: 'Avisamos cuando esté listo para retirar o enviar.' },
+            ]).map(({ n, h, p }) => (
               <li key={n} className="bg-[#0B192C]/60 border border-white/10 rounded-2xl p-6 border-t-4 border-t-[#2B5DB6]">
                 <div className="font-serif font-black text-3xl text-[#38BDF8] mb-3">{n}</div>
                 <h4 className="font-bold text-white text-lg mb-2">{h}</h4>
@@ -437,32 +453,36 @@ export default function Home() {
               >
                 <div className="flex items-center gap-3">
                   <Microscope className="text-[#38BDF8]" size={24} />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">Padrão Ouro</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">{language === 'pt' ? 'Padrão ouro' : 'Estándar de calidad'}</span>
                 </div>
                 <p className="text-xs font-serif font-black italic max-w-[150px] text-slate-200">
-                  "Precisão nanométrica em cada dosagem magistral."
+                  {language === 'pt' ? 'Precisão em cada preparação magistral.' : 'Precisión en cada preparación magistral.'}
                 </p>
               </motion.div>
             </div>
 
             <div className="space-y-10 order-1 lg:order-2">
               <div className="space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">Área Técnica</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'Área técnica' : 'Área técnica'}</span>
                 <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
                   ESPAÇO DO <br/><span className="text-[#38BDF8]">PRESCRITOR.</span>
                 </h2>
               </div>
               
               <p className="text-lg text-slate-300 font-medium leading-relaxed italic border-l-4 border-[#2B5DB6] pl-8">
-                Oferecemos suporte técnico especializado para médicos e profissionais de saúde, garantindo precisão absoluta em cada fórmula.
+                {language === 'pt' ? 'Oferecemos suporte técnico para profissionais de saúde e prescritores.' : 'Ofrecemos soporte técnico para profesionales de la salud y prescriptores.'}
               </p>
 
               <div className="grid gap-4">
-                {[
+                {(language === 'pt' ? [
                   { title: "Consultoria Farmacêutica", icon: <Stethoscope size={20} />, desc: "Canal direto com nossos farmacêuticos para ajuste de ativos." },
                   { title: "Guia de Ativos", icon: <Award size={20} />, desc: "Acesso à nossa biblioteca técnica de insumos e sinergias." },
                   { title: "Segurança de Dados", icon: <ShieldCheck size={20} />, desc: "Gestão sigilosa e ética de todas as prescrições enviadas." },
-                ].map((item, i) => (
+                ] : [
+                  { title: 'Consultoría farmacéutica', icon: <Stethoscope size={20} />, desc: 'Canal directo con nuestros farmacéuticos para dudas sobre la preparación.' },
+                  { title: 'Guía de activos', icon: <Award size={20} />, desc: 'Información técnica para apoyar la conversación con su profesional de salud.' },
+                  { title: 'Seguridad de datos', icon: <ShieldCheck size={20} />, desc: 'Tratamiento confidencial y responsable de las recetas enviadas.' },
+                ]).map((item, i) => (
                   <div key={i} className="flex gap-6 p-6 bg-[#0B192C]/80 rounded-[2rem] border border-white/10">
                     <div className="w-12 h-12 bg-[#2B5DB6]/20 text-[#38BDF8] rounded-2xl flex items-center justify-center shrink-0 border border-[#2B5DB6]/30">
                       {item.icon}
@@ -476,7 +496,7 @@ export default function Home() {
               </div>
 
               <Link to="/receita" className="inline-flex items-center gap-3 px-10 py-5 bg-[#133385] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#2B5DB6] transition-all border border-white/20 shadow-xl">
-                Seja um Parceiro <ArrowRight size={18} />
+                {language === 'pt' ? 'Fale com a Botica' : 'Hable con Botica'} <ArrowRight size={18} />
               </Link>
             </div>
           </div>
@@ -489,18 +509,22 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-24 items-center">
             <div className="space-y-10">
               <div className="space-y-4">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">Nossa Filosofia</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#38BDF8]">{language === 'pt' ? 'Nossa filosofia' : 'Nuestra filosofía'}</h3>
                 <h2 className="text-5xl md:text-7xl font-serif font-black text-white leading-[0.9] tracking-tighter uppercase">
                   MAIS QUE <br/>PÍLULAS, <br/><span className="text-[#38BDF8]">PROPÓSITO.</span>
                 </h2>
               </div>
               
               <div className="grid gap-6">
-                {[
+                {(language === 'pt' ? [
                   { title: "Pureza Guaraní", desc: "Aproveitamos o conhecimento ancestral para extrair o melhor da natureza.", icon: <Leaf /> },
                   { title: "Precisão Moderna", desc: "Laboratórios de última geração garantem a dosagem exata para seu corpo.", icon: <ShieldCheck /> },
                   { title: "Bio-Identidade", desc: "Cada tratamento é mapeado conforme seu perfil biológico individual.", icon: <Zap /> },
-                ].map((item, i) => (
+                ] : [
+                  { title: 'Pureza guaraní', desc: 'Valorizamos o conhecimento tradicional com responsabilidade e respeito.' , icon: <Leaf /> },
+                  { title: 'Precisão moderna', desc: 'Processos cuidadosos apoiam a qualidade de cada preparação.', icon: <ShieldCheck /> },
+                  { title: 'Cuidado individual', desc: 'Cada pessoa merece orientação adequada à sua rotina e necessidade.', icon: <Zap /> },
+                ]).map((item, i) => (
                   <motion.div 
                     key={i}
                     whileHover={{ x: 8 }}
