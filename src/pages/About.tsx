@@ -41,10 +41,10 @@ export default function About() {
               </h2>
               <div className="space-y-6 text-white/80 font-medium leading-relaxed">
                 <p>
-                  A Botica Guaraní nasceu em 2001 no mesmo endereço até hoje: o antigo Km 4, hoje Patio Fuelpar, em Ciudad del Este. São mais de 25 anos formulando fórmulas magistrais para a região.
+                  {language === 'pt' ? 'A Botica Guaraní nasceu em 2001 no antigo Km 4, hoje Patio Fuelpar, em Ciudad del Este. São mais de 25 anos de trabalho magistral na região.' : 'Botica Guaraní nació en 2001 en el antiguo Km 4, hoy Patio Fuelpar, en Ciudad del Este. Son más de 25 años de trabajo magistral en la región.'}
                 </p>
                 <p>
-                  A farmácia é conduzida pela Química Farmacêutica Leila, responsável pela aprovação técnica de cada fórmula que sai do nosso laboratório.
+                  {language === 'pt' ? 'A farmácia é conduzida pela Química Farmacêutica Leila, responsável pela revisão técnica das preparações.' : 'La farmacia está dirigida por la Química Farmacéutica Leila, responsable de la revisión técnica de las preparaciones.'}
                 </p>
               </div>
             </div>
@@ -55,7 +55,7 @@ export default function About() {
                 <div>
                   <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-3">{language === 'pt' ? 'Missão' : 'Misión'}</h4>
                   <p className="font-medium text-white/80 leading-relaxed text-sm">
-                    Elevar o potencial humano através de formulações magistrais de altíssima precisão, combinando o legado inabalável da nossa tradição com a vanguarda e a inovação tecnológica global.
+                    {language === 'pt' ? 'Oferecer preparações magistrais cuidadosas, combinando tradição, precisão e inovação.' : 'Ofrecer preparaciones magistrales cuidadosas, combinando tradición, precisión e innovación.'}
                   </p>
                 </div>
                 
