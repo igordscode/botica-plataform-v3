@@ -62,11 +62,15 @@ export default function About() {
                 <div className="pt-8 border-t border-white/10">
                   <h4 className="text-sm font-black uppercase tracking-widest text-[#2B5DB6] mb-4">{language === 'pt' ? 'Valores essenciais' : 'Valores esenciales'}</h4>
                   <ul className="space-y-4">
-                    {[
+                    {(language === 'pt' ? [
                       { title: 'Inovação de Fronteira', desc: 'Buscamos os mais avançados e testados protocolos nutracêuticos disponíveis na literatura mundial.' },
                       { title: 'Tradição Incólume', desc: 'Mais de 25 anos de seriedade no mesmo endereço, entregando sempre a máxima transparência e confiabilidade.' },
                       { title: 'Excelência Laboratorial', desc: 'Operamos sob os mais rigorosos padrões da vigilância, com certificação absoluta em rastreabilidade biológica.' }
-                    ].map((val, idx) => (
+                    ] : [
+                      { title: 'Innovación responsable', desc: 'Buscamos información técnica y procesos cuidadosos para cada preparación.' },
+                      { title: 'Tradición y confianza', desc: 'Más de 25 años en Ciudad del Este, con atención cercana.' },
+                      { title: 'Excelencia de laboratorio', desc: 'Trabajamos con trazabilidad y atención a los estándares aplicables.' }
+                    ]).map((val, idx) => (
                       <li key={idx} className="flex flex-col gap-1">
                         <span className="font-bold text-white text-[13px]">{val.title}</span>
                         <span className="text-white/60 text-[12px] font-medium leading-relaxed">{val.desc}</span>
@@ -101,7 +105,7 @@ export default function About() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12">
-            {[
+            {(language === 'pt' ? [
               {
                 icon: <Microscope size={32} />,
                 title: "Precisão Laboratorial",
@@ -117,7 +121,23 @@ export default function About() {
                 title: "Alta Performance",
                 desc: "Atendimento voltado para quem busca romper limites biológicos com segurança, acompanhamento e personalização profunda."
               }
-            ].map((item, i) => (
+            ] : [
+              {
+                icon: <Microscope size={32} />,
+                title: "Precisión de laboratorio",
+                desc: "Laboratorios con tecnología avanzada, ambientes controlados y certificaciones internacionales para garantizar pureza."
+              },
+              {
+                icon: <Leaf size={32} />,
+                title: "Activos premium",
+                desc: "Trabajamos exclusivamente con insumos nutracéuticos estandarizados, respaldados por evidencia técnica."
+              },
+              {
+                icon: <Award size={32} />,
+                title: "Alto rendimiento",
+                desc: "Atención para quienes buscan objetivos concretos con seguridad, acompañamiento y personalización."
+              }
+            ]).map((item, i) => (
               <div key={i} className="p-10 rounded-[2rem] bg-[#F3F6FA]/50 hover:bg-[#F3F6FA] transition-all border border-[#152C60]/5">
                 <div className="w-16 h-16 bg-white text-[#2B5DB6] rounded-2xl flex items-center justify-center mb-8 shadow-sm">
                   {item.icon}
