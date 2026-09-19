@@ -92,7 +92,7 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto">
           <Link to="/loja" className="inline-flex items-center gap-2 text-[#F3F6FA]/60 hover:text-white transition-colors text-sm mb-8 group">
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            Voltar para a Loja
+            {language === 'pt' ? 'Voltar para a Loja' : 'Volver a la tienda'}
           </Link>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -167,7 +167,7 @@ export default function ProductDetail() {
                 <div className="flex items-center gap-1 text-[#5C88DA]">
                   <Star size={14} fill="currentColor" />
                   <span className="text-xs font-bold">4.8</span>
-                  <span className="text-[10px] opacity-60">({reviews.length || 12} avaliações)</span>
+                  <span className="text-[10px] opacity-60">({reviews.length || 12} {language === 'pt' ? 'avaliações' : 'reseñas'})</span>
                 </div>
               </div>
 
@@ -236,10 +236,17 @@ export default function ProductDetail() {
         <div className="bg-white rounded-[3.5rem] shadow-2xl shadow-[#152C60]/10 overflow-hidden border border-[#152C60]/5">
           <div className="flex border-b border-[#152C60]/5 bg-[#F3F6FA]/30">
             {[
-              { id: 'desc', label: 'Eficácia Clínica', icon: <Info size={16} /> },
-              { id: 'science', label: 'Ciência & Protocolos', icon: <PlayCircle size={16} /> },
-              { id: 'nutri', label: 'Manual Técnico', icon: <FlaskConical size={16} /> },
-              { id: 'reviews', label: 'Comentários', icon: <Star size={16} /> }
+              ...(language === 'pt' ? [
+                { id: 'desc', label: 'Eficácia clínica', icon: <Info size={16} /> },
+                { id: 'science', label: 'Ciência e protocolos', icon: <PlayCircle size={16} /> },
+                { id: 'nutri', label: 'Manual técnico', icon: <FlaskConical size={16} /> },
+                { id: 'reviews', label: 'Comentários', icon: <Star size={16} /> }
+              ] : [
+                { id: 'desc', label: 'Eficacia clínica', icon: <Info size={16} /> },
+                { id: 'science', label: 'Ciencia y protocolos', icon: <PlayCircle size={16} /> },
+                { id: 'nutri', label: 'Manual técnico', icon: <FlaskConical size={16} /> },
+                { id: 'reviews', label: 'Comentarios', icon: <Star size={16} /> }
+              ])
             ].map(tab => (
               <button
                 key={tab.id}
@@ -260,7 +267,7 @@ export default function ProductDetail() {
               {activeTab === 'desc' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-1 md:grid-cols-2 gap-20">
                   <div>
-                    <h2 className="text-4xl font-serif font-bold text-[#152C60] mb-8">Sobre a Manipulação</h2>
+                    <h2 className="text-4xl font-serif font-bold text-[#152C60] mb-8">{language === 'pt' ? 'Sobre a manipulação' : 'Sobre la preparación'}</h2>
                     <p className="text-[#152C60]/70 text-lg leading-relaxed mb-10 font-medium">
                       {product.fullDesc.length < 100 
                           ? `A ${product.name} é uma formulação de engenharia clínica avançada desenvolvida pela Botica Guaraní. Projetada para proporcionar máxima absorção e resultados perceptíveis a curto prazo, esta composição atua diretamente nas vias metabólicas essenciais. ${product.fullDesc}`
@@ -408,8 +415,8 @@ export default function ProductDetail() {
       <div className="max-w-7xl mx-auto px-6 mt-32">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-[#2B5DB6] mb-4 underline decoration-2 underline-offset-8">Sugestões de Laboratório</h2>
-            <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#152C60] tracking-tight">Combinações Sinérgicas</h3>
+            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-[#2B5DB6] mb-4 underline decoration-2 underline-offset-8">{language === 'pt' ? 'Sugestões de laboratório' : 'Sugerencias del laboratorio'}</h2>
+            <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#152C60] tracking-tight">{language === 'pt' ? 'Combinações sinérgicas' : 'Combinaciones sinérgicas'}</h3>
           </div>
           <Link to="/loja" className="hidden md:flex items-center gap-3 text-xs font-black uppercase tracking-widest text-[#152C60] hover:text-[#2B5DB6] transition-colors group">
              {language === 'pt' ? 'Explorar todo o catálogo' : 'Explorar todo el catálogo'}
