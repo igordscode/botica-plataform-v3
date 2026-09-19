@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { Upload, CheckCircle2 } from 'lucide-react';
 import { waLink, CONTACT } from '../constants';
+import { getSupabaseClient } from '../lib/supabase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function PrescriptionUpload() {
+  const { language } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<'idle' | 'uploading' | 'error'>('idle');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -11,12 +15,38 @@ export default function PrescriptionUpload() {
     }
   };
 
-  const handleSend = () => {
-    window.open(
-      waLink('Hola! Quiero enviar mi receta médica para presupuesto.'),
-      '_blank',
-      'referrer'
-    );
+  const handleSend = async () => {
+    if (!file || status === 'uploading') return;
+    setStatus('uploading');
+    try {
+      const supabase = getSupabaseClient();
+      const id = crypto.randomUUID();
+      const storagePath = `${id}/${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      const { error: uploadError } = await supabase.storage.from('prescriptions').upload(storagePath, file, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false,
+      });
+      if (uploadError) throw uploadError;
+
+      const { error: recordError } = await supabase.from('prescription_submissions').insert({
+        storage_path: storagePath,
+        original_filename: file.name,
+        mime_type: file.type,
+        file_size: file.size,
+        status: 'received',
+      });
+      if (recordError) throw recordError;
+
+      const message = language === 'pt'
+        ? `Olá! Enviei minha receita para orçamento. Arquivo: ${file.name}`
+        : `Hola! Envié mi receta para cotización. Archivo: ${file.name}`;
+      window.open(waLink(message), '_blank', 'noopener,noreferrer');
+      setStatus('idle');
+    } catch (error) {
+      console.error('Prescription upload failed', error);
+      setStatus('error');
+    }
   };
 
   return (
@@ -24,14 +54,17 @@ export default function PrescriptionUpload() {
       <div className="flex flex-col md:flex-row gap-12 items-center">
         <div className="flex-1 space-y-6">
           <h2 className="text-4xl font-serif font-black uppercase tracking-tighter leading-tight">
-            ENVIE SUA <span className="text-[#2B5DB6]">RECEITA</span>
+            {language === 'pt' ? <>ENVIE SUA <span className="text-[#2B5DB6]">RECEITA</span></> : <>ENVÍE SU <span className="text-[#2B5DB6]">RECETA</span></>}
           </h2>
           <p className="text-[#152C60]/60 leading-relaxed">
-            Tire uma foto ou selecione o PDF da sua prescrição. Vamos abrir o WhatsApp com sua mensagem
-            pronta — é só anexar o arquivo lá e nossa equipe técnica analisa e te manda o orçamento.
+            {language === 'pt'
+              ? 'Tire uma foto ou selecione o PDF da sua prescrição. Salvamos o arquivo com segurança e abrimos o WhatsApp para continuar o atendimento.'
+              : 'Tome una foto o seleccione el PDF de su receta. Guardamos el archivo de forma segura y abrimos WhatsApp para continuar la atención.'}
           </p>
           <ul className="space-y-4">
-            {['Atendimento direto pelo WhatsApp', 'Orçamento sem compromisso', 'Sigilo total dos seus dados'].map((item, i) => (
+            {(language === 'pt'
+              ? ['Atendimento direto pelo WhatsApp', 'Orçamento sem compromisso', 'Arquivo privado e sigiloso']
+              : ['Atención directa por WhatsApp', 'Cotización sin compromiso', 'Archivo privado y confidencial']).map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm font-bold text-[#152C60]/80 uppercase tracking-wide">
                 <CheckCircle2 size={18} className="text-[#5C88DA]" />
                 {item}
@@ -57,7 +90,7 @@ export default function PrescriptionUpload() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-black truncate max-w-[200px]">{file.name}</p>
-                  <button onClick={() => setFile(null)} className="text-[10px] font-bold uppercase text-[#2B5DB6] hover:underline">Remover</button>
+                  <button onClick={() => setFile(null)} className="text-[10px] font-bold uppercase text-[#2B5DB6] hover:underline">{language === 'pt' ? 'Remover' : 'Quitar'}</button>
                 </div>
               </>
             ) : (
@@ -66,22 +99,24 @@ export default function PrescriptionUpload() {
                   <Upload size={32} />
                 </div>
                 <div>
-                  <p className="text-sm font-black uppercase">Clique ou Arraste</p>
-                  <p className="text-[10px] uppercase text-[#152C60]/40 font-bold">JPG, PNG ou PDF (Max 10MB)</p>
+                  <p className="text-sm font-black uppercase">{language === 'pt' ? 'Clique ou arraste' : 'Haga clic o arrastre'}</p>
+                  <p className="text-[10px] uppercase text-[#152C60]/40 font-bold">JPG, PNG ou PDF (máx. 10 MB)</p>
                 </div>
               </>
             )}
           </div>
 
           <button
-            disabled={!file}
+            disabled={!file || status === 'uploading'}
             onClick={handleSend}
             className="w-full mt-6 py-4 bg-[#152C60] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all disabled:opacity-20 shadow-xl shadow-[#152C60]/20 active:scale-95"
           >
-            Enviar via WhatsApp
+            {status === 'uploading' ? (language === 'pt' ? 'Salvando receita...' : 'Guardando receta...') : language === 'pt' ? 'Salvar e abrir WhatsApp' : 'Guardar y abrir WhatsApp'}
           </button>
           <p className="mt-3 text-center text-[10px] text-[#152C60]/40 font-bold uppercase tracking-widest">
-            {CONTACT.whatsappDisplay}
+            {status === 'error'
+              ? (language === 'pt' ? 'Não foi possível salvar. Tente novamente.' : 'No se pudo guardar. Inténtelo de nuevo.')
+              : CONTACT.whatsappDisplay}
           </p>
         </div>
       </div>

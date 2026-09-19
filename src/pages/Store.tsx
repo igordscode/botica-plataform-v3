@@ -139,7 +139,8 @@ export default function Store() {
     const searchable = [p.name, p.category, (p as any).subCategory, ...(p.tags || [])].join(' ').toLowerCase();
     const objectiveTerms: Record<string, string[]> = {
       foco: ['foco', 'memoria', 'cognitiv', 'nootrop'],
-      sueno: ['sueño', 'sueno', 'descanso', 'recuperador', 'magnesio'],
+      sono: ['sueño', 'sueno', 'sono', 'descanso', 'recuperador', 'magnesio'],
+      sueno: ['sueño', 'sueno', 'sono', 'descanso', 'recuperador', 'magnesio'],
       rendimento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
       rendimiento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
       pele: ['dermocosm', 'piel', 'poros', 'manchas', 'hidratación', 'hidratacion'],
