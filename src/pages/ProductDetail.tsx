@@ -321,28 +321,32 @@ export default function ProductDetail() {
                         <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6">
                            <ShieldCheck size={20} className="text-[#2B5DB6]" />
                         </div>
-                        <h4 className="text-xl font-serif font-bold mb-4">Estudos Clínicos Botica Guaraní</h4>
+                        <h4 className="text-xl font-serif font-bold mb-4">{language === 'pt' ? 'Base técnica da fórmula' : 'Base técnica de la fórmula'}</h4>
                         <p className="text-white/60 text-sm leading-relaxed mb-6 font-medium">
-                           A combinação de {product.desc} demonstrou em testes in vitro uma biodisponibilidade 3x maior quando comparada aos ativos isolados em veículos convencionais. Nossa engenharia foca no sinergismo para otimizar os receptores celulares.
+                           {language === 'pt'
+                             ? 'A composição reúne os ativos descritos na fórmula. A indicação, a concentração e a adequação ao seu caso devem ser confirmadas com o profissional de saúde.'
+                             : 'La composición reúne los activos descritos en la fórmula. La indicación, la concentración y la adecuación a su caso deben confirmarse con un profesional de salud.'}
                         </p>
-                        <button className="text-[10px] font-black uppercase text-[#2B5DB6] tracking-widest hover:text-white transition-colors">Ler Artigo Completo &rarr;</button>
+                        <span className="text-[10px] font-black uppercase text-[#8FB8FF] tracking-widest">{language === 'pt' ? 'Informação para orientação' : 'Información para orientación'}</span>
                      </div>
                      <div className="border border-[#152C60]/10 rounded-[2.5rem] p-8 bg-[#F3F6FA] hover:shadow-xl transition-all group">
                         <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm">
                            <Sparkles size={20} className="text-[#152C60]" />
                         </div>
-                        <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4">Mecanismo de Ação</h4>
+                        <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4">{language === 'pt' ? 'Uso responsável' : 'Uso responsable'}</h4>
                         <p className="text-[#152C60]/60 text-sm leading-relaxed mb-6 font-medium">
-                           O ativo penetra diretamente na via celular alvo, ultrapassando barreiras gástricas severas devido ao lipossomamento Botica. Isto evita oxidação prévia e assegura 98% da concentração no intestino ou pele, garantindo a eficácia de {product.name}.
+                           {language === 'pt'
+                             ? 'A preparação é feita conforme a receita e os procedimentos do laboratório. Não substitui avaliação, prescrição ou acompanhamento profissional.'
+                             : 'La preparación se realiza según la receta y los procedimientos del laboratorio. No sustituye la evaluación, prescripción ni el acompañamiento profesional.'}
                         </p>
-                        <button className="text-[10px] font-black uppercase text-[#152C60] tracking-widest group-hover:text-[#2B5DB6] transition-colors">Download PDF &rarr;</button>
+                        <span className="text-[10px] font-black uppercase text-[#152C60] tracking-widest">{language === 'pt' ? 'Confirme com a equipe farmacêutica' : 'Confirme con el equipo farmacéutico'}</span>
                      </div>
                   </div>
 
                   {(product as any).specialist && (
                     <div className="max-w-3xl mx-auto bg-[#F3F6FA] rounded-[3rem] p-12 border border-[#152C60]/5 relative mt-16">
                       <div className="absolute -top-6 left-12 px-6 py-2 bg-[#2B5DB6] text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                        Opinião do Especialista
+                        {language === 'pt' ? 'Orientação profissional' : 'Orientación profesional'}
                       </div>
                       <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
                         <div className="w-24 h-24 bg-[#152C60] rounded-[2rem] flex-shrink-0 flex items-center justify-center text-white text-3xl font-serif font-bold">
