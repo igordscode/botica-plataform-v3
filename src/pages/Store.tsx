@@ -7,24 +7,23 @@ import {
   Pill, Wind, Droplet, Flower, Activity, Dumbbell, Sparkles, Microscope
 } from 'lucide-react';
 import { CATEGORIES } from '../constants';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import PrescriptionUpload from '../components/PrescriptionUpload';
 import ComparisonDrawer from '../components/ComparisonDrawer';
 import ImageLightbox from '../components/ImageLightbox';
 import { trackEvent } from '../services/analytics';
-import { db, auth } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { handleFirestoreError, OperationType } from '../lib/firestore';
 import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Store() {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [selectedSubCategory, setSelectedSubCategory] = useState('Todas');
   const [selectedTags, setSelectedSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { formatPrice, language } = useLanguage();
+  const objective = searchParams.get('objetivo')?.toLowerCase() || '';
   const [minRating, setMinRating] = useState(0);
   const { addToCart, setIsCartOpen } = useCart();
   const [flyingItems, setFlyingItems] = useState<{ id: number; x: number; y: number; type: 'cart' | 'wish' }[]>([]);
@@ -51,20 +50,16 @@ export default function Store() {
   }, [selectedCategory]);
 
   useEffect(() => {
-    const fetchWishlist = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid));
-      const snap = await getDocs(q);
-      setWishlist(snap.docs.map(doc => doc.data().productId));
-    };
-    fetchWishlist();
-  }, [auth.currentUser]);
+    const savedWishlist = localStorage.getItem('wishlist');
+    if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
+  }, []);
 
-  const toggleWishlist = async (e: React.MouseEvent, productId: number) => {
+  useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const toggleWishlist = (e: React.MouseEvent, productId: number) => {
     e.preventDefault();
-    const user = auth.currentUser;
-    if (!user) return alert('Por favor, faça login para salvar produtos na sua lista de desejos.');
 
     const rect = e.currentTarget.getBoundingClientRect();
     const newItem = {
@@ -74,27 +69,14 @@ export default function Store() {
       type: 'wish' as const
     };
 
-    try {
-      if (wishlist.includes(productId)) {
-        const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', productId));
-        const snap = await getDocs(q);
-        snap.forEach(async (d) => await deleteDoc(doc(db, 'wishlist', d.id)));
-        setWishlist(prev => prev.filter(id => id !== productId));
-        trackEvent('Store', 'Remove from Wishlist', productId.toString());
-      } else {
-        setFlyingItems(prev => [...prev, newItem]);
-        setTimeout(() => setFlyingItems(prev => prev.filter(i => i.id !== newItem.id)), 800);
-        
-        await addDoc(collection(db, 'wishlist'), {
-          userId: user.uid,
-          productId,
-          createdAt: serverTimestamp()
-        });
-        setWishlist(prev => [...prev, productId]);
-        trackEvent('Store', 'Add to Wishlist', productId.toString());
-      }
-    } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, 'wishlist');
+    if (wishlist.includes(productId)) {
+      setWishlist(prev => prev.filter(id => id !== productId));
+      trackEvent('Store', 'Remove from Wishlist', productId.toString());
+    } else {
+      setFlyingItems(prev => [...prev, newItem]);
+      setTimeout(() => setFlyingItems(prev => prev.filter(i => i.id !== newItem.id)), 800);
+      setWishlist(prev => [...prev, productId]);
+      trackEvent('Store', 'Add to Wishlist', productId.toString());
     }
   };
 
@@ -154,7 +136,22 @@ export default function Store() {
     const matchesPrice = priceNum <= maxPrice;
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          p.desc.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSubCategory && matchesTags && matchesSearch && matchesRating && matchesPrice;
+    const searchable = [p.name, p.category, (p as any).subCategory, ...(p.tags || [])].join(' ').toLowerCase();
+    const objectiveTerms: Record<string, string[]> = {
+      foco: ['foco', 'memoria', 'cognitiv', 'nootrop'],
+      sono: ['sueño', 'sueno', 'sono', 'descanso', 'recuperador', 'magnesio'],
+      sueno: ['sueño', 'sueno', 'sono', 'descanso', 'recuperador', 'magnesio'],
+      rendimento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
+      rendimiento: ['rendimiento', 'energía', 'energia', 'fuerza', 'resistencia', 'performance'],
+      pele: ['dermocosm', 'piel', 'poros', 'manchas', 'hidratación', 'hidratacion'],
+      piel: ['dermocosm', 'piel', 'poros', 'manchas', 'hidratación', 'hidratacion'],
+      metabolismo: ['adelgazamiento', 'metabolismo', 'control', 'grasa'],
+      saude: ['salud'],
+      salud: ['salud'],
+    };
+    const terms = objectiveTerms[objective] || [];
+    const matchesObjective = terms.length === 0 || terms.some(term => searchable.includes(term));
+    return matchesCategory && matchesSubCategory && matchesTags && matchesSearch && matchesRating && matchesPrice && matchesObjective;
   }).sort((a, b) => {
     const priceA = parseInt(a.price.replace(/[^\d]/g, ''));
     const priceB = parseInt(b.price.replace(/[^\d]/g, ''));
@@ -179,16 +176,16 @@ export default function Store() {
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full border border-white/10 backdrop-blur-md">
               <div className="w-2 h-2 bg-[#2B5DB6] rounded-full animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60">Bio-Tech Laboratory</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60">{language === 'pt' ? 'Laboratório magistral' : 'Laboratorio magistral'}</span>
             </div>
             
             <h1 className="text-7xl md:text-9xl font-serif font-black text-white tracking-tighter uppercase leading-[0.8]">
-              SUA <span className="text-[#2B5DB6]">FÓRMULA</span> <br/>DE ELITE.
+              {language === 'pt' ? <>SUA <span className="text-[#2B5DB6]">FÓRMULA</span> <br/>EM DESTAQUE.</> : <>SU <span className="text-[#2B5DB6]">FÓRMULA</span> <br/>DESTACADA.</>}
             </h1>
             
             <div className="flex gap-4">
                <Link to="/receita" className="px-10 py-4 bg-[#2B5DB6] text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-3 shadow-2xl shadow-[#2B5DB6]/30 transition-all">
-                 <FileText size={16} /> Enviar Receita Médica
+                 <FileText size={16} /> {language === 'pt' ? 'Enviar receita' : 'Enviar receta'}
                </Link>
             </div>
           </motion.div>
@@ -204,7 +201,7 @@ export default function Store() {
               <div className="flex-1 relative group bg-[#F3F6FA] rounded-xl border border-transparent focus-within:border-[#2B5DB6]/30 transition-all">
                 <input 
                   type="text" 
-                  placeholder="Busque por ativo ou objetivo..."
+                  placeholder={language === 'pt' ? 'Busque por ativo ou objetivo...' : 'Busque por activo u objetivo...'}
                   className="w-full h-14 pl-14 pr-6 bg-transparent outline-none font-medium mb-0 text-sm text-[#152C60] placeholder:text-[#152C60]/40"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -219,10 +216,10 @@ export default function Store() {
                   onChange={(e) => setSortBy(e.target.value as any)}
                   className="w-full h-14 pl-6 pr-12 bg-transparent text-[#152C60] appearance-none font-bold text-[11px] uppercase tracking-widest cursor-pointer outline-none"
                 >
-                  <option value="default">ORDENAR: RELEVÂNCIA</option>
-                  <option value="price-asc">MENOR PREÇO</option>
-                  <option value="price-desc">MAIOR PREÇO</option>
-                  <option value="rating">POPULARIDADE</option>
+                  <option value="default">{language === 'pt' ? 'ORDENAR: RELEVÂNCIA' : 'ORDENAR: RELEVANCIA'}</option>
+                  <option value="price-asc">{language === 'pt' ? 'MENOR PREÇO' : 'MENOR PRECIO'}</option>
+                  <option value="price-desc">{language === 'pt' ? 'MAIOR PREÇO' : 'MAYOR PRECIO'}</option>
+                  <option value="rating">{language === 'pt' ? 'POPULARIDADE' : 'POPULARIDAD'}</option>
                 </select>
                 <ChevronRight size={14} className="absolute right-5 top-1/2 -translate-y-1/2 rotate-90 text-[#152C60]/40 pointer-events-none group-focus-within:text-[#2B5DB6]" />
               </div>
@@ -230,18 +227,18 @@ export default function Store() {
 
             {/* Categories */}
             <div className="w-full pt-4 border-t border-[#152C60]/5 mb-12">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#152C60]/40 mb-6">Filtrar por Categoria</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#152C60]/40 mb-6">{language === 'pt' ? 'Filtrar por categoria' : 'Filtrar por categoría'}</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {[
-                  { name: 'Todas', desc: 'Catálogo Geral', icon: <Microscope size={28} />, image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Salud', desc: 'Foco & Longevidade', icon: <Pill size={28} />, image: 'https://images.unsplash.com/photo-1542868727-4a0058e59005?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Belleza', desc: 'Modulação Estética', icon: <Sparkles size={28} />, image: 'https://images.unsplash.com/photo-1498842812179-c81beecf902c?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Adelgazamiento', desc: 'Metabolismo Ativo', icon: <Scale size={28} />, image: 'https://images.unsplash.com/photo-1610404402633-8aebbfb6b0fc?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Rendimiento Fisico', desc: 'Força & Energia', icon: <Dumbbell size={28} />, image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Dermocosmeticos', desc: 'Saúde da Pele', icon: <Droplet size={28} />, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Línea Home', desc: 'Aromas & Ambientes', icon: <Wind size={28} />, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Mujer', desc: 'Fórmulas Femininas', icon: <Flower size={28} />, image: 'https://images.unsplash.com/photo-1512413913041-e23f0bfcc036?auto=format&fit=crop&q=80&w=400' },
-                  { name: 'Hombre', desc: 'Fórmulas Masculinas', icon: <Activity size={28} />, image: 'https://images.unsplash.com/photo-1581338834647-b0fb40704e21?auto=format&fit=crop&q=80&w=400' }
+                  { name: 'Todas', desc: language === 'pt' ? 'Catálogo geral' : 'Catálogo general', icon: <Microscope size={28} />, image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Salud', desc: language === 'pt' ? 'Foco e longevidade' : 'Foco y longevidad', icon: <Pill size={28} />, image: 'https://images.unsplash.com/photo-1542868727-4a0058e59005?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Belleza', desc: language === 'pt' ? 'Modulação estética' : 'Modulación estética', icon: <Sparkles size={28} />, image: 'https://images.unsplash.com/photo-1498842812179-c81beecf902c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Adelgazamiento', desc: language === 'pt' ? 'Metabolismo ativo' : 'Metabolismo activo', icon: <Scale size={28} />, image: 'https://images.unsplash.com/photo-1610404402633-8aebbfb6b0fc?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Rendimiento Fisico', desc: language === 'pt' ? 'Força e energia' : 'Fuerza y energía', icon: <Dumbbell size={28} />, image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Dermocosmeticos', desc: language === 'pt' ? 'Saúde da pele' : 'Salud de la piel', icon: <Droplet size={28} />, image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Línea Home', desc: language === 'pt' ? 'Aromas e ambientes' : 'Aromas y ambientes', icon: <Wind size={28} />, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Mujer', desc: language === 'pt' ? 'Fórmulas femininas' : 'Fórmulas femeninas', icon: <Flower size={28} />, image: 'https://images.unsplash.com/photo-1512413913041-e23f0bfcc036?auto=format&fit=crop&q=80&w=400' },
+                  { name: 'Hombre', desc: language === 'pt' ? 'Fórmulas masculinas' : 'Fórmulas masculinas', icon: <Activity size={28} />, image: 'https://images.unsplash.com/photo-1581338834647-b0fb40704e21?auto=format&fit=crop&q=80&w=400' }
                 ].map(cat => (
                   <button
                     key={cat.name}
@@ -297,17 +294,17 @@ export default function Store() {
                   </div>
                   <div className="space-y-4 relative z-10">
                     <h3 className="text-3xl font-serif font-black text-[#152C60] uppercase leading-tight tracking-tighter">
-                      Manipule sua <br/><span className="text-[#2B5DB6]">Receita</span>
+                      {language === 'pt' ? <>Manipule sua <br/><span className="text-[#2B5DB6]">receita</span></> : <>Prepare su <br/><span className="text-[#2B5DB6]">receta</span></>}
                     </h3>
                     <p className="text-xs text-[#152C60]/60 font-medium">
-                      Tem uma receita? Envie agora para um orçamento magistral.
+                      {language === 'pt' ? 'Tem uma receita? Envie agora para um orçamento magistral.' : '¿Tiene una receta? Envíela para recibir una cotización magistral.'}
                     </p>
                   </div>
                   <Link 
                     to="/receita" 
                     className="w-full py-4 bg-[#152C60] text-white rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-[#2B5DB6] transition-all shadow-lg"
                   >
-                    Enviar Receita
+                    {language === 'pt' ? 'Enviar receita' : 'Enviar receta'}
                   </Link>
                 </div>
               </motion.div>
@@ -454,7 +451,7 @@ export default function Store() {
                           onClick={(e) => handleAddToCart(e, p)}
                           className="h-12 bg-[#152C60] text-white rounded-2xl flex items-center justify-center hover:bg-[#2B5DB6] transition-all font-black text-[9px] uppercase tracking-widest shadow-xl shadow-[#152C60]/10"
                         >
-                          Adicionar
+                          {language === 'pt' ? 'Adicionar' : 'Agregar'}
                         </button>
                         <button 
                           onClick={(e) => handleBuyNow(e, p)}
@@ -462,7 +459,7 @@ export default function Store() {
                             (!isCapsule && (isTub || isHome)) ? 'bg-white/10 text-white hover:bg-white hover:text-[#152C60]' : 'bg-[#F3F6FA] text-[#152C60] hover:bg-[#152C60] hover:text-white border border-[#152C60]/10'
                           }`}
                         >
-                          Detalhes
+                          {language === 'pt' ? 'Detalhes' : 'Detalles'}
                         </button>
                       </div>
                     </div>
@@ -543,7 +540,7 @@ function QuickInfoModal({ product, onClose, onAddToCart }: any) {
                 onClick={() => { onAddToCart(product); onClose(); }}
                 className="px-10 h-16 bg-[#152C60] text-white rounded-2xl font-black uppercase text-[10px] hover:bg-[#2B5DB6] shadow-xl transition-all"
               >
-                Adicionar ao Carrinho
+                {language === 'pt' ? 'Adicionar ao Carrinho' : 'Agregar al carrito'}
               </button>
             </div>
           </div>

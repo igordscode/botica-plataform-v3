@@ -1,59 +1,51 @@
 import { useState } from 'react';
-import { Upload, X, CheckCircle2, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { db, auth } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { handleFirestoreError, OperationType } from '../lib/firestore';
+import { Upload, CheckCircle2 } from 'lucide-react';
+import { waLink, CONTACT } from '../constants';
+import { getSupabaseClient } from '../lib/supabase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function PrescriptionUpload() {
+  const { language } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<'idle' | 'uploading' | 'success'>('idle');
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'idle' | 'uploading' | 'error'>('idle');
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-      setError(null);
     }
   };
 
-  const handleSubmit = async () => {
-    if (!file) return;
-    
-    const user = auth.currentUser;
-    if (!user) {
-      setError("Por favor, faça login para enviar sua receita.");
-      return;
-    }
-
+  const handleSend = async () => {
+    if (!file || status === 'uploading') return;
     setStatus('uploading');
-    
     try {
-      // In a real app we'd upload to Storage first, then save reference
-      // For this lab, we save the record to Firestore
-      await addDoc(collection(db, 'prescriptions'), {
-        userId: user.uid,
-        fileName: file.name,
-        status: 'pending',
-        createdAt: serverTimestamp()
+      const supabase = getSupabaseClient();
+      const id = crypto.randomUUID();
+      const storagePath = `${id}/${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      const { error: uploadError } = await supabase.storage.from('prescriptions').upload(storagePath, file, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false,
       });
+      if (uploadError) throw uploadError;
 
-      // Also create a lead automatically
-      await addDoc(collection(db, 'leads'), {
-        userId: user.uid,
-        name: user.displayName || 'Usuário',
-        phone: 'Pendente', // In real app would be requested in a form
-        status: 'new',
-        interest: 'Orçamento de Receita',
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
+      const { error: recordError } = await supabase.from('prescription_submissions').insert({
+        storage_path: storagePath,
+        original_filename: file.name,
+        mime_type: file.type,
+        file_size: file.size,
+        status: 'received',
       });
+      if (recordError) throw recordError;
 
-      setStatus('success');
-    } catch (e) {
-      console.error(e);
+      const message = language === 'pt'
+        ? `Olá! Enviei minha receita para orçamento. Arquivo: ${file.name}`
+        : `Hola! Envié mi receta para cotización. Archivo: ${file.name}`;
+      window.open(waLink(message), '_blank', 'noopener,noreferrer');
       setStatus('idle');
-      setError("Erro ao processar envio. Tente novamente.");
+    } catch (error) {
+      console.error('Prescription upload failed', error);
+      setStatus('error');
     }
   };
 
@@ -62,13 +54,17 @@ export default function PrescriptionUpload() {
       <div className="flex flex-col md:flex-row gap-12 items-center">
         <div className="flex-1 space-y-6">
           <h2 className="text-4xl font-serif font-black uppercase tracking-tighter leading-tight">
-            ENVIE SUA <span className="text-[#2B5DB6]">RECEITA</span>
+            {language === 'pt' ? <>ENVIE SUA <span className="text-[#2B5DB6]">RECEITA</span></> : <>ENVÍE SU <span className="text-[#2B5DB6]">RECETA</span></>}
           </h2>
           <p className="text-[#152C60]/60 leading-relaxed">
-            Se você já tem uma prescrição médica, envie uma foto ou PDF. Nossa equipe técnica (Dra. Elena) fará a análise e Lucas enviará o orçamento em minutos.
+            {language === 'pt'
+              ? 'Tire uma foto ou selecione o PDF da sua prescrição. Salvamos o arquivo com segurança e abrimos o WhatsApp para continuar o atendimento.'
+              : 'Tome una foto o seleccione el PDF de su receta. Guardamos el archivo de forma segura y abrimos WhatsApp para continuar la atención.'}
           </p>
           <ul className="space-y-4">
-            {['Análise técnica imediata', 'Orçamento sem compromisso', 'Segurança total dos dados'].map((item, i) => (
+            {(language === 'pt'
+              ? ['Atendimento direto pelo WhatsApp', 'Orçamento sem compromisso', 'Arquivo privado e sigiloso']
+              : ['Atención directa por WhatsApp', 'Cotización sin compromiso', 'Archivo privado y confidencial']).map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm font-bold text-[#152C60]/80 uppercase tracking-wide">
                 <CheckCircle2 size={18} className="text-[#5C88DA]" />
                 {item}
@@ -81,8 +77,10 @@ export default function PrescriptionUpload() {
           <div className={`relative border-2 border-dashed rounded-[2.5rem] p-8 transition-all flex flex-col items-center justify-center text-center gap-4 ${
             file ? 'border-[#2B5DB6] bg-[#2B5DB6]/5' : 'border-[#152C60]/10 bg-[#F3F6FA]/30'
           }`}>
-            <input 
-              type="file" 
+            <input
+              type="file"
+              accept="image/*,.pdf"
+              aria-label={language === 'pt' ? 'Escolher arquivo' : 'Seleccionar archivo'}
               onChange={handleFileChange}
               className="absolute inset-0 opacity-0 cursor-pointer"
             />
@@ -93,7 +91,7 @@ export default function PrescriptionUpload() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-black truncate max-w-[200px]">{file.name}</p>
-                  <button onClick={() => setFile(null)} className="text-[10px] font-bold uppercase text-[#2B5DB6] hover:underline">Remover</button>
+                  <button onClick={() => setFile(null)} className="text-[10px] font-bold uppercase text-[#2B5DB6] hover:underline">{language === 'pt' ? 'Remover' : 'Quitar'}</button>
                 </div>
               </>
             ) : (
@@ -102,61 +100,27 @@ export default function PrescriptionUpload() {
                   <Upload size={32} />
                 </div>
                 <div>
-                  <p className="text-sm font-black uppercase">Clique ou Arraste</p>
-                  <p className="text-[10px] uppercase text-[#152C60]/40 font-bold">JPG, PNG ou PDF (Max 10MB)</p>
+                  <p className="text-sm font-black uppercase">{language === 'pt' ? 'Clique ou arraste' : 'Haga clic o arrastre'}</p>
+                  <p className="text-[10px] uppercase text-[#152C60]/40 font-bold">{language === 'pt' ? 'JPG, PNG ou PDF (máx. 10 MB)' : 'JPG, PNG o PDF (máx. 10 MB)'}</p>
                 </div>
               </>
             )}
           </div>
-          
-          <button 
-            disabled={!file || status !== 'idle'}
-            onClick={handleSubmit}
+
+          <button
+            disabled={!file || status === 'uploading'}
+            onClick={handleSend}
             className="w-full mt-6 py-4 bg-[#152C60] text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all disabled:opacity-20 shadow-xl shadow-[#152C60]/20 active:scale-95"
           >
-            {status === 'idle' ? 'Enviar para Orçamento' : status === 'uploading' ? 'Enviando...' : 'Receita Enviada!'}
+            {status === 'uploading' ? (language === 'pt' ? 'Salvando receita...' : 'Guardando receta...') : language === 'pt' ? 'Salvar e abrir WhatsApp' : 'Guardar y abrir WhatsApp'}
           </button>
-
-          <AnimatePresence>
-            {error && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-3 bg-red-50 text-red-600 rounded-xl text-[10px] font-bold uppercase flex items-center gap-2 border border-red-100"
-              >
-                <AlertCircle size={14} /> {error}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <p className="mt-3 text-center text-[10px] text-[#152C60]/40 font-bold uppercase tracking-widest">
+            {status === 'error'
+              ? (language === 'pt' ? 'Não foi possível salvar. Tente novamente.' : 'No se pudo guardar. Inténtelo de nuevo.')
+              : CONTACT.whatsappDisplay}
+          </p>
         </div>
       </div>
-
-      <AnimatePresence>
-        {status === 'success' && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 bg-[#152C60] flex flex-col items-center justify-center text-center p-10 z-20"
-          >
-            <motion.div 
-              initial={{ scale: 0.5 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring' }}
-              className="w-24 h-24 bg-[#2B5DB6] text-white rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-[#2B5DB6]/40"
-            >
-              <CheckCircle2 size={48} />
-            </motion.div>
-            <h3 className="text-3xl font-serif font-black text-white mb-4 uppercase">RECEBEMOS SUA RECEITA!</h3>
-            <p className="text-white/60 mb-10 max-w-sm">Dra. Elena já está analisando sua prescrição. Em poucos minutos Lucas entrará em contato via WhatsApp com o orçamento.</p>
-            <button 
-              onClick={() => {setStatus('idle'); setFile(null);}}
-              className="text-[#5C88DA] font-black uppercase tracking-widest text-xs hover:underline"
-            >
-              Enviar outra receita
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

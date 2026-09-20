@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, Microscope, Heart, Send, CheckCircle2 } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin, Heart, Send, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
-import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { handleFirestoreError, OperationType } from '../lib/firestore';
+import { subscribeToNewsletter } from '../lib/newsletter';
+import { CONTACT } from '../constants';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
+  const { language } = useLanguage();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
 
@@ -14,15 +15,12 @@ export default function Footer() {
     if (!email) return;
     setStatus('loading');
     try {
-      await addDoc(collection(db, 'newsletter'), {
-        email,
-        createdAt: serverTimestamp(),
-      });
+      await subscribeToNewsletter(email);
       setStatus('success');
       setEmail('');
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'newsletter');
+      console.error('Newsletter subscription failed', error);
       setStatus('idle');
     }
   };
@@ -41,15 +39,17 @@ export default function Footer() {
                 <img src="/logo-2lineas-branco.svg" alt="Botica Guaraní" className="h-10 md:h-12 w-auto" />
               </div>
               <p className="text-xl text-[#F3F6FA]/40 font-medium italic max-w-md leading-relaxed">
-                "Elevando o padrão da medicina magistral através da precisão técnica e do cuidado humano individualizado."
+                {language === 'pt'
+                  ? 'Elevando o padrão da medicina magistral através da precisão técnica e do cuidado humano individualizado.'
+                  : 'Elevamos el estándar de la medicina magistral con precisión técnica y cuidado humano individualizado.'}
               </p>
             </div>
 
             {/* Newsletter Integrated into Left Side */}
             <div className="max-w-md space-y-6">
               <div className="space-y-2">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Inovação no seu e-mail</h4>
-                <p className="text-xs text-white/40 font-medium">Receba protocolos de saúde e atualizações do laboratório.</p>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Novidades no seu e-mail' : 'Novedades en su correo'}</h4>
+                <p className="text-xs text-white/40 font-medium">{language === 'pt' ? 'Receba novidades da Botica e informações do laboratório.' : 'Reciba novedades de Botica e información del laboratorio.'}</p>
               </div>
               <form onSubmit={handleNewsletter} className="relative group">
                 <input
@@ -70,8 +70,11 @@ export default function Footer() {
             </div>
             
             <div className="flex gap-4">
-              {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                <a key={i} href="#" className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center hover:bg-[#2B5DB6] hover:border-[#2B5DB6] hover:text-white transition-all text-white/40">
+              {[
+                { Icon: Instagram, href: CONTACT.instagram },
+                { Icon: Facebook, href: CONTACT.facebook },
+              ].map(({ Icon, href }, i) => (
+                <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center hover:bg-[#2B5DB6] hover:border-[#2B5DB6] hover:text-white transition-all text-white/40">
                   <Icon size={20} />
                 </a>
               ))}
@@ -79,15 +82,13 @@ export default function Footer() {
           </div>
 
           <div className="space-y-8">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Explorar</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Explorar' : 'Explorar'}</h4>
             <ul className="space-y-4">
               {[
-                { label: 'Início', path: '/' },
-                { label: 'Sobre Nós', path: '/sobre' },
-                { label: 'Clube Guaraní', path: '/clube' },
-                { label: 'Loja Boutique', path: '/loja' },
-                { label: 'Envio de Receita', path: '/receita' },
-                { label: 'Portal Científico', path: '/portal' }
+                { label: language === 'pt' ? 'Início' : 'Inicio', path: '/' },
+                { label: language === 'pt' ? 'Sobre nós' : 'Sobre nosotros', path: '/sobre' },
+                { label: language === 'pt' ? 'Loja' : 'Tienda', path: '/loja' },
+                { label: language === 'pt' ? 'Enviar receita' : 'Enviar receta', path: '/receita' }
               ].map(link => (
                 <li key={link.label}>
                   <Link to={link.path} className="text-sm font-bold text-white/40 hover:text-white hover:translate-x-2 transition-all inline-block">
@@ -99,19 +100,19 @@ export default function Footer() {
           </div>
 
           <div className="space-y-8">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">Laboratório</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#2B5DB6]">{language === 'pt' ? 'Laboratório' : 'Laboratorio'}</h4>
             <ul className="space-y-6">
               <li className="flex gap-4 items-start text-white/40 group">
                 <MapPin size={20} className="shrink-0 group-hover:text-[#2B5DB6] transition-colors" />
-                <span className="text-xs font-bold leading-relaxed">Asunción, Paraguay<br/>Calle 14 de Mayo, Nro 254</span>
+                <span className="text-xs font-bold leading-relaxed">{CONTACT.address}</span>
               </li>
               <li className="flex gap-4 items-center text-white/40 group">
                 <Phone size={20} className="shrink-0 group-hover:text-[#2B5DB6] transition-colors" />
-                <span className="text-xs font-bold">+595 981 123 456</span>
+                <span className="text-xs font-bold">{CONTACT.whatsappDisplay}</span>
               </li>
               <li className="flex gap-4 items-center text-white/40 group">
                 <Mail size={20} className="shrink-0 group-hover:text-[#2B5DB6] transition-colors" />
-                <span className="text-xs font-bold uppercase tracking-widest text-[9px]">contato@botica.py</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[9px]">{CONTACT.email}</span>
               </li>
             </ul>
           </div>
@@ -120,10 +121,10 @@ export default function Footer() {
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/5">
              <Heart size={14} className="text-[#2B5DB6]" fill="currentColor" />
-             <span className="text-[9px] font-black uppercase tracking-widest text-white/40">Precisão e Cuidado em cada detalhe</span>
+             <span className="text-[9px] font-black uppercase tracking-widest text-white/40">{language === 'pt' ? 'Precisão e cuidado em cada detalhe' : 'Precisión y cuidado en cada detalle'}</span>
           </div>
           <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
-            © 2026 Botica Guaraní. Todos os direitos reservados.
+            © 2026 Botica Guaraní. {language === 'pt' ? 'Todos os direitos reservados.' : 'Todos los derechos reservados.'}
           </p>
         </div>
       </div>

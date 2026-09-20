@@ -7,9 +7,6 @@ import {
   FlaskConical, ArrowRight, Eye, PlayCircle
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { db, auth } from '../lib/firebase';
-import { collection, query, where, getDocs, addDoc, serverTimestamp, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
-import { OperationType, handleFirestoreError } from '../lib/firestore';
 import { trackEvent } from '../services/analytics';
 import { PRODUCTS } from '../data/products';
 import { useLanguage } from '../context/LanguageContext';
@@ -49,24 +46,8 @@ export default function ProductDetail() {
 
     window.addEventListener('scroll', handleScroll);
     
-    const fetchWishlist = async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-      const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', product.id));
-      const snap = await getDocs(q);
-      setIsWishlisted(!snap.empty);
-    };
-
-    const fetchReviews = async () => {
-      const q = query(collection(db, 'reviews'), where('productId', '==', product.id));
-      const unsubscribe = onSnapshot(q, (snap) => {
-        setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-      });
-      return unsubscribe;
-    };
-
-    fetchWishlist();
-    fetchReviews();
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]') as number[];
+    setIsWishlisted(savedWishlist.includes(product.id));
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -85,29 +66,13 @@ export default function ProductDetail() {
     setIsZoomed(!isZoomed);
   };
 
-  const toggleWishlist = async () => {
-    const user = auth.currentUser;
-    if (!user) return alert('Por favor, faça login.');
-
-    try {
-      if (isWishlisted) {
-        const q = query(collection(db, 'wishlist'), where('userId', '==', user.uid), where('productId', '==', product.id));
-        const snap = await getDocs(q);
-        for (const d of snap.docs) {
-          await deleteDoc(doc(db, 'wishlist', d.id));
-        }
-        setIsWishlisted(false);
-      } else {
-        await addDoc(collection(db, 'wishlist'), {
-          userId: user.uid,
-          productId: product.id,
-          createdAt: serverTimestamp()
-        });
-        setIsWishlisted(true);
-      }
-    } catch (e) {
-      handleFirestoreError(e, OperationType.WRITE, 'wishlist');
-    }
+  const toggleWishlist = () => {
+    const savedWishlist = JSON.parse(localStorage.getItem('wishlist') || '[]') as number[];
+    const nextWishlist = isWishlisted
+      ? savedWishlist.filter(id => id !== product.id)
+      : [...savedWishlist, product.id];
+    localStorage.setItem('wishlist', JSON.stringify(nextWishlist));
+    setIsWishlisted(!isWishlisted);
   };
 
   const handleAddToCart = () => {
@@ -127,7 +92,7 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto">
           <Link to="/loja" className="inline-flex items-center gap-2 text-[#F3F6FA]/60 hover:text-white transition-colors text-sm mb-8 group">
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-            Voltar para a Loja
+            {language === 'pt' ? 'Voltar para a Loja' : 'Volver a la tienda'}
           </Link>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -202,7 +167,7 @@ export default function ProductDetail() {
                 <div className="flex items-center gap-1 text-[#5C88DA]">
                   <Star size={14} fill="currentColor" />
                   <span className="text-xs font-bold">4.8</span>
-                  <span className="text-[10px] opacity-60">({reviews.length || 12} avaliações)</span>
+                  <span className="text-[10px] opacity-60">({reviews.length || 12} {language === 'pt' ? 'avaliações' : 'reseñas'})</span>
                 </div>
               </div>
 
@@ -226,7 +191,7 @@ export default function ProductDetail() {
                   disabled={!product.inStock}
                   className="flex-1 min-w-[200px] h-16 bg-[#152C60] text-white rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest hover:bg-[#2B5DB6] transition-all transform hover:scale-105 active:scale-95 disabled:grayscale shadow-xl shadow-[#152C60]/20"
                 >
-                  Comprar Agora
+                  {language === 'pt' ? 'Comprar Agora' : 'Comprar ahora'}
                 </button>
                 <button 
                   onClick={handleAddToCart}
@@ -271,10 +236,17 @@ export default function ProductDetail() {
         <div className="bg-white rounded-[3.5rem] shadow-2xl shadow-[#152C60]/10 overflow-hidden border border-[#152C60]/5">
           <div className="flex border-b border-[#152C60]/5 bg-[#F3F6FA]/30">
             {[
-              { id: 'desc', label: 'Eficácia Clínica', icon: <Info size={16} /> },
-              { id: 'science', label: 'Ciência & Protocolos', icon: <PlayCircle size={16} /> },
-              { id: 'nutri', label: 'Manual Técnico', icon: <FlaskConical size={16} /> },
-              { id: 'reviews', label: 'Comentários', icon: <Star size={16} /> }
+              ...(language === 'pt' ? [
+                { id: 'desc', label: 'Eficácia clínica', icon: <Info size={16} /> },
+                { id: 'science', label: 'Ciência e protocolos', icon: <PlayCircle size={16} /> },
+                { id: 'nutri', label: 'Manual técnico', icon: <FlaskConical size={16} /> },
+                { id: 'reviews', label: 'Comentários', icon: <Star size={16} /> }
+              ] : [
+                { id: 'desc', label: 'Eficacia clínica', icon: <Info size={16} /> },
+                { id: 'science', label: 'Ciencia y protocolos', icon: <PlayCircle size={16} /> },
+                { id: 'nutri', label: 'Manual técnico', icon: <FlaskConical size={16} /> },
+                { id: 'reviews', label: 'Comentarios', icon: <Star size={16} /> }
+              ])
             ].map(tab => (
               <button
                 key={tab.id}
@@ -295,7 +267,7 @@ export default function ProductDetail() {
               {activeTab === 'desc' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-1 md:grid-cols-2 gap-20">
                   <div>
-                    <h2 className="text-4xl font-serif font-bold text-[#152C60] mb-8">Sobre a Manipulação</h2>
+                    <h2 className="text-4xl font-serif font-bold text-[#152C60] mb-8">{language === 'pt' ? 'Sobre a manipulação' : 'Sobre la preparación'}</h2>
                     <p className="text-[#152C60]/70 text-lg leading-relaxed mb-10 font-medium">
                       {product.fullDesc.length < 100 
                           ? `A ${product.name} é uma formulação de engenharia clínica avançada desenvolvida pela Botica Guaraní. Projetada para proporcionar máxima absorção e resultados perceptíveis a curto prazo, esta composição atua diretamente nas vias metabólicas essenciais. ${product.fullDesc}`
@@ -310,19 +282,21 @@ export default function ProductDetail() {
                       ))}
                     </div>
                   </div>
-                  <div className="p-10 bg-[#152C60] text-[#F3F6FA] rounded-[3rem] shadow-2xl relative overflow-hidden group">
+                  <div className="p-10 min-h-full bg-[#152C60] text-[#F3F6FA] rounded-[2.25rem] shadow-2xl relative overflow-hidden group flex flex-col justify-between">
                      <div className="flex items-center gap-4 mb-8">
                         <div className="w-14 h-14 bg-[#2B5DB6] rounded-2xl flex items-center justify-center shadow-xl">
                           <ShieldCheck size={28} />
                         </div>
-                        <h3 className="text-xl font-serif font-bold">Certificação de Pureza</h3>
+                        <h3 className="text-xl font-serif font-bold">{language === 'pt' ? 'Controle de qualidade' : 'Control de calidad'}</h3>
                      </div>
                      <p className="text-sm text-white/60 leading-relaxed mb-8">
-                        Esta fórmula foi validada através de espectroscopia para garantir a ausência de impurezas e a concentração exata de cada componente.
+                        {language === 'pt'
+                          ? 'A preparação segue revisão técnica e rastreabilidade do lote. Informações específicas devem ser confirmadas pela equipe farmacêutica.'
+                          : 'La preparación sigue revisión técnica y trazabilidad del lote. La información específica debe confirmarse con el equipo farmacéutico.'}
                      </p>
                      <div className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 uppercase font-black text-[10px] tracking-widest text-[#2B5DB6]">
                         <FlaskConical size={16} />
-                        {product.science_seal}
+                        {language === 'pt' ? 'Revisão técnica por lote' : 'Revisión técnica por lote'}
                      </div>
                   </div>
                 </motion.div>
@@ -347,28 +321,32 @@ export default function ProductDetail() {
                         <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6">
                            <ShieldCheck size={20} className="text-[#2B5DB6]" />
                         </div>
-                        <h4 className="text-xl font-serif font-bold mb-4">Estudos Clínicos Botica Guaraní</h4>
+                        <h4 className="text-xl font-serif font-bold mb-4">{language === 'pt' ? 'Base técnica da fórmula' : 'Base técnica de la fórmula'}</h4>
                         <p className="text-white/60 text-sm leading-relaxed mb-6 font-medium">
-                           A combinação de {product.desc} demonstrou em testes in vitro uma biodisponibilidade 3x maior quando comparada aos ativos isolados em veículos convencionais. Nossa engenharia foca no sinergismo para otimizar os receptores celulares.
+                           {language === 'pt'
+                             ? 'A composição reúne os ativos descritos na fórmula. A indicação, a concentração e a adequação ao seu caso devem ser confirmadas com o profissional de saúde.'
+                             : 'La composición reúne los activos descritos en la fórmula. La indicación, la concentración y la adecuación a su caso deben confirmarse con un profesional de salud.'}
                         </p>
-                        <button className="text-[10px] font-black uppercase text-[#2B5DB6] tracking-widest hover:text-white transition-colors">Ler Artigo Completo &rarr;</button>
+                        <span className="text-[10px] font-black uppercase text-[#8FB8FF] tracking-widest">{language === 'pt' ? 'Informação para orientação' : 'Información para orientación'}</span>
                      </div>
                      <div className="border border-[#152C60]/10 rounded-[2.5rem] p-8 bg-[#F3F6FA] hover:shadow-xl transition-all group">
                         <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm">
                            <Sparkles size={20} className="text-[#152C60]" />
                         </div>
-                        <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4">Mecanismo de Ação</h4>
+                        <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4">{language === 'pt' ? 'Uso responsável' : 'Uso responsable'}</h4>
                         <p className="text-[#152C60]/60 text-sm leading-relaxed mb-6 font-medium">
-                           O ativo penetra diretamente na via celular alvo, ultrapassando barreiras gástricas severas devido ao lipossomamento Botica. Isto evita oxidação prévia e assegura 98% da concentração no intestino ou pele, garantindo a eficácia de {product.name}.
+                           {language === 'pt'
+                             ? 'A preparação é feita conforme a receita e os procedimentos do laboratório. Não substitui avaliação, prescrição ou acompanhamento profissional.'
+                             : 'La preparación se realiza según la receta y los procedimientos del laboratorio. No sustituye la evaluación, prescripción ni el acompañamiento profesional.'}
                         </p>
-                        <button className="text-[10px] font-black uppercase text-[#152C60] tracking-widest group-hover:text-[#2B5DB6] transition-colors">Download PDF &rarr;</button>
+                        <span className="text-[10px] font-black uppercase text-[#152C60] tracking-widest">{language === 'pt' ? 'Confirme com a equipe farmacêutica' : 'Confirme con el equipo farmacéutico'}</span>
                      </div>
                   </div>
 
                   {(product as any).specialist && (
                     <div className="max-w-3xl mx-auto bg-[#F3F6FA] rounded-[3rem] p-12 border border-[#152C60]/5 relative mt-16">
                       <div className="absolute -top-6 left-12 px-6 py-2 bg-[#2B5DB6] text-white text-[10px] font-black uppercase tracking-widest rounded-full">
-                        Opinião do Especialista
+                        {language === 'pt' ? 'Orientação profissional' : 'Orientación profesional'}
                       </div>
                       <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
                         <div className="w-24 h-24 bg-[#152C60] rounded-[2rem] flex-shrink-0 flex items-center justify-center text-white text-3xl font-serif font-bold">
@@ -441,11 +419,11 @@ export default function ProductDetail() {
       <div className="max-w-7xl mx-auto px-6 mt-32">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-[#2B5DB6] mb-4 underline decoration-2 underline-offset-8">Sugestões de Laboratório</h2>
-            <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#152C60] tracking-tight">Combinações Sinérgicas</h3>
+            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-[#2B5DB6] mb-4 underline decoration-2 underline-offset-8">{language === 'pt' ? 'Sugestões de laboratório' : 'Sugerencias del laboratorio'}</h2>
+            <h3 className="text-4xl md:text-5xl font-serif font-bold text-[#152C60] tracking-tight">{language === 'pt' ? 'Combinações sinérgicas' : 'Combinaciones sinérgicas'}</h3>
           </div>
           <Link to="/loja" className="hidden md:flex items-center gap-3 text-xs font-black uppercase tracking-widest text-[#152C60] hover:text-[#2B5DB6] transition-colors group">
-             Explorar Todo Catálogo
+             {language === 'pt' ? 'Explorar todo o catálogo' : 'Explorar todo el catálogo'}
              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -456,7 +434,7 @@ export default function ProductDetail() {
                <div className="block mb-6 aspect-square rounded-[2rem] overflow-hidden bg-[#F3F6FA]">
                  <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" />
                  <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform bg-gradient-to-t from-[#152C60]/80 to-transparent flex justify-center">
-                    <span className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2"><ShoppingCart size={12} /> Adicionar ao Carrinho</span>
+                    <span className="text-[10px] font-black uppercase text-white tracking-[0.2em] flex items-center gap-2"><ShoppingCart size={12} /> {language === 'pt' ? 'Adicionar ao carrinho' : 'Agregar al carrito'}</span>
                  </div>
                </div>
                <h4 className="text-xl font-serif font-bold text-[#152C60] mb-4 group-hover:text-[#2B5DB6] transition-colors">{p.name}</h4>
@@ -500,7 +478,7 @@ export default function ProductDetail() {
                   disabled={!product.inStock}
                   className="flex-shrink-0 w-48 h-12 bg-[#152C60] text-white rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[10px] tracking-widest hover:bg-[#2B5DB6] transition-all shadow-xl"
                 >
-                  <ShoppingCart size={14} /> Comprar Agora
+                  <ShoppingCart size={14} /> {language === 'pt' ? 'Comprar Agora' : 'Comprar ahora'}
                 </button>
               </div>
             </div>
