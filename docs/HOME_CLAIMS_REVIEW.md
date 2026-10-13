@@ -145,7 +145,7 @@ index 163bd1a..17eb44d 100644
 +    { id: 'fachada', tag: 'Atención cercana', badgeIcon: Building2, title: 'CONOZCA NUESTRA ATENCIÓN', highlight: 'Atención personalizada', quote: '"Converse con Botica sobre su receta y su pedido."', image: '/mortero-branco.svg', floatBadge: 'Botica Guaraní', floatDesc: 'Comuníquese para resolver sus dudas.', floatIcon: '🏛️' },
 +    { id: 'entrega', tag: 'Retiro y envío', badgeIcon: Truck, title: 'CONSULTE LAS OPCIONES DE ENTREGA', highlight: 'Retiro y envío', quote: '"Consulte disponibilidad, destino y plazo de envío con el equipo."', image: '/mortero-branco.svg', floatBadge: 'Logística Botica', floatDesc: 'Coordine el retiro o el envío de su pedido.', floatIcon: '📦' },
    ];
- 
+
    useEffect(() => {
 @@ -217,7 +217,7 @@ export default function Home() {
                    </div>
@@ -206,7 +206,7 @@ index 163bd1a..17eb44d 100644
                </motion.div>
              </div>
 @@ -477,13 +477,13 @@ export default function Home() {
- 
+
                <div className="grid gap-4">
                  {(language === 'pt' ? [
 -                  { title: "Consultoria Farmacêutica", icon: <Stethoscope size={20} />, desc: "Canal direto com nossos farmacêuticos para ajuste de ativos." },
@@ -223,7 +223,7 @@ index 163bd1a..17eb44d 100644
                    <div key={i} className="flex gap-6 p-6 bg-[#0B192C]/80 rounded-[2rem] border border-white/10">
                      <div className="w-12 h-12 bg-[#2B5DB6]/20 text-[#38BDF8] rounded-2xl flex items-center justify-center shrink-0 border border-[#2B5DB6]/30">
 @@ -519,13 +519,13 @@ export default function Home() {
-               
+
                <div className="grid gap-6">
                  {(language === 'pt' ? [
 -                  { title: "Pureza Guaraní", desc: "Aproveitamos o conhecimento ancestral para extrair o melhor da natureza.", icon: <Leaf /> },
@@ -240,7 +240,7 @@ index 163bd1a..17eb44d 100644
 +                  { title: 'Preparación magistral', desc: 'Preparamos fórmulas según la indicación del profesional de salud.', icon: <ShieldCheck /> },
 +                  { title: 'Cuidado individual', desc: 'Converse con el equipo sobre su receta y su rutina.', icon: <Zap /> },
                  ]).map((item, i) => (
-                   <motion.div 
+                   <motion.div
                      key={i}
 @@ -557,8 +557,8 @@ export default function Home() {
                  </div>
