@@ -120,8 +120,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
     const saved = localStorage.getItem('site_language');
     if (saved === 'es' || saved === 'pt') return saved;
-    const browserLang = navigator.language.toLowerCase();
-    if (browserLang.startsWith('pt')) return 'pt';
     return 'es';
   });
 
@@ -143,10 +141,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const brlValue = priceNum / 1350; // Conversão estimada 1 BRL = 1350 Gs
       return `R$ ${brlValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
-    
+
     // Default (Spanish/Guaranies)
     if (!priceStr.includes('Gs')) {
-         return `${priceNum.toLocaleString('es-PY')} Gs`;
+      return `${priceNum.toLocaleString('es-PY')} Gs`;
     }
     return priceStr;
   };

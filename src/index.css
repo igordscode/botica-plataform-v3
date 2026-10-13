@@ -6,15 +6,16 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-spectral: "Spectral", Georgia, serif;
 }
 
 :root {
-  /* Brand — Azul Guaraní */
-  --bg-azul: #152C60;
-  --bg-azul-deep: #0E1E45;
-  --bg-azul-ink: #081330;
-  --bg-azul-bright: #2D55D6;
-  --bg-azul-soft: #4863A8;
+  /* Brand — Azul Guaraní Nova ID Visual Escura */
+  --bg-azul: #133385;
+  --bg-azul-deep: #0B192C;
+  --bg-azul-ink: #08101E;
+  --bg-azul-bright: #2B5DB6;
+  --bg-azul-soft: #ABBAD7;
   --bg-azul-mortero: #A0B0D0;
   --bg-azul-mist: #DCE2F0;
   --bg-azul-paper: #EEF1F8;

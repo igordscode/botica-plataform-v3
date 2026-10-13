@@ -2,8 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { waLink } from '../constants';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,8 +12,7 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cart, removeFromCart, addToCart, decrementQuantity } = useCart();
-  const navigate = useNavigate();
-  const { formatPrice } = useLanguage();
+  const { formatPrice, language } = useLanguage();
 
   React.useEffect(() => {
     if (isOpen) {
@@ -59,9 +58,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <ShoppingBag size={20} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-serif font-bold tracking-tight">Seu Carrinho</h2>
+                  <h2 className="text-xl font-serif font-bold tracking-tight">{language === 'pt' ? 'Seu Carrinho' : 'Su carrito'}</h2>
                   <p className="text-[10px] font-black uppercase tracking-widest text-[#152C60]/40">
-                    {cart.reduce((acc, item) => acc + item.quantity, 0)} itens adicionados
+                    {cart.reduce((acc, item) => acc + item.quantity, 0)} {language === 'pt' ? 'itens adicionados' : 'artículos agregados'}
                   </p>
                 </div>
               </div>
@@ -79,16 +78,16 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       <ShoppingBag size={48} strokeWidth={1} />
                     </div>
                     <div>
-                      <p className="font-serif text-xl italic tracking-tight text-[#152C60] mb-1">Cesto Vazio</p>
+                      <p className="font-serif text-xl italic tracking-tight text-[#152C60] mb-1">{language === 'pt' ? 'Cesto Vazio' : 'Carrito vacío'}</p>
                       <p className="text-xs text-[#152C60]/40 font-medium max-w-[200px] mx-auto">
-                        Sua seleção de laboratório aparecerá aqui para processamento.
+                        {language === 'pt' ? 'Sua seleção de laboratório aparecerá aqui para processamento.' : 'Su selección de laboratorio aparecerá aquí para procesar.'}
                       </p>
                     </div>
                     <button 
                       onClick={onClose} 
                       className="px-8 py-4 bg-[#152C60] text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-[#2B5DB6] transition-all shadow-xl shadow-[#152C60]/10"
                     >
-                      Explorar Fórmulas
+                      {language === 'pt' ? 'Explorar Fórmulas' : 'Explorar fórmulas'}
                     </button>
                   </div>
                 ) : (
@@ -150,39 +149,44 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <div className="p-8 bg-white border-t border-[#152C60]/10 space-y-6 shrink-0 relative z-10 shadow-[0_-20px_40px_-15px_rgba(15,44,63,0.05)]">
                 <div className="space-y-3">
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
-                    <span>Subtotal Sugerido</span>
+                    <span>{language === 'pt' ? 'Subtotal sugerido' : 'Subtotal sugerido'}</span>
                     <span className="text-[#152C60]">{formatPrice(`${total} Gs`)}</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
-                    <span>Peso Aproximado (Fórmulas)</span>
+                    <span>{language === 'pt' ? 'Peso aproximado (fórmulas)' : 'Peso aproximado (fórmulas)'}</span>
                     <span className="text-[#2B5DB6]">{(cart.reduce((acc, item) => acc + item.quantity * 30, 0))}g</span>
                   </div>
                   <div className="flex justify-between text-[10px] font-black text-[#152C60]/40 uppercase tracking-[0.2em]">
-                    <span>Processamento</span>
-                    <span className="text-green-600">Calculado no Checkout</span>
+                    <span>{language === 'pt' ? 'Processamento' : 'Procesamiento'}</span>
+                    <span className="text-green-600">{language === 'pt' ? 'Combinado por WhatsApp' : 'Coordinado por WhatsApp'}</span>
                   </div>
                   <div className="pt-5 border-t border-[#152C60]/5">
                     <div className="flex justify-between items-baseline mb-2">
-                       <span className="text-xs font-black tracking-widest uppercase text-[#152C60]/40">Balança de Precisão</span>
+                       <span className="text-xs font-black tracking-widest uppercase text-[#152C60]/40">{language === 'pt' ? 'Balança de precisão' : 'Balanza de precisión'}</span>
                        <span className="text-[10px] font-mono text-[#2B5DB6]">TAR. ZERO</span>
                     </div>
                     <div className="flex flex-col bg-[#F3F6FA] p-4 rounded-2xl border border-[#152C60]/5 shadow-inner">
                       <div className="flex justify-between items-baseline">
-                        <span className="text-sm font-serif font-bold text-[#152C60]">Total Final</span>
+                        <span className="text-sm font-serif font-bold text-[#152C60]">{language === 'pt' ? 'Total final' : 'Total final'}</span>
                         <span className="text-3xl font-mono tracking-tighter text-[#2B5DB6] font-light">{total.toLocaleString('es-PY')}<span className="text-sm ml-1">Gs</span></span>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                <button 
+                <button
                   onClick={() => {
+                    const summary = cart.map(item => `${item.quantity}x ${item.name}`).join('\n');
+                    window.open(
+                      waLink(`Hola! Quiero pedir:\n${summary}\n\nTotal sugerido: ${total.toLocaleString('es-PY')} Gs`),
+                      '_blank',
+                      'referrer'
+                    );
                     onClose();
-                    navigate('/checkout');
                   }}
                   className="w-full h-18 bg-[#152C60] text-white rounded-3xl flex items-center justify-center gap-4 font-black uppercase tracking-[0.2em] text-xs hover:bg-[#2B5DB6] transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-2xl shadow-[#152C60]/20 group"
                 >
-                  Finalizar Manipulação
+                  {language === 'pt' ? 'Pedir por WhatsApp' : 'Pedir por WhatsApp'}
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
